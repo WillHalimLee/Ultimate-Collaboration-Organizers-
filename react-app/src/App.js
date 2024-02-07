@@ -1,25 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import WeekView from './WeeklyView'; // Make sure the path is correct based on your file structure
+import './App.css'; // This is assuming you have some global styles you want to apply
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => {
+    return (
+        <div className="App">
+            <header className="App-header">
+                <h1>Weekly Calendar</h1>
+            </header>
+            <main>
+                <WeekView />
+            </main>
+        </div>
+    );
+};
 
 export default App;

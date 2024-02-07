@@ -5,10 +5,10 @@
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-html, body {
-  padding: 0;
+body, html {
   margin: 0;
-  overflow: hidden; /* Prevent any scroll on the body directly */
+  padding: 0;
+  overflow: hidden; /* This will hide the overflow, ensure that it does not cut off necessary content */
 }
 
 .App {

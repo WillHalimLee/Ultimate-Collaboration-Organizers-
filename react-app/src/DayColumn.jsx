@@ -1,20 +1,20 @@
+// DayColumn.jsx
 import React from 'react';
-import './DayColumn.css'; // Ensure this path is correct
-// ... rest of your DayColumn component
+import './DayColumn.css';
 
 const DayColumn = ({ day }) => {
-    const hoursOfDay = Array.from({ length: 24 }, (_, index) => index);
+    // Assuming 24 timeslots for each day, you can adjust as needed.
+    const timeSlots = Array.from({ length: 24 }, (_, index) => index);
 
     return (
         <div className="day-column">
-            <div className="day-header">{day}</div>
-            {hoursOfDay.map((hour) => (
-                <TimeSlot hour={hour} key={hour} />
+            {timeSlots.map((_, index) => (
+                <div className="time-slot" key={index}>
+                    {/* Include your time slot indicator here */}
+                </div>
             ))}
         </div>
     );
 };
+
 export default DayColumn;
-const TimeSlot = ({ hour }) => {
-    return <div className="time-slot">{`${hour}:00`}</div>;
-};

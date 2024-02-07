@@ -1,0 +1,10 @@
+.day-header {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    border-right: 1px solid #ccc;
+}
+
+.day-header:last-child {
+    border-right: none;
+}

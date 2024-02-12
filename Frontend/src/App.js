@@ -5,6 +5,7 @@ import ProjectSearch from './components/ProjectSearch';
 import ProjectList from './components/ProjectList';
 import { getAllProjects, createProject, deleteProject, updateProject } from './services/ProjectService';
 import './App.css';
+import * as ProjectService from "./services/ProjectService";
 
 const App = () => {
     const [projects, setProjects] = useState([]);
@@ -17,7 +18,7 @@ const App = () => {
     }, []);
 
     const fetchProjects = async () => {
-        const fetchedProjects = await getAllProjects();
+        const fetchedProjects = await ProjectService.getAllProjects();
         setProjects(fetchedProjects);
     };
 
@@ -33,20 +34,21 @@ const App = () => {
     const handleProjectSubmit = async (projectData) => {
         try {
             if (projectData.id) {
-                await updateProject(projectData);
+                const updatedProject = await updateProject(projectData);
+                // Assuming updateProject returns the updated project data
+                setProjects(projects.map(proj => proj.id === projectData.id ? updatedProject : proj));
                 setIsEditComponentOpen(false);
-                // Refresh the projects list after updating
-                fetchProjects();
             } else {
-                await createProject(projectData);
+                const newProject = await createProject(projectData);
+                setProjects([...projects, newProject]);
                 setIsModalOpen(false);
-                // Refresh the projects list after adding
-                fetchProjects();
             }
         } catch (error) {
             console.error('Failed to create/update project:', error);
         }
     };
+
+
 
 
     const handleOpenModalForCreate = () => {
@@ -89,6 +91,7 @@ const App = () => {
                     projectId={editingProject ? editingProject.id : null}
                     onClose={() => setIsEditComponentOpen(false)}
                     onSubmit={handleProjectSubmit}
+                    refreshProjects={fetchProjects}
                 />
             )}
         </div>

@@ -3,11 +3,14 @@ import axios from 'axios';
 
 // Assuming you have a styling file similar to ProjectModal.css
 import './EditProjectComponent.css';
+import * as ProjectService from "../services/ProjectService";
 
-const EditProjectComponent = ({ projectId, onClose }) => {
+const EditProjectComponent = ({ projectId, onClose, refreshProjects }) => {
     const [project, setProject] = useState({ title: '', description: '' });
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
+    const [name, setName] = useState(''); // Initialize with an empty string or current value
+    const [description, setDescription] = useState(''); // Initialize similarly
 
     // Fetch the project data when the component mounts or projectId changes
     useEffect(() => {
@@ -33,19 +36,24 @@ const EditProjectComponent = ({ projectId, onClose }) => {
         setProject((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setIsLoading(true);
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        // Ensure projectId is defined and is not undefined
+        if (!projectId) {
+            console.error("Project ID is undefined");
+            return;
+        }
         try {
-            await axios.put(`/api/projects/${projectId}`, project);
-            onClose(); // Close the modal or editing component
-            window.location.reload(); // Add this line to reload the page
-        } catch (err) {
-            setError('Failed to update the project.');
-        } finally {
-            setIsLoading(false);
+            await ProjectService.updateProject(projectId, project);
+            refreshProjects(); // Call the passed-in callback to refresh the project list
+            onClose(); // Close the modal/form
+        } catch (error) {
+            console.error("Failed to update project", error);
         }
     };
+
+
+
 
     if (isLoading) return <p>Loading...</p>;
     if (error) return <p>{error}</p>;

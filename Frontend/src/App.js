@@ -9,9 +9,10 @@ import * as ProjectService from "./services/ProjectService";
 
 const App = () => {
     const [projects, setProjects] = useState([]);
-    const [isModalOpen, setIsModalOpen] = useState(false); // For creating new projects
-    const [isEditComponentOpen, setIsEditComponentOpen] = useState(false); // For editing projects
-    const [editingProject, setEditingProject] = useState(null); // For editing projects
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isEditComponentOpen, setIsEditComponentOpen] = useState(false);
+    const [editingProject, setEditingProject] = useState(null);
+    const [userRole, setUserRole] = useState('developer'); // New state for user role
 
     useEffect(() => {
         fetchProjects();
@@ -65,9 +66,16 @@ const App = () => {
         <div className="app-container">
             <header className="app-header">
                 <div className="website-name">Ultimate Collaborator Organize</div>
-                <button className="button-create-project" onClick={handleOpenModalForCreate}>
-                    Create project
-                </button>
+                {/* Dropdown for selecting user role */}
+                <select onChange={(e) => setUserRole(e.target.value)} value={userRole}>
+                    <option value="developer">Developer</option>
+                    <option value="manager">Manager</option>
+                </select>
+                {userRole === 'manager' && (
+                    <button className="button-create-project" onClick={handleOpenModalForCreate}>
+                        Create project
+                    </button>
+                )}
             </header>
             <div className="main-content">
                 <ProjectSearch onSearchSubmit={fetchProjects} />
@@ -76,9 +84,11 @@ const App = () => {
                     projects={projects}
                     onDelete={handleDeleteProject}
                     onEdit={handleOpenEditComponent}
+                    userRole={userRole} // Pass the userRole as a prop
                 />
+
             </div>
-            {isModalOpen && (
+            {isModalOpen && userRole === 'manager' && (
                 <ProjectModal
                     isOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
@@ -86,7 +96,7 @@ const App = () => {
                     project={editingProject}
                 />
             )}
-            {isEditComponentOpen && (
+            {isEditComponentOpen && userRole === 'manager' && (
                 <EditProjectComponent
                     projectId={editingProject ? editingProject.id : null}
                     onClose={() => setIsEditComponentOpen(false)}

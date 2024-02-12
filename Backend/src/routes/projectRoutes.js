@@ -51,6 +51,21 @@ router.get('/search', async (req, res) => {
     }
 });
 
+// GET route for fetching a single project by its ID
+router.get('/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const project = await Project.findByPk(id);
+        if (!project) {
+            return res.status(404).json({ message: 'Project not found' });
+        }
+        res.json(project);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
+
 // DELETE endpoint to remove a project by ID
 router.delete('/:id', async (req, res) => {
     try {
@@ -68,6 +83,28 @@ router.delete('/:id', async (req, res) => {
         res.status(500).send(error.message);
     }
 });
+
+// In your projectRoutes.js or equivalent
+router.put('/:id', async (req, res) => {
+    const { id } = req.params;
+    const { title, description } = req.body;
+
+    try {
+        const project = await Project.findByPk(id);
+        if (!project) {
+            return res.status(404).json({ message: 'Project not found' });
+        }
+
+        project.title = title;
+        project.description = description;
+        await project.save();
+
+        res.json(project);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
 
 
 module.exports = router;

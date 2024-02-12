@@ -1,95 +1,96 @@
-// frontend/src/App.js
 import React, { useState, useEffect } from 'react';
 import ProjectModal from './components/ProjectModal';
+import EditProjectComponent from './components/EditProjectComponent'; // Import the new EditProjectComponent
 import ProjectSearch from './components/ProjectSearch';
 import ProjectList from './components/ProjectList';
-import {getAllProjects, createProject, searchProjects, deleteProject} from './services/ProjectService';
+import { getAllProjects, createProject, deleteProject, updateProject } from './services/ProjectService';
 import './App.css';
 
 const App = () => {
     const [projects, setProjects] = useState([]);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [searchResults, setSearchResults] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false); // For creating new projects
+    const [isEditComponentOpen, setIsEditComponentOpen] = useState(false); // For editing projects
+    const [editingProject, setEditingProject] = useState(null); // For editing projects
 
     useEffect(() => {
-        const fetchProjects = async () => {
-            const fetchedProjects = await getAllProjects();
-            setProjects(fetchedProjects);
-            setSearchResults(fetchedProjects); // Initialize searchResults with all projects
-        };
-
         fetchProjects();
     }, []);
+
+    const fetchProjects = async () => {
+        const fetchedProjects = await getAllProjects();
+        setProjects(fetchedProjects);
+    };
 
     const handleDeleteProject = async (projectId) => {
         try {
             await deleteProject(projectId);
-            setProjects(projects.filter(project => project.id !== projectId));
+            fetchProjects(); // Refresh the projects list after deletion
         } catch (error) {
             console.error('Failed to delete project:', error);
-            // Optionally, display an error message to the user
         }
     };
 
-    const handleSearch = (event) => {
-        setSearchTerm(event.target.value);
-    };
-
-    const handleSearchSubmit = async () => {
+    const handleProjectSubmit = async (projectData) => {
         try {
-            // Use the searchProjects service function to perform the search
-            const results = await searchProjects(searchTerm);
-            setProjects(results); // Update the state with the search results
+            if (projectData.id) {
+                await updateProject(projectData);
+                setIsEditComponentOpen(false);
+                // Refresh the projects list after updating
+                fetchProjects();
+            } else {
+                await createProject(projectData);
+                setIsModalOpen(false);
+                // Refresh the projects list after adding
+                fetchProjects();
+            }
         } catch (error) {
-            console.error('Failed to search projects:', error);
+            console.error('Failed to create/update project:', error);
         }
     };
 
-    const handleSearchChange = (event) => {
-        setSearchTerm(event.target.value);
+
+    const handleOpenModalForCreate = () => {
+        setEditingProject(null);
+        setIsModalOpen(true);
     };
 
-    const handleCreateProject = async (projectData) => {
-        try {
-            const newProject = await createProject(projectData);
-            setProjects(prevProjects => [...prevProjects, newProject]);
-            setIsModalOpen(false); // Close the modal after creation
-        } catch (error) {
-            console.error('Failed to create project:', error);
-        }
+    const handleOpenEditComponent = (project) => {
+        setEditingProject(project);
+        setIsEditComponentOpen(true);
     };
-
-    const visibleProjects = projects.filter(project =>
-        project.title.toLowerCase().includes(searchTerm.toLowerCase())
-    );
 
     return (
         <div className="app-container">
             <header className="app-header">
                 <div className="website-name">Ultimate Collaborator Organize</div>
-                <ul className="tabs">
-                    <li className="tab active">Projects</li>
-                    <li className="tab">Workspaces</li>
-                </ul>
-                <button className="button-create-project" onClick={() => setIsModalOpen(true)}>
+                <button className="button-create-project" onClick={handleOpenModalForCreate}>
                     Create project
                 </button>
             </header>
             <div className="main-content">
-                <ProjectSearch
-                    searchTerm={searchTerm}
-                    onSearchChange={handleSearchChange}
-                    onSearchSubmit={handleSearchSubmit}
+                <ProjectSearch onSearchSubmit={fetchProjects} />
+                <div className="project-counter">My Projects | {projects.length}</div>
+                <ProjectList
+                    projects={projects}
+                    onDelete={handleDeleteProject}
+                    onEdit={handleOpenEditComponent}
                 />
-                <div className="project-counter">My Projects | {visibleProjects.length}</div>
-                <ProjectList projects={projects} onDelete={handleDeleteProject} />
             </div>
-            <ProjectModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                onProjectSubmit={handleCreateProject}
-            />
+            {isModalOpen && (
+                <ProjectModal
+                    isOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    onSubmit={handleProjectSubmit}
+                    project={editingProject}
+                />
+            )}
+            {isEditComponentOpen && (
+                <EditProjectComponent
+                    projectId={editingProject ? editingProject.id : null}
+                    onClose={() => setIsEditComponentOpen(false)}
+                    onSubmit={handleProjectSubmit}
+                />
+            )}
         </div>
     );
 };

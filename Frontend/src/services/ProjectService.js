@@ -42,4 +42,15 @@ export const deleteProject = async (projectId) => {
     }
 };
 
+export const updateProject = async (project) => {
+    try {
+        const response = await axios.put(`/api/projects/${project.id}`, project);
+        return response.data;
+    } catch (error) {
+        console.error('Error updating project:', error);
+        throw error;
+    }
+};
+
+
 

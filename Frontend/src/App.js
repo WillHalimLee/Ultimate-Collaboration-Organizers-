@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ProjectModal from './components/ProjectModal';
-import EditProjectComponent from './components/EditProjectComponent'; // Import the new EditProjectComponent
+import EditProjectComponent from './components/EditProjectComponent';
 import ProjectSearch from './components/ProjectSearch';
 import ProjectList from './components/ProjectList';
+import TaskBoard from './components/TaskBoard'; // Import TaskBoard component
 import { getAllProjects, createProject, deleteProject, updateProject } from './services/ProjectService';
 import './App.css';
 import * as ProjectService from "./services/ProjectService";
+import Modal from 'react-modal';
+
 
 const App = () => {
     const [projects, setProjects] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditComponentOpen, setIsEditComponentOpen] = useState(false);
     const [editingProject, setEditingProject] = useState(null);
-    const [userRole, setUserRole] = useState('developer'); // New state for user role
+    const [userRole, setUserRole] = useState('developer');
 
     useEffect(() => {
         fetchProjects();
@@ -63,6 +67,7 @@ const App = () => {
     };
 
     return (
+        <BrowserRouter>
         <div className="app-container">
             <header className="app-header">
                 <div className="website-name">Ultimate Collaborator Organize</div>
@@ -77,17 +82,20 @@ const App = () => {
                     </button>
                 )}
             </header>
-            <div className="main-content">
-                <ProjectSearch onSearchSubmit={fetchProjects} />
-                <div className="project-counter">My Projects | {projects.length}</div>
-                <ProjectList
-                    projects={projects}
-                    onDelete={handleDeleteProject}
-                    onEdit={handleOpenEditComponent}
-                    userRole={userRole} // Pass the userRole as a prop
-                />
-
-            </div>
+            <main className="main-content">
+                <Routes>
+                    <Route path="/" element={
+                        <>
+                            <ProjectSearch onSearchSubmit={fetchProjects}/>
+                            <div>Projects Count: {projects.length}</div>
+                            <ProjectList projects={projects} onDelete={handleDeleteProject}
+                                         onEdit={handleOpenEditComponent} userRole={userRole}/>
+                        </>
+                    }/>
+                    <Route path="/projects/:projectId/tasks" element={<TaskBoard/>}/>
+                    {/* Define additional routes as needed */}
+                </Routes>
+            </main>
             {isModalOpen && userRole === 'manager' && (
                 <ProjectModal
                     isOpen={isModalOpen}
@@ -104,7 +112,9 @@ const App = () => {
                     refreshProjects={fetchProjects}
                 />
             )}
+
         </div>
+        </BrowserRouter>
     );
 };
 

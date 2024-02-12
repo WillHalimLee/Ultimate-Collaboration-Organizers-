@@ -35,4 +35,39 @@ router.post('/', async (req, res) => {
     }
 });
 
+router.get('/search', async (req, res) => {
+    try {
+        const { searchTerm } = req.query;
+        const projects = await Project.findAll({
+            where: {
+                title: {
+                    [Op.iLike]: `%${searchTerm}%` // For case-insensitive search with PostgreSQL
+                }
+            }
+        });
+        res.json(projects);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
+// DELETE endpoint to remove a project by ID
+router.delete('/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const result = await Project.destroy({
+            where: { id }
+        });
+
+        if (result > 0) {
+            res.status(200).send('Project deleted successfully.');
+        } else {
+            res.status(404).send('Project not found.');
+        }
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
+
 module.exports = router;

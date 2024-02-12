@@ -15,11 +15,31 @@ export const getAllProjects = async () => {
 
 export const createProject = async (projectData) => {
     try {
-        const response = await axios.post(BASE_URL, projectData);
+        const response = await axios.post('/api/projects', projectData);
         return response.data;
     } catch (error) {
-        console.error('Failed to create project:', error);
+        console.error('Error creating new project:', error);
+        throw error; // Rethrow the error to be handled by the caller
+    }
+};
+
+export const searchProjects = async (searchTerm) => {
+    try {
+        const response = await axios.get(`/api/projects/search?searchTerm=${encodeURIComponent(searchTerm)}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error searching projects:', error);
         throw error;
     }
 };
+
+export const deleteProject = async (projectId) => {
+    try {
+        await axios.delete(`/api/projects/${projectId}`);
+    } catch (error) {
+        console.error('Error deleting project:', error);
+        throw error; // Optionally re-throw to handle it in the component
+    }
+};
+
 

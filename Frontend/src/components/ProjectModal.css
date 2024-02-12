@@ -1,0 +1,57 @@
+/* frontend/src/components/ProjectModal.css */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; /* High z-index to ensure it's on top of other elements */
+}
+
+.modal-body {
+    background: white;
+    padding: 20px;
+    border-radius: 4px;
+    width: 30%; /* Adjust the width as needed */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adding some shadow for depth */
+}
+
+.modal-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: 10px; /* Spacing between form groups */
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%; /* Full width of the parent */
+    padding: 10px;
+    border: 1px solid #ccc; /* Light grey border */
+    border-radius: 4px;
+}
+
+.form-group textarea {
+    height: 100px; /* Fixed height for textarea */
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px; /* Spacing above the form actions */
+}
+
+.form-actions button {
+    margin-left: 10px; /* Spacing between buttons */
+}

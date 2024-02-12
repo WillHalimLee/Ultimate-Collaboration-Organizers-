@@ -2,32 +2,22 @@
 import React, { useEffect, useState } from 'react';
 import { getAllProjects } from '../services/ProjectService';
 
-const ProjectList = () => {
-    const [projects, setProjects] = useState([]);
+const ProjectList = ({ projects, onDelete }) => {
 
-    useEffect(() => {
-        const fetchProjects = async () => {
-            try {
-                const projects = await getAllProjects();
-                setProjects(projects);
-            } catch (error) {
-                console.error('Failed to fetch projects:', error);
-            }
-        };
 
-        fetchProjects();
-    }, []);
 
     return (
-        <div>
-            <h2>Projects</h2>
-            <ul>
-                {projects.map(project => (
-                    <li key={project.id}>{project.title}</li> // Adjust according to your project's attributes
-                ))}
-            </ul>
+        <div className="project-list">
+            {projects.map((project) => (
+                <div key={project.id} className="project-item">
+                    <h3>{project.title}</h3>
+                    <p>{project.description}</p>
+                    <button onClick={() => onDelete(project.id)}>Delete</button>
+                </div>
+            ))}
         </div>
     );
+
 };
 
 export default ProjectList;

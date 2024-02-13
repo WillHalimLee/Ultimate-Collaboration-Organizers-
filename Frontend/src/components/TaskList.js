@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 
-const TaskList = ({tasks, onDelete}) => {
-    const { projectId } = useParams();
+const TaskList = ({tasks, onDelete,onEdit}) => {
+
 
     return (
         <div>
@@ -17,6 +17,7 @@ const TaskList = ({tasks, onDelete}) => {
                         <p>Due Date: {task.dueDate}</p>
                         <p>Description: {task.description}</p>
                         <button onClick={() => onDelete(task.id)}>Delete Task</button>
+                        <button onClick={() => onEdit(task)}>Edit</button>
                     </li>
                 ))}
             </ul>

@@ -32,8 +32,19 @@ router.get('/projects/:projectId/tasks', async (req, res) => {
     }
 });
 
+router.get('/projects/:projectId/tasks/:id', async (req, res) => {
+    try {
+        const tasks = await Task.findAll({
+            where: { projectId: req.params.projectId , id: req.params.id},
+        });
+        res.send(tasks);
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
 // Update a task
-router.put('/tasks/:id', async (req, res) => {
+router.put('/projects/:projectId/tasks/:id', async (req, res) => {
     try {
         const task = await Task.findByPk(req.params.id);
         if (task) {

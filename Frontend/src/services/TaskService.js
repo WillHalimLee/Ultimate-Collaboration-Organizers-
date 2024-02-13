@@ -24,7 +24,16 @@ export const getTasksByProjectId = async (projectId) => {
     }
 };
 
-
+export const getTaskByID = async (projectId,taskId) => {
+    try {
+        // Corrected to include the URL path for fetching tasks by project ID
+        const response = await axios.get(`/api/projects/${projectId}/tasks/${taskId}`);
+        return response.data; // Assuming the server sends back an array of tasks
+    } catch (error) {
+        console.error('Failed to fetch tasks:', error);
+        throw error;
+    }
+};
 export const createTask = async (taskData) => {
     try {
         const response = await axios.post(BASE_URL, taskData);
@@ -35,9 +44,9 @@ export const createTask = async (taskData) => {
     }
 };
 
-export const updateTask = async (id, taskData) => {
+export const updateTask = async (projectId,id, taskData) => {
     try {
-        const response = await axios.put(`${BASE_URL}/${id}`, taskData);
+        const response = await axios.put((`/api/projects/${projectId}/tasks/${id}`), taskData);
         return response.data;
     } catch (error) {
         console.error('Error updating task:', error);

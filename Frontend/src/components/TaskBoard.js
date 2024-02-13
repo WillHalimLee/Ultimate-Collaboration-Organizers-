@@ -1,25 +1,35 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+
 import TaskFormModal from './TaskFormModal';
 import { useParams } from 'react-router-dom';
+import TaskList from "./TaskList";
+import * as taskService from "../services/TaskService";
+
+
 
 const TaskBoard = () => {
     const { projectId } = useParams();
     const [tasks, setTasks] = useState([]);
     const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
 
-    // Memoize fetchTasks to prevent useEffect from running endlessly
-    const fetchTasks = useCallback(async () => {
-        const response = await axios.get(`/api/projects/${projectId}/tasks`);
-        setTasks(response.data);
-    }, [projectId]); // projectId is a dependency of useCallback
 
     useEffect(() => {
-        fetchTasks();
-    }, [projectId, fetchTasks]); // Now fetchTasks won't cause an infinite loop
-
+        refreshTasks();
+    }, [projectId]); // Now fetchTasks won't cause an infinite loop
+    const refreshTasks = async () => {
+        const updatedTasks = await taskService.getTasksByProjectId(projectId);
+        setTasks(updatedTasks); // Assuming you have a state [tasks, setTasks] in TaskBoard.js
+    };
     const handleAddTaskClick = () => {
         setIsTaskModalOpen(true);
+    };
+    const handleDeleteProject = async (taskID) => {
+        try {
+            await taskService.deleteTask(taskID);
+            await refreshTasks(); // Refresh the projects list after deletion
+        } catch (error) {
+            console.error('Failed to delete task:', error);
+        }
     };
 
     return (
@@ -27,13 +37,13 @@ const TaskBoard = () => {
             <h2>Task Board</h2>
             <button onClick={handleAddTaskClick}>Add New Task</button>
             {/* Render existing tasks here */}
-
+            <TaskList tasks={tasks} onDelete={handleDeleteProject}></TaskList>
             {isTaskModalOpen && (
                 <TaskFormModal
                     isOpen={isTaskModalOpen}
                     onClose={() => setIsTaskModalOpen(false)}
                     projectId={projectId}
-                    refreshTasks={fetchTasks} // This now correctly references the memoized version
+                    fetchTasks={refreshTasks} // Pass the memoized function to the modal
                 />
             )}
         </div>

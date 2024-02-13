@@ -3,15 +3,27 @@ import axios from 'axios';
 
 const BASE_URL = '/api/tasks';
 
+
+export const getAllTasks = async () => {
+    try {
+        const response = await axios.get(BASE_URL);
+        return response.data; // Assuming the server sends back an array of projects
+    } catch (error) {
+        console.error('Failed to fetch projects:', error);
+        throw error;
+    }
+};
 export const getTasksByProjectId = async (projectId) => {
     try {
-        const response = await axios.get(`${BASE_URL}/projects/${projectId}`);
+        // Corrected to include the URL path for fetching tasks by project ID
+        const response = await axios.get(`/api/projects/${projectId}/tasks`);
         return response.data; // Assuming the server sends back an array of tasks
     } catch (error) {
         console.error('Failed to fetch tasks:', error);
         throw error;
     }
 };
+
 
 export const createTask = async (taskData) => {
     try {
@@ -39,5 +51,14 @@ export const deleteTask = async (taskId) => {
     } catch (error) {
         console.error('Error deleting task:', error);
         throw error;
+    }
+};
+
+export const deleteProject = async (projectId) => {
+    try {
+        await axios.delete(`/api/projects/${projectId}`);
+    } catch (error) {
+        console.error('Error deleting project:', error);
+        throw error; // Optionally re-throw to handle it in the component
     }
 };

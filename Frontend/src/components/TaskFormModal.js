@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import Modal from 'react-modal'; // Assuming you're using react-modal for modals
 
 import * as taskService from "../services/TaskService";
 
 
+
 // Make sure to call Modal.setAppElement('#yourAppElement') somewhere in your app
 
-const TaskFormModal = ({ isOpen, onClose, projectId, refreshTasks }) => {
+const TaskFormModal = ({ isOpen, onClose, projectId, fetchTasks }) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [status, setStatus] = useState('Pending'); // Default status, adjust as necessary
     const [dueDate, setDueDate] = useState('');
+
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -22,6 +24,8 @@ const TaskFormModal = ({ isOpen, onClose, projectId, refreshTasks }) => {
                 dueDate,
                 projectId, // Ensure this is passed from the parent component
             });
+            fetchTasks();
+            onClose();
             // Rest of the submission logic remains the same
         } catch (error) {
             if (error.response) {
@@ -36,6 +40,9 @@ const TaskFormModal = ({ isOpen, onClose, projectId, refreshTasks }) => {
                 console.error('Error message:', error.message);
             }
         }
+
+
+
     };
 
     return (

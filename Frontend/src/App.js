@@ -87,7 +87,6 @@ const App = () => {
                     <Route path="/" element={
                         <>
                             <ProjectSearch onSearchSubmit={fetchProjects}/>
-                            <div>Projects Count: {projects.length}</div>
                             <ProjectList projects={projects} onDelete={handleDeleteProject}
                                          onEdit={handleOpenEditComponent} userRole={userRole}/>
                         </>

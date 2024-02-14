@@ -5,6 +5,7 @@ import axios from 'axios';
 import './EditProjectComponent.css';
 import * as ProjectService from "../services/ProjectService";
 
+
 const EditProjectComponent = ({ projectId, onClose, refreshProjects }) => {
     const [project, setProject] = useState({ title: '', description: '' });
     const [isLoading, setIsLoading] = useState(false);

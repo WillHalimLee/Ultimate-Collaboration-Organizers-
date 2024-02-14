@@ -1,121 +1,66 @@
 /* App.css */
 
-.app-container {
-    font-family: 'Arial', sans-serif;
-    color: #333;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Center children */
+body {
+    /* Set the background color of the entire page to super light grey */
+    background-color: #f5f5f5; /* Hexadecimal value for a very light grey */
+    margin: 0; /* Remove default margin to prevent spacing around the body */
 }
 
 .app-header {
+    /* Existing styles for the header */
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    width: 100%; /* Full width */
-    max-width: 1200px; /* Max width to contain header elements */
-    margin-bottom: 20px;
+    justify-content: space-between;
+
+    /* Add the following styles to make the title bold and bigger and create a grey box around it */
+    padding: 10px; /* Add padding to create space within the box */
+    background-color: #dcdcdc; /* Hexadecimal value for a light grey box */
+    border-radius: 5px; /* Optional: Add border-radius for rounded corners */
 }
+
+.select-container {
+    display: flex;
+    align-items: center;
+}
+
+select {
+    /* Add the following styles to reduce the margin between the dropdown and the title */
+    margin-right: 10px;
+}
+
 .website-name {
+    /* Add the following styles to make the title bold and bigger */
+    font-size: 24px; /* Adjust the font size as needed */
     font-weight: bold;
-    font-size: 1.5em;
-}
-
-.tabs {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    gap: 20px;
-}
-
-.tab {
-    padding-bottom: 5px;
-    cursor: pointer;
-}
-
-.tab.active {
-    border-bottom: 2px solid #FF4500;
-}
-
-.search-bar {
-    position: relative;
-    width: 100%;
-    max-width: 500px; /* Adjust width as needed */
-}
-
-.search-bar input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-.search-bar .search-icon {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    /* Add a search icon here with background-image or content */
-}
-
-.main-content {
-    width: 100%;
-    max-width: 1200px; /* Match the header width */
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Center content */
-}
-
-.project-counter {
-    align-self: flex-start; /* Align to the start of the flex container */
-    margin: 10px 0;
-}
-
-.project-list {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Creates two columns of equal width */
-    grid-gap: 20px; /* Space between the projects */
-    max-width: 1200px; /* Or any max-width you prefer */
-    margin: 0 auto; /* Centers the grid in the middle of the page */
-}
-
-.project-item {
-    background: #FFFFFF; /* Or any color you prefer */
-    border: 1px solid #EAEAEA; /* Or any color you prefer */
-    padding: 16px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Adds some shadow for depth */
-    border-radius: 8px; /* Optional: Rounds the corners */
-    flex-basis: calc(50% - 20px);
-    margin-bottom: 10px;
-}
-
-.project-item h3 {
-    margin-top: 0;
-}
-
-.project-details {
-    margin-bottom: 10px;
-    font-size: 0.9em;
-    color: #666;
 }
 
 .button-create-project {
-    padding: 10px 20px;
-    background-color: #FF4500; /* Match the button color to the design */
-    color: white;
-    border: none;
-    border-radius: 4px;
+    background-color: #007bff; /* Set the background color of the button */
+    color: #fff; /* Set the text color of the button */
+    padding: 8px 16px; /* Add padding for better visual appearance */
     cursor: pointer;
-    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease; /* Add transition effect */
 }
 
 .button-create-project:hover {
-    background-color: #e63e00; /* Slightly darker on hover */
+    background-color: #0056b3; /* Set a slightly darker color on hover */
 }
-@media (max-width: 768px) {
-    .project-list {
-        grid-template-columns: 1fr; /* One column on small screens */
-    }
+
+.app-header {
+    /* Existing styles for the header */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
-/* Add any additional styles or adjustments as needed */
+
+.title-and-counter {
+    display: flex;
+    flex-direction: column;
+}
+
+.project-counter {
+    /* Style for the project counter */
+    margin-top: 5px; /* Adjust the margin as needed for spacing */
+}

@@ -4,7 +4,7 @@ import ProjectModal from './components/ProjectModal';
 import EditProjectComponent from './components/EditProjectComponent';
 import ProjectSearch from './components/ProjectSearch';
 import ProjectList from './components/ProjectList';
-import TaskBoard from './components/TaskBoard'; // Import TaskBoard component
+import TaskBoard from './components/TaskBoard';
 import { getAllProjects, createProject, deleteProject, updateProject } from './services/ProjectService';
 import './App.css';
 import * as ProjectService from "./services/ProjectService";
@@ -30,7 +30,7 @@ const App = () => {
     const handleDeleteProject = async (projectId) => {
         try {
             await deleteProject(projectId);
-            fetchProjects(); // Refresh the projects list after deletion
+            fetchProjects();
         } catch (error) {
             console.error('Failed to delete project:', error);
         }
@@ -40,7 +40,6 @@ const App = () => {
         try {
             if (projectData.id) {
                 const updatedProject = await updateProject(projectData);
-                // Assuming updateProject returns the updated project data
                 setProjects(projects.map(proj => proj.id === projectData.id ? updatedProject : proj));
                 setIsEditComponentOpen(false);
             } else {
@@ -71,7 +70,7 @@ const App = () => {
         <div className="app-container">
             <header className="app-header">
                 <div className="website-name">Ultimate Collaborator Organize</div>
-                {/* Dropdown for selecting user role */}
+                {}
                 <select onChange={(e) => setUserRole(e.target.value)} value={userRole}>
                     <option value="developer">Developer</option>
                     <option value="manager">Manager</option>
@@ -92,7 +91,7 @@ const App = () => {
                         </>
                     }/>
                     <Route path="/projects/:projectId/tasks" element={<TaskBoard/>}/>
-                    {/* Define additional routes as needed */}
+                    {}
                 </Routes>
             </main>
             {isModalOpen && userRole === 'manager' && (

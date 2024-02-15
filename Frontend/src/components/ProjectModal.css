@@ -14,7 +14,7 @@
     background: #fff;
     padding: 20px;
     border-radius: 8px;
-    width: 400px; /* Adjust the width as needed */
+    width: 400px;
 }
 
 .modal-form {
@@ -53,11 +53,11 @@ button {
 }
 
 button[type="submit"] {
-    background-color: #007bff; /* Green color for submit button */
+    background-color: #007bff;
     color: #fff;
 }
 
 button[type="button"] {
-    background-color: #dc3545; /* Red color for cancel button */
+    background-color: #dc3545;
     color: #fff;
 }

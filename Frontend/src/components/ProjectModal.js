@@ -1,17 +1,14 @@
-// frontend/src/components/ProjectModal.js
 import React, {useEffect, useState} from 'react';
-import './ProjectModal.css'; // Import the CSS file
+import './ProjectModal.css';
 
 const ProjectModal = ({ isOpen, onClose, onSubmit, project = {} }) => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     useEffect(() => {
         if (isOpen && project && project.id) {
-            // project is not null and has an id property
             setTitle(project.title);
             setDescription(project.description);
         } else {
-            // Modal is closed or no project is being edited; reset the form
             setTitle('');
             setDescription('');
         }
@@ -22,7 +19,6 @@ const ProjectModal = ({ isOpen, onClose, onSubmit, project = {} }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         onSubmit({
-            // Use optional chaining to prevent TypeError if project is null
             id: project?.id,
             title,
             description,

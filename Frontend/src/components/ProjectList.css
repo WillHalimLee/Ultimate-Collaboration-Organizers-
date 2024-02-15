@@ -1,5 +1,5 @@
 .project-item-link:hover .project-item {
-    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5); /* Add a box-shadow on hover */
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
 }
 
 .project-list {
@@ -18,7 +18,7 @@
     border: 1px solid #ccc;
     padding: 20px;
     border-radius: 8px;
-    transition: box-shadow 0.3s ease; /* Add a smooth transition for the box-shadow */
+    transition: box-shadow 0.3s ease;
 }
 
 .project-item h3 {

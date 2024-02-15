@@ -10,9 +10,9 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 15px;
-    background-color: #333; /* Dark background color for the header */
-    color: #fff; /* White text color */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle box shadow */
+    background-color: #333;
+    color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .select-container {
@@ -25,15 +25,15 @@ select {
 }
 
 .website-name {
-    font-size: 28px; /* Increase font size for the title */
+    font-size: 28px;
     font-weight: bold;
-    margin-right: 20px; /* Add some right margin to the title */
+    margin-right: 20px;
 }
 
 .button-create-project {
     background-color: #007bff;
     color: #fff;
-    padding: 10px 20px; /* Adjust padding for a larger button */
+    padding: 10px 20px;
     cursor: pointer;
     border: none;
     border-radius: 5px;
@@ -51,5 +51,5 @@ select {
 
 .project-counter {
     margin-top: 5px;
-    font-size: 14px; /* Adjust font size for the project counter */
+    font-size: 14px;
 }

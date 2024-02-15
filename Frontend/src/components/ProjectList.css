@@ -1,0 +1,36 @@
+.project-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 40px;
+    margin-top: 40px; /* Add some margin to the bottom */
+
+}
+
+.project-item {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.project-item h3 {
+    font-size: 1.5em; /* Adjust the font size to make the title box smaller */
+}
+
+.project-item p {
+    margin-bottom: 15px;
+}
+
+button {
+    margin-right: 10px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+

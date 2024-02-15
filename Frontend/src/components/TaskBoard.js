@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 
 import TaskFormModal from './TaskFormModal';
@@ -6,6 +7,7 @@ import TaskList from "./TaskList";
 import * as taskService from "../services/TaskService";
 import EditProjectComponent from "./EditProjectComponent";
 import EditTasks from "./EditTasks";
+import './TaskBoard.css';
 
 
 

@@ -1,21 +1,18 @@
 /* App.css */
 
 body {
-    /* Set the background color of the entire page to super light grey */
-    background-color: #f5f5f5; /* Hexadecimal value for a very light grey */
-    margin: 0; /* Remove default margin to prevent spacing around the body */
+    background-color: #f5f5f5;
+    margin: 0;
 }
 
 .app-header {
-    /* Existing styles for the header */
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-    /* Add the following styles to make the title bold and bigger and create a grey box around it */
-    padding: 10px; /* Add padding to create space within the box */
-    background-color: #dcdcdc; /* Hexadecimal value for a light grey box */
-    border-radius: 5px; /* Optional: Add border-radius for rounded corners */
+    padding: 15px;
+    background-color: #333; /* Dark background color for the header */
+    color: #fff; /* White text color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add a subtle box shadow */
 }
 
 .select-container {
@@ -24,35 +21,27 @@ body {
 }
 
 select {
-    /* Add the following styles to reduce the margin between the dropdown and the title */
     margin-right: 10px;
 }
 
 .website-name {
-    /* Add the following styles to make the title bold and bigger */
-    font-size: 24px; /* Adjust the font size as needed */
+    font-size: 28px; /* Increase font size for the title */
     font-weight: bold;
+    margin-right: 20px; /* Add some right margin to the title */
 }
 
 .button-create-project {
-    background-color: #007bff; /* Set the background color of the button */
-    color: #fff; /* Set the text color of the button */
-    padding: 8px 16px; /* Add padding for better visual appearance */
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px; /* Adjust padding for a larger button */
     cursor: pointer;
     border: none;
     border-radius: 5px;
-    transition: background-color 0.3s ease; /* Add transition effect */
+    transition: background-color 0.3s ease;
 }
 
 .button-create-project:hover {
-    background-color: #0056b3; /* Set a slightly darker color on hover */
-}
-
-.app-header {
-    /* Existing styles for the header */
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    background-color: #0056b3;
 }
 
 .title-and-counter {
@@ -61,6 +50,6 @@ select {
 }
 
 .project-counter {
-    /* Style for the project counter */
-    margin-top: 5px; /* Adjust the margin as needed for spacing */
+    margin-top: 5px;
+    font-size: 14px; /* Adjust font size for the project counter */
 }

@@ -1,24 +1,25 @@
 import React from 'react';
-import { Link } from 'react-router-dom'; // Import Link
+import { Link } from 'react-router-dom';
 import './ProjectList.css';
-
 
 const ProjectList = ({ projects, onDelete, onEdit, userRole }) => {
     return (
         <div className="project-list">
             {projects.map((project) => (
-                <div key={project.id} className="project-item">
-                    <h3>
-                        <Link to={`/projects/${project.id}/tasks`}>{project.title} (ID: {project.id})</Link>
-                    </h3>
-                    <p>{project.description}</p>
-                    {userRole === 'manager' && (
-                        <>
-                            <button onClick={() => onDelete(project.id)}>Delete</button>
-                            <button onClick={() => onEdit(project)}>Edit</button>
-                        </>
-                    )}
-                </div>
+                <Link key={project.id} to={`/projects/${project.id}/tasks`} className="project-item-link">
+                    <div className="project-item">
+                        <h3>
+                            {project.title} (ID: {project.id})
+                        </h3>
+                        <p>{project.description}</p>
+                        {userRole === 'manager' && (
+                            <>
+                                <button onClick={(e) => { e.preventDefault(); onDelete(project.id); }}>Delete</button>
+                                <button onClick={(e) => { e.preventDefault(); onEdit(project); }}>Edit</button>
+                            </>
+                        )}
+                    </div>
+                </Link>
             ))}
         </div>
     );

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 // Assuming you have a styling file similar to ProjectModal.css
-import './EditProjectComponent.css';
+//import './EditProjectComponent.css';
 import * as ProjectService from "../services/ProjectService";
 
 

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-// Assuming you have a styling file similar to ProjectModal.css
-//import './EditProjectComponent.css';
+import './EditProjectComponent.css';
 import * as ProjectService from "../services/ProjectService";
 
 
@@ -10,10 +9,9 @@ const EditProjectComponent = ({ projectId, onClose, refreshProjects }) => {
     const [project, setProject] = useState({ title: '', description: '' });
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
-    const [name, setName] = useState(''); // Initialize with an empty string or current value
-    const [description, setDescription] = useState(''); // Initialize similarly
+    const [name, setName] = useState('');
+    const [description, setDescription] = useState('');
 
-    // Fetch the project data when the component mounts or projectId changes
     useEffect(() => {
         const fetchProject = async () => {
             setIsLoading(true);
@@ -46,8 +44,8 @@ const EditProjectComponent = ({ projectId, onClose, refreshProjects }) => {
         }
         try {
             await ProjectService.updateProject(projectId, project);
-            refreshProjects(); // Call the passed-in callback to refresh the project list
-            onClose(); // Close the modal/form
+            refreshProjects();
+            onClose();
         } catch (error) {
             console.error("Failed to update project", error);
         }

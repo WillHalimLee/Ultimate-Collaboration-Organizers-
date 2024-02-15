@@ -9,7 +9,7 @@ const ProjectSearch = ({ searchTerm, onSearchChange, onSearchSubmit }) => {
                 type="text"
                 placeholder="Search Active Projects"
                 value={searchTerm}
-                onChange={onSearchChange} // The handler is called every time the user types
+                onChange={onSearchChange}
                 className="project-search-input"
             />
             <button onClick={onSearchSubmit} className="project-search-button">

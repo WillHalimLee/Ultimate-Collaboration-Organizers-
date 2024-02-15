@@ -1,19 +1,28 @@
+.project-item-link:hover .project-item {
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+}
+
 .project-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 40px;
-    margin-top: 40px; /* Add some margin to the bottom */
+    margin-top: 40px;
+}
 
+.project-item-link {
+    text-decoration: none;
+    color: inherit;
 }
 
 .project-item {
     border: 1px solid #ccc;
     padding: 20px;
     border-radius: 8px;
+    transition: box-shadow 0.3s ease;
 }
 
 .project-item h3 {
-    font-size: 1.5em; /* Adjust the font size to make the title box smaller */
+    font-size: 1.5em;
 }
 
 .project-item p {

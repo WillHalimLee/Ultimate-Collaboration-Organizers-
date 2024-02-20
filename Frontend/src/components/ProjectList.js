@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './ProjectList.css';
+import './css/ProjectList.css';
 
 const ProjectList = ({ projects, onDelete, onEdit, userRole }) => {
     return (

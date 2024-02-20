@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import ProjectModal from './components/ProjectModal';
-import EditProjectComponent from './components/EditProjectComponent';
+import ProjectCreat from './components/ProjectCreat';
+import ProjectEdit from './components/ProjectEdit';
 import ProjectSearch from './components/ProjectSearch';
 import ProjectList from './components/ProjectList';
 import TaskBoard from './components/TaskBoard';
-import { getAllProjects, createProject, deleteProject, updateProject } from './services/ProjectService';
+
 import './App.css';
 import * as ProjectService from "./services/ProjectService";
-import Modal from 'react-modal';
+
 
 
 const App = () => {
@@ -29,7 +29,7 @@ const App = () => {
 
     const handleDeleteProject = async (projectId) => {
         try {
-            await deleteProject(projectId);
+            await ProjectService.deleteProject(projectId);
             fetchProjects();
         } catch (error) {
             console.error('Failed to delete project:', error);
@@ -39,11 +39,11 @@ const App = () => {
     const handleProjectSubmit = async (projectData) => {
         try {
             if (projectData.id) {
-                const updatedProject = await updateProject(projectData);
+                const updatedProject = await ProjectService.updateProject(projectData);
                 setProjects(projects.map(proj => proj.id === projectData.id ? updatedProject : proj));
                 setIsEditComponentOpen(false);
             } else {
-                const newProject = await createProject(projectData);
+                const newProject = await ProjectService.createProject(projectData);
                 setProjects([...projects, newProject]);
                 setIsModalOpen(false);
             }
@@ -95,15 +95,15 @@ const App = () => {
                 </Routes>
             </main>
             {isModalOpen && userRole === 'manager' && (
-                <ProjectModal
+                <ProjectCreat
                     isOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
-                    onSubmit={handleProjectSubmit}
-                    project={editingProject}
+                    refreshProjects={fetchProjects}
+
                 />
             )}
             {isEditComponentOpen && userRole === 'manager' && (
-                <EditProjectComponent
+                <ProjectEdit
                     projectId={editingProject ? editingProject.id : null}
                     onClose={() => setIsEditComponentOpen(false)}
                     onSubmit={handleProjectSubmit}

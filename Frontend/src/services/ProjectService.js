@@ -48,6 +48,11 @@ export const updateProject = async (id, projectData) => {
     return response.data;
 };
 
+export const getProjectByID = async (id) => {
+    const response = await axios.get(`/api/projects/${id}`);
+    return response.data;
+};
+
 
 
 

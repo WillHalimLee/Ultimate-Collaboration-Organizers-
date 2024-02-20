@@ -1,74 +1,39 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-
-import './EditProjectComponent.css';
+import React, { useState} from 'react';
 import * as ProjectService from "../services/ProjectService";
+import './css/ProjectModal.css';
 
-
-const EditProjectComponent = ({ projectId, onClose, refreshProjects }) => {
+const ProjectCreat = ({ isOpen, onClose,refreshProjects }) => {
     const [project, setProject] = useState({ title: '', description: '' });
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState('');
-    const [name, setName] = useState('');
-    const [description, setDescription] = useState('');
 
-    useEffect(() => {
-        const fetchProject = async () => {
-            setIsLoading(true);
-            try {
-                const response = await axios.get(`/api/projects/${projectId}`);
-                setProject(response.data);
-            } catch (err) {
-                setError('Failed to fetch project data.');
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        if (projectId) {
-            fetchProject();
-        }
-    }, [projectId]);
-
+    if (!isOpen) return null;
     const handleChange = (e) => {
         const { name, value } = e.target;
         setProject((prev) => ({ ...prev, [name]: value }));
     };
-
     const handleSubmit = async (event) => {
         event.preventDefault();
-        // Ensure projectId is defined and is not undefined
-        if (!projectId) {
-            console.error("Project ID is undefined");
-            return;
-        }
-        try {
-            await ProjectService.updateProject(projectId, project);
+        try{
+            await ProjectService.createProject(project);
             refreshProjects();
             onClose();
         } catch (error) {
             console.error("Failed to update project", error);
         }
+        onClose();
     };
-
-
-
-
-    if (isLoading) return <p>Loading...</p>;
-    if (error) return <p>{error}</p>;
 
     return (
         <div className="modal-overlay">
             <div className="modal-body">
-                <h2>Edit Project</h2>
+                <h2>Create a New Project</h2>
                 <form onSubmit={handleSubmit} className="modal-form">
-                    <div className="form-group">
+                <div className="form-group">
                         <label htmlFor="projectName">Project Name</label>
                         <input
                             id="projectName"
-                            type="text"
                             name="title"
-                            value={project.title}
+                            type="text"
+
                             onChange={handleChange}
                             placeholder="Enter a name for your project"
                             required
@@ -79,7 +44,7 @@ const EditProjectComponent = ({ projectId, onClose, refreshProjects }) => {
                         <textarea
                             id="projectDescription"
                             name="description"
-                            value={project.description}
+
                             onChange={handleChange}
                             placeholder="Enter a project description"
                             required
@@ -87,7 +52,7 @@ const EditProjectComponent = ({ projectId, onClose, refreshProjects }) => {
                     </div>
                     <div className="form-actions">
                         <button type="button" className="button-cancel" onClick={onClose}>Cancel</button>
-                        <button type="submit" className="button-save">Save Changes</button>
+                        <button type="submit" className="button-save">Create</button>
                     </div>
                 </form>
             </div>
@@ -95,4 +60,4 @@ const EditProjectComponent = ({ projectId, onClose, refreshProjects }) => {
     );
 };
 
-export default EditProjectComponent;
+export default ProjectCreat;

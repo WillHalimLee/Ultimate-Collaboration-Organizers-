@@ -1,28 +1,21 @@
-import React, {useEffect, useState} from 'react';
-import Modal from 'react-modal';
+import React, {useState} from 'react';
 
 import * as taskService from "../services/TaskService";
 
 
 
 
-const TaskFormModal = ({ isOpen, onClose, projectId, fetchTasks }) => {
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [status, setStatus] = useState('Pending');
-    const [dueDate, setDueDate] = useState('');
+const TaskCreat = ({ isOpen, onClose, projectId, fetchTasks }) => {
+    const [Tasks, setTasks] = useState({title: '', description: '' ,status:'',dueDate:'',projectId:projectId});
 
-
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setTasks((prev) => ({ ...prev, [name]: value }));
+    };
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            await taskService.createTask({
-                title,
-                description,
-                status,
-                dueDate,
-                projectId,
-            });
+            await taskService.createTask(Tasks);
             fetchTasks();
             onClose();
         } catch (error) {
@@ -41,16 +34,18 @@ const TaskFormModal = ({ isOpen, onClose, projectId, fetchTasks }) => {
     };
 
     return (
-        <Modal isOpen={isOpen} onRequestClose={onClose} contentLabel="Task Form">
+        <div className="modal-overlay">
+            <div className="modal-body">
             <h2>Add New Task</h2>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="title">Title</label>
                     <input
                         id="title"
+                        name="title"
                         type="text"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
+                        placeholder="Enter a name for your Task"
+                        onChange={handleChange}
                         required
                     />
                 </div>
@@ -58,13 +53,14 @@ const TaskFormModal = ({ isOpen, onClose, projectId, fetchTasks }) => {
                     <label htmlFor="description">Description</label>
                     <textarea
                         id="description"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
+                        name="description"
+                        placeholder="Enter a Task description"
+                        onChange={handleChange}
                     />
                 </div>
                 <div>
                     <label htmlFor="status">Status</label>
-                    <select id="status" value={status} onChange={(e) => setStatus(e.target.value)}>
+                    <select id="status"  name="status" onChange={handleChange}>
                         <option value="Pending">Pending</option>
                         <option value="InProgress">In Progress</option>
                         <option value="Completed">Completed</option>
@@ -74,17 +70,19 @@ const TaskFormModal = ({ isOpen, onClose, projectId, fetchTasks }) => {
                     <label htmlFor="dueDate">Due Date</label>
                     <input
                         id="dueDate"
+                        name="dueDate"
                         type="date"
-                        value={dueDate}
-                        onChange={(e) => setDueDate(e.target.value)}
+
+                        onChange={handleChange}
                     />
                 </div>
                 <button type="submit">Save Task</button>
                 <button type="button" onClick={onClose}>Cancel</button>
 
             </form>
-        </Modal>
+            </div>
+        </div>
     );
 };
 
-export default TaskFormModal;
+export default TaskCreat;

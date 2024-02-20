@@ -1,6 +1,6 @@
 
 import React from 'react';
-import './ProjectSearch.css';
+import './css/ProjectSearch.css';
 
 const ProjectSearch = ({ searchTerm, onSearchChange, onSearchSubmit }) => {
     return (

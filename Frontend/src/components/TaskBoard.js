@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import TaskFormModal from './TaskFormModal';
+import React, {useState, useEffect, useCallback} from 'react';
+import TaskCreat from './TaskCreat';
 import { useParams } from 'react-router-dom';
 import TaskList from "./TaskList";
 import * as taskService from "../services/TaskService";
-import EditProjectComponent from "./EditProjectComponent";
-import EditTasks from "./EditTasks";
-import './TaskBoard.css';
+import TaskEdit from "./TaskEdit";
+import './css/TaskBoard.css';
 
 const TaskBoard = () => {
     const { projectId } = useParams();
@@ -14,14 +13,15 @@ const TaskBoard = () => {
     const [isEditComponentOpen, setIsEditComponentOpen] = useState(false);
     const [editingProject, setEditingProject] = useState(null);
 
-    useEffect(() => {
-        refreshTasks();
-    }, [projectId]);
-
-    const refreshTasks = async () => {
+    const refreshTasks = useCallback(async () => {
         const updatedTasks = await taskService.getTasksByProjectId(projectId);
         setTasks(updatedTasks);
-    };
+    }, [projectId]);
+
+    useEffect(() => {
+        refreshTasks();
+    }, [refreshTasks]);
+
 
     const handleAddTaskClick = () => {
         setIsTaskModalOpen(true);
@@ -47,7 +47,7 @@ const TaskBoard = () => {
             <button className="AddTaskButton" onClick={handleAddTaskClick}>Add New Task</button>
             <TaskList tasks={tasks} onDelete={handleDeleteProject} onEdit={handleOpenEditComponent}></TaskList>
             {isTaskModalOpen && (
-                <TaskFormModal
+                <TaskCreat
                     isOpen={isTaskModalOpen}
                     onClose={() => setIsTaskModalOpen(false)}
                     projectId={projectId}
@@ -55,7 +55,7 @@ const TaskBoard = () => {
                 />
             )}
             {isEditComponentOpen && (
-                <EditTasks
+                <TaskEdit
                     isOpen={isEditComponentOpen}
                     projectId={projectId}
                     onClose={() => setIsEditComponentOpen(false)}

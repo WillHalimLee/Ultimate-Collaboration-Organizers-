@@ -1,4 +1,3 @@
-
 import React from 'react';
 import './css/ProjectSearch.css';
 
@@ -12,7 +11,7 @@ const ProjectSearch = ({ searchTerm, onSearchChange, onSearchSubmit }) => {
                 onChange={onSearchChange}
                 className="project-search-input"
             />
-            <button onClick={onSearchSubmit} className="project-search-button">
+            <button onClick={() => onSearchSubmit(searchTerm)} className="project-search-button">
                 Search
             </button>
         </div>

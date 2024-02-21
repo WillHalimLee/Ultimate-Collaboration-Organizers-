@@ -1,0 +1,38 @@
+.UserInformation {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.UserInformation h2 {
+  text-align: center;
+}
+
+.UserInformation label {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.UserInformation input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 4px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+.UserInformation button {
+  background-color: #007bff; /* Updated to blue color */
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.UserInformation button:hover {
+  background-color: #0056b3; /* Darker shade of blue on hover */
+}

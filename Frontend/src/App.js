@@ -5,6 +5,7 @@ import ProjectEdit from './components/ProjectEdit';
 import ProjectSearch from './components/ProjectSearch';
 import ProjectList from './components/ProjectList';
 import TaskBoard from './components/TaskBoard';
+import UserRegister from './components/UserRegister';
 
 import './App.css';
 import * as ProjectService from "./services/ProjectService";
@@ -15,6 +16,7 @@ const App = () => {
     const [projects, setProjects] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isEditComponentOpen, setIsEditComponentOpen] = useState(false);
+    const [isRegisterComponentOpen, setIsRegisterComponentOpen] = useState(false);
     const [editingProject, setEditingProject] = useState(null);
     const [userRole, setUserRole] = useState('developer');
 
@@ -36,25 +38,6 @@ const App = () => {
         }
     };
 
-    const handleProjectSubmit = async (projectData) => {
-        try {
-            if (projectData.id) {
-                const updatedProject = await ProjectService.updateProject(projectData);
-                setProjects(projects.map(proj => proj.id === projectData.id ? updatedProject : proj));
-                setIsEditComponentOpen(false);
-            } else {
-                const newProject = await ProjectService.createProject(projectData);
-                setProjects([...projects, newProject]);
-                setIsModalOpen(false);
-            }
-        } catch (error) {
-            console.error('Failed to create/update project:', error);
-        }
-    };
-
-
-
-
     const handleOpenModalForCreate = () => {
         setEditingProject(null);
         setIsModalOpen(true);
@@ -64,13 +47,17 @@ const App = () => {
         setEditingProject(project);
         setIsEditComponentOpen(true);
     };
+    const handleOpenModalForRegister = () => {
+        setEditingProject(null);
+        setIsRegisterComponentOpen(true);
+    }
 
     return (
         <BrowserRouter>
         <div className="app-container">
             <header className="app-header">
                 <div className="website-name">Ultimate Collaborator Organize</div>
-                {}
+
                 <select onChange={(e) => setUserRole(e.target.value)} value={userRole}>
                     <option value="developer">Developer</option>
                     <option value="manager">Manager</option>
@@ -78,6 +65,11 @@ const App = () => {
                 {userRole === 'manager' && (
                     <button className="button-create-project" onClick={handleOpenModalForCreate}>
                         Create project
+                    </button>
+                )}
+                {userRole === 'manager' && (
+                    <button className="button-create-project" onClick={handleOpenModalForRegister}>
+                        Register User
                     </button>
                 )}
             </header>
@@ -106,9 +98,11 @@ const App = () => {
                 <ProjectEdit
                     projectId={editingProject ? editingProject.id : null}
                     onClose={() => setIsEditComponentOpen(false)}
-                    onSubmit={handleProjectSubmit}
                     refreshProjects={fetchProjects}
                 />
+            )}
+            {isRegisterComponentOpen && userRole === 'manager' && (
+                <UserRegister onClose={() => setIsRegisterComponentOpen(false)} />
             )}
 
         </div>

@@ -1,6 +1,6 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import TaskCreat from './TaskCreat';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import TaskList from "./TaskList";
 import * as taskService from "../services/TaskService";
 import TaskEdit from "./TaskEdit";
@@ -63,8 +63,14 @@ const TaskBoard = () => {
                     TaskID={editingProject ? editingProject.id : null}
                 />
             )}
+            {/* Back to Projects Button */}
+            <div style={{ marginTop: '20px' }}>
+                <Link to="/" className="button-create-project" style={{ textDecoration: 'none' }}>
+                    Back to Projects
+                </Link>
+            </div>
         </div>
     );
 };
 
-export default TaskBoard;
+export default TaskBoard

@@ -1,5 +1,6 @@
 // backend/src/routes/projectRoutes.js
 const express = require('express');
+const { Op } = require('sequelize');
 const router = express.Router();
 const Project = require('../models/Project'); // Adjust the path if necessary
 

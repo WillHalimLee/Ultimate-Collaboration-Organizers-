@@ -1,9 +1,10 @@
 // userRoutes.js
 const express = require('express');
 //const bcrypt = require('bcrypt');
-const User = require('../models/User'); // This link might need to be detailed.
+const jwt = require('jsonwebtoken');
+const User = require('../models/User');
 const router = express.Router();
-
+const SECRET_KEY = 'your_secret_key';
 router.post('/register', async (req, res) => {
     const { Fname,Lname,phone,email,address, password,dob,job } = req.body;
     try {
@@ -27,9 +28,16 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
     try {
         const user = await User.findOne({ where: { email: req.body.email } });
-        if (user && (await bcrypt.compare(req.body.password, user.password))) {
-            // Add your code for successful login: Token generation, etc.
-            res.status(200).send("Login Successful");
+        if (user && user.password === req.body.password) {
+            // Generate a token
+            const token = jwt.sign(
+                { id: user.id, email: user.email },
+                SECRET_KEY,
+                { expiresIn: '1h' } // Token expires in 1 hour
+            );
+
+            // Send the token to the client
+            res.status(200).send({ token: token });
         } else {
             res.status(400).send('Invalid Credentials');
         }

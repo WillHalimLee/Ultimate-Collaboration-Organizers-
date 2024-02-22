@@ -65,7 +65,7 @@ const TaskBoard = () => {
             )}
             {/* Back to Projects Button */}
             <div style={{ marginTop: '20px' }}>
-                <Link to="/" className="button-create-project" style={{ textDecoration: 'none' }}>
+                <Link to="/app" className="button-create-project" style={{ textDecoration: 'none' }}>
                     Back to Projects
                 </Link>
             </div>

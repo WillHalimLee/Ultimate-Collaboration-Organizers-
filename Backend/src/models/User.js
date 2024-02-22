@@ -4,8 +4,22 @@ const sequelize = require('../config/sequelize');
 class User extends Model {}
 
 User.init({
-    name: {
+    Fname: {
         type: DataTypes.STRING,
+        allowNull: false, // Set to true if the name is optional
+        validate: {
+            notEmpty: true, // Ensures the name is not an empty string
+        },
+    },
+    Lname: {
+        type: DataTypes.STRING,
+        allowNull: false, // Set to true if the name is optional
+        validate: {
+            notEmpty: true, // Ensures the name is not an empty string
+        },
+    },
+    phone: {
+        type: DataTypes.NUMBER,
         allowNull: false, // Set to true if the name is optional
         validate: {
             notEmpty: true, // Ensures the name is not an empty string
@@ -19,12 +33,31 @@ User.init({
             isEmail: true,
         },
     },
+    address: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+        },
+    },
     password: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
             len: [8, 100],
         },
+    },
+    dob: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+        },
+    },
+    job: {
+        type: DataTypes.STRING,
+        allowNull: false,
+
     },
 }, {
     sequelize,

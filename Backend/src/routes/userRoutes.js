@@ -5,10 +5,10 @@ const User = require('../models/User'); // This link might need to be detailed.
 const router = express.Router();
 
 router.post('/register', async (req, res) => {
-    const { name, email, password } = req.body;
+    const { Fname,Lname,phone,email,address, password,dob,job } = req.body;
     try {
-        const user = await User.create({ name, email, password });
-        res.status(201).send({ id: user.id, name: user.name, email: user.email }); // Only send back non-sensitive data
+        const user = await User.create({ Fname,Lname, phone,email,address, password, dob,job });
+        res.status(201).send({ id: user.id, Fname: user.Fname,Lname: user.Lname, phone: user.phone,email: user.email,address: user.address, password: user.password,dob: user.dob, job:user.job}); // Only send back non-sensitive data
     } catch (error) {
         console.error('Registration error:', error);
         if (error.name === 'SequelizeUniqueConstraintError') {

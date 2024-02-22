@@ -1,66 +1,72 @@
 import React, { useState } from 'react';
 import './css/UserInformation.css';
+import * as userService from "../services/userService";
 
 const UserInformation = ({ onClose, onSave }) => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [email, setEmail] = useState('');
-  const [address, setAddress] = useState('');
-  const [dateOfBirth, setDateOfBirth] = useState('');
+    const [userDetails, setUserDetails] = useState({ Fname: '', Lname: '', phone: '', email: '',password:'', address: '', dob: '', job: '' });
 
-  const handleSave = () => {
-    // Validate and save user information
-    const userData = {
-      firstName,
-      lastName,
-      phoneNumber,
-      email,
-      address,
-      dateOfBirth,
-      // Add other fields as needed
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setUserDetails((prev) => ({ ...prev, [name]: value }));
     };
+  const handleSave = async () => {
+      // Validate and save user information
+      try {
+          const registeredUser = await userService.register(userDetails);
+          console.log('User registered:', registeredUser);
+          onClose(); // Close form/modal upon successful registration
+      } catch (error) {
 
-    // Call the onSave prop with user data
-    onSave(userData);
+      }
   };
 
   return (
   <div className="UserInformation">
       <h2>User Information</h2>
-      <label>
-        First Name:
-        <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
-      </label>
-      <br />
-      <label>
-        Last Name:
-        <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} />
-      </label>
-      <br />
-      <label>
-        Phone Number:
-        <input type="text" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
-      </label>
-      <br />
-      <label>
-        Email:
-        <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
-      </label>
-      <br />
-      <label>
-        Address:
-        <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} />
-      </label>
-      <br />
-      <label>
-        Date of Birth:
-        <input type="text" value={dateOfBirth} onChange={(e) => setDateOfBirth(e.target.value)} />
-      </label>
-      {/* Add other fields as needed */}
-      <br />
-      <button onClick={handleSave}>Save</button>
-    </div>
+      <form onSubmit={handleSave} >
+          <label>
+              First Name:
+              <input type="text" name='Fname' onChange={handleChange}/>
+          </label>
+          <br/>
+          <label>
+              Last Name:
+              <input type="text" name="Lname" onChange={handleChange}/>
+          </label>
+          <br/>
+          <label>
+              Phone Number:
+              <input type="number" name="phone" onChange={handleChange}/>
+          </label>
+          <br/>
+          <label>
+              Email:
+              <input type="email" name="email" onChange={handleChange}/>
+          </label>
+          <br/>
+          <label>
+              Password:
+              <input type="password" name="password" onChange={handleChange}/>
+          </label>
+            <br/>
+          <label>
+              Address:
+              <input type="text" name="address" onChange={handleChange}/>
+          </label>
+          <br/>
+          <label>
+              Date of Birth:
+              <input type="date" name="dob" onChange={handleChange}/>
+          </label>
+          <br/>
+          <label>
+              Job:
+              <input type="text" name="job" onChange={handleChange}/>
+          </label>
+          <br/>
+          <button type={"submit"}>Save</button>
+      </form>
+  </div>
   );
 };
 

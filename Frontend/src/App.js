@@ -1,13 +1,13 @@
 const App = () => {
-    const { isAuthenticated, userRole } = useAuth();
+  const { isAuthenticated, userRole } = useAuth();
 
-    return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={isAuthenticated ? <Navigate to="/app" /> : <LoginPage />} />
-                <Route path="/app" element={isAuthenticated ? <MainApp userRole={userRole} /> : <Navigate to="/" />} />
-                {/* Define other routes, if needed */}
-            </Routes>
-        </BrowserRouter>
-    );
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={isAuthenticated ? <Navigate to="/app" /> : <LoginPage />} />
+        <Route path="/app" element={isAuthenticated ? <MainApp userRole={userRole} /> : <Navigate to="/" />} />
+        {/* Define other routes, if needed */}
+      </Routes>
+    </BrowserRouter>
+  );
 };

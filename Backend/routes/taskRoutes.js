@@ -26,7 +26,7 @@ router.get("/projects/:projectId/tasks", async (req, res) => {
 // Get a specific task by ID for a project
 router.get("/projects/:projectId/tasks/:id", async (req, res) => {
   try {
-    const task = await Task.findOne({ _id: req.params.id, projectId: req.params.projectId });
+    const task = await Task.findOne({ _id: req.params._id, projectId: req.params.projectId });
     if (task) {
       res.send(task);
     } else {

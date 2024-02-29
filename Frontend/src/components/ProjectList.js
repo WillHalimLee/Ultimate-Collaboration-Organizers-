@@ -6,10 +6,10 @@ const ProjectList = ({ projects, onDelete, onEdit, userRole }) => {
   return (
     <div className="project-list">
       {projects.map((project) => (
-        <Link key={project.id} to={`/projects/${project.id}/tasks`} className="project-item-link">
+        <Link key={project._id} to={`/projects/${project._id}/tasks`} className="project-item-link">
           <div className="project-item">
             <h3>
-              {project.title} (ID: {project.id})
+              {project.title}
             </h3>
             <p>{project.description}</p>
             {userRole === "manager" && (
@@ -17,14 +17,14 @@ const ProjectList = ({ projects, onDelete, onEdit, userRole }) => {
                 <button
                   onClick={(e) => {
                     e.preventDefault();
-                    onDelete(project.id);
+                    onDelete(project._id);
                   }}>
                   Delete
                 </button>
                 <button
                   onClick={(e) => {
                     e.preventDefault();
-                    onEdit(project);
+                    onEdit(project._id);
                   }}>
                   Edit
                 </button>

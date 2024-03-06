@@ -8,6 +8,7 @@ import ProjectList from "./components/ProjectList";
 import UserRegister from "./components/UserRegister";
 import "./App.css";
 import * as ProjectService from "./services/ProjectService";
+import * as userService from "./services/userService";
 
 const ProjectBoard = () => {
   const [projects, setProjects] = useState([]);
@@ -16,9 +17,11 @@ const ProjectBoard = () => {
   const [isRegisterComponentOpen, setIsRegisterComponentOpen] = useState(false);
   const [editingProject, setEditingProject] = useState(null);
   const [userRole, setUserRole] = useState("developer");
+  const [userDetails, setUserDetails] = useState(null);
 
   useEffect(() => {
     fetchProjects();
+    fetchUserDetails();
   }, []);
 
   const fetchProjects = async () => {
@@ -50,28 +53,37 @@ const ProjectBoard = () => {
     setIsRegisterComponentOpen(true);
   };
 
+  const fetchUserDetails = async () => {
+    try {
+      const userString = localStorage.getItem("user");
+      const userId = userString && JSON.parse(userString);
+      const userDetails = await userService.getUserById(userId);
+      setUserDetails(userDetails); // Set user details state
+      console.log(userDetails.job);
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+    }
+  };
+
   return (
     <div className="app-container">
       <header className="app-header">
         <div className="website-name">Ultimate Collaborator Organize</div>
 
-        <select onChange={(e) => setUserRole(e.target.value)} value={userRole}>
-          <option value="developer">Developer</option>
-          <option value="manager">Manager</option>
-        </select>
-        {userRole === "manager" && (
+        {userDetails?.job === "manager" && (
           <>
             <button className="button-create-project" onClick={handleOpenModalForCreate}>
               Create project
             </button>
-            <Link to="/user-information" className="button-create-project" style={{ textDecoration: "none" }}>
-              User Information
-            </Link>
+
             <button className="button-create-project" onClick={handleOpenModalForRegister}>
               Register User
             </button>
           </>
         )}
+        <Link to="/user-information" className="button-create-project" style={{ textDecoration: "none" }}>
+          User Information
+        </Link>
       </header>
       <main className="main-content">
         <ProjectSearch onSearchSubmit={fetchProjects} />
@@ -83,17 +95,17 @@ const ProjectBoard = () => {
         />
       </main>
       {isModalOpen && userRole === "manager" && (
-        <ProjectCreat isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} refreshProjects={fetchProjects} />
-      )}
-      {isEditComponentOpen && userRole === "manager" && (
-        <ProjectEdit
-          projectId={editingProject ? editingProject.id : null}
-          onClose={() => setIsEditComponentOpen(false)}
-          refreshProjects={fetchProjects}
-        />
-      )}
-      {isRegisterComponentOpen && userRole === "manager" && (
-        <UserRegister onClose={() => setIsRegisterComponentOpen(false)} />
+          <>
+            <ProjectCreat isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} refreshProjects={fetchProjects} />
+            <ProjectEdit
+                projectId={editingProject ? editingProject.id : null}
+                onClose={() => setIsEditComponentOpen(false)}
+                refreshProjects={fetchProjects}
+            />
+            <UserRegister onClose={() => setIsRegisterComponentOpen(false)} />
+          </>
+
+
       )}
     </div>
   );

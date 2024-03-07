@@ -131,6 +131,9 @@ const ProjectBoard = () => {
         <Link to="/user-information" className="button-create-project" style={{ textDecoration: "none" }}>
           User Information
         </Link>
+        <Link to="/" className="button-create-project" style={{ textDecoration: "none" }}>
+            Login Out
+        </Link>
       </header>
       <main className="main-content">
         <ProjectSearch onSearchSubmit={fetchProjects} />

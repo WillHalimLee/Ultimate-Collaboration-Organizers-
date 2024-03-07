@@ -72,7 +72,7 @@ const UserInformation = ({ onClose, onSave }) => {
         <br />
         <label>
           Last Name:
-          <input type="text" value={userDetails.Fname} name="Lname" onChange={handleChange} />
+          <input type="text" value={userDetails.Lname} name="Lname" onChange={handleChange} />
         </label>
         <br />
         <label>

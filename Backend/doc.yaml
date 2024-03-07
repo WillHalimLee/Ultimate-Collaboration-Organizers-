@@ -6,9 +6,20 @@ info:
 basePath: /api
 schemes:
   - http
+tags:
+      - name: Projects
+        description: Endpoints related to projects management
+      - name: Tasks
+        description: Endpoints related to tasks management
+      - name: Users
+        description: Endpoints related to user registration and login
 paths:
+
+  # Projects Section
   /projects:
     get:
+      tags:
+        - Projects
       summary: Fetch all projects
       description: Returns an array of all projects
       responses:
@@ -19,6 +30,8 @@ paths:
             items:
               $ref: '#/definitions/Project'
     post:
+      tags:
+        - Projects
       summary: Create a new project
       description: Creates a new project with the given title and description
       parameters:
@@ -32,8 +45,12 @@ paths:
           description: The created project
           schema:
             $ref: '#/definitions/Project'
+
+  # Project Search Section
   /projects/search:
     get:
+      tags:
+        - Projects
       summary: Search projects by title
       description: Returns an array of projects that match the search term in their title
       parameters:
@@ -48,8 +65,12 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Project'
+
+  # Single Project Section
   /projects/{id}:
     get:
+      tags:
+        - Projects
       summary: Fetch a single project by ID
       description: Returns a single project by its ID
       parameters:
@@ -63,6 +84,8 @@ paths:
           schema:
             $ref: '#/definitions/Project'
     delete:
+      tags:
+        - Projects
       summary: Delete a project by ID
       description: Deletes a single project by its ID
       parameters:
@@ -74,6 +97,8 @@ paths:
         200:
           description: Success message
     put:
+      tags:
+        - Projects
       summary: Update a project by ID
       description: Updates a single project by its ID
       parameters:
@@ -91,8 +116,12 @@ paths:
           description: The updated project
           schema:
             $ref: '#/definitions/Project'
+
+  # Tasks Section
   /tasks:
     get:
+      tags:
+        - Tasks
       summary: Fetch all tasks
       description: Returns an array of all tasks, optionally filtered by project
       responses:
@@ -103,6 +132,8 @@ paths:
             items:
               $ref: '#/definitions/Task'
     post:
+      tags:
+        - Tasks
       summary: Create a new task
       description: Creates a new task with the given details
       parameters:
@@ -116,8 +147,12 @@ paths:
           description: The created task
           schema:
             $ref: '#/definitions/Task'
+
+  # Single Task Section
   /tasks/{id}:
     get:
+      tags:
+        - Tasks
       summary: Fetch a single task by ID
       description: Returns a single task by its ID
       parameters:
@@ -131,6 +166,8 @@ paths:
           schema:
             $ref: '#/definitions/Task'
     delete:
+      tags:
+        - Tasks
       summary: Delete a task by ID
       description: Deletes a single task by its ID
       parameters:
@@ -142,6 +179,8 @@ paths:
         200:
           description: Success message
     put:
+      tags:
+        - Tasks
       summary: Update a task by ID
       description: Updates a single task by its ID
       parameters:
@@ -159,8 +198,12 @@ paths:
           description: The updated task
           schema:
             $ref: '#/definitions/Task'
+
+  # User Registration and Authentication Section
   /register:
     post:
+      tags:
+        - User
       summary: Register a new user
       description: Creates a new user with the provided information
       parameters:
@@ -201,8 +244,11 @@ paths:
           description: The registered user's information (excluding password)
           schema:
             $ref: '#/definitions/User'
+
   /login:
     post:
+      tags:
+        - User
       summary: Log in as a user
       description: Logs in as a user with the provided email and password
       parameters:
@@ -224,7 +270,10 @@ paths:
           description: The logged in user's information (excluding password)
           schema:
             $ref: '#/definitions/User'
+
 definitions:
+
+  # Definition Section: Project
   Project:
     type: object
     properties:
@@ -232,6 +281,8 @@ definitions:
         type: string
       description:
         type: string
+
+  # Definition Section: Task
   Task:
     type: object
     required:
@@ -250,6 +301,8 @@ definitions:
         format: date
       projectId:
         type: string
+
+  # Definition Section: User
   User:
     type: object
     properties:

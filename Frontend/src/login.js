@@ -27,7 +27,7 @@ const Login = () => {
 
   const handleManagerLogin = async (event) => {
 
-    
+
     var u = await userService.login({
       email: "admin.test@gmail.com", password: "1234",});
     localStorage.setItem("user", JSON.stringify(u.ID));

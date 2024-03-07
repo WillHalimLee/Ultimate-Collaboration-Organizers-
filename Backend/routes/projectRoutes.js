@@ -91,13 +91,17 @@ router.put("/:id", async (req, res) => {
 
     project.title = title || project.title;
     project.description = description || project.description;
-    // Here we update the developers list if provided
+    // Update the developers list if provided
     if (developers) project.developers = developers;
+
+    await project.save(); // Save the updated project to the database
 
     res.json(project);
   } catch (error) {
+    console.error("Failed to update project:", error);
     res.status(500).send(error.message);
   }
 });
+
 
 module.exports = router;

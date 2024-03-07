@@ -44,8 +44,14 @@ export const deleteProject = async (projectId) => {
 
 // In ProjectService.js
 export const updateProject = async (id, projectData) => {
-    const response = await axios.put(`/api/projects/${id}`, projectData);
-    return response.data;
+    try{
+        const response = await axios.put(`/api/projects/${id}`, projectData);
+        return response.data;
+    } catch (error) {
+        console.error('Error updating project:', error);
+        throw error;
+    }
+
 };
 
 export const getProjectByID = async (id) => {

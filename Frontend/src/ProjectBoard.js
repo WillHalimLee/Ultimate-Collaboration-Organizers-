@@ -39,26 +39,41 @@ const ProjectBoard = () => {
     try {
       const fetchedProjects = await ProjectService.getAllProjects();
       const projectsWithDetails = await Promise.all(fetchedProjects.map(async (project) => {
-        const developersDetails = await Promise.all(project.developers.map(async (devId) => {
-          const devDetails = await UserService.getUserById(devId);
-          return devDetails;
-        }));
+        let developersDetails = [];
+        if (project.developers && project.developers.length > 0) {
+          developersDetails = await Promise.all(
+              project.developers
+                  .filter(devId => devId != null) // Filter out any null IDs
+                  .map(async (devId) => {
+                    const devDetails = await UserService.getUserById(devId);
+                    return devDetails;
+                  })
+          );
+        }
 
-        // Fetch the manager's details using the manager ID
-        const managerDetails = await UserService.getUserById(project.createdBy);
+        let managerDetails = null;
+        if (project.createdBy) {
+          try {
+            managerDetails = await UserService.getUserById(project.createdBy);
+          } catch (managerError) {
+            console.error(`Failed to fetch manager details: ${managerError}`);
+          }
+        }
 
         return {
           ...project,
-          developersDetails, // This contains full details including names
-          managerDetails, // This adds the manager details to the project object
+          developersDetails,
+          managerDetails,
         };
       }));
 
-      setProjectsWithDetails(projectsWithDetails); // Store the enriched project details with manager and developers
+      setProjectsWithDetails(projectsWithDetails);
     } catch (error) {
       console.error("Failed to fetch projects:", error);
     }
   };
+
+
 
 
   const handleDeleteProject = async (projectId) => {
@@ -75,8 +90,8 @@ const ProjectBoard = () => {
     setIsModalOpen(true);
   };
 
-  const handleOpenEditComponent = (project) => {
-    setEditingProject(project);
+  const handleOpenEditComponent = (projectID) => {
+    setEditingProject(projectID);
     setIsEditComponentOpen(true);
   };
 
@@ -131,7 +146,7 @@ const ProjectBoard = () => {
       )}
       {isEditComponentOpen && userDetails?.job === "manager" && (
           <ProjectEdit
-              projectId={editingProject ? editingProject.id : null}
+              projectId={editingProject}
               onClose={() => setIsEditComponentOpen(false)}
               refreshProjects={fetchProjects}
           />

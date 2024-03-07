@@ -32,7 +32,7 @@ const ProjectList = ({ projects, onDelete, onEdit, userRole }) => {
                                 onClick={(e) => {
                                     e.preventDefault();
                                     e.stopPropagation(); // Prevent navigating to the link's href
-                                    onEdit(project);
+                                    onEdit(project._id);
                                 }}
                             >
                                 Edit

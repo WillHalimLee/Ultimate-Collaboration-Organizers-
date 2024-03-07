@@ -61,3 +61,42 @@ button[type="button"] {
     background-color: #dc3545;
     color: #fff;
 }
+
+input,
+textarea,
+select {
+    /* Apply same styles to select as input/textarea */
+    width: 100%;
+    padding: 10px; /* Adjusted padding for better spacing */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.9rem; /* Adjust font size as needed */
+}
+
+select option {
+    padding: 5px;
+    background-color: #f8f9fa; /* Light grey background for options */
+}
+
+/* Custom scrollbar for select element */
+select {
+    overflow-y: auto;
+    max-height: 200px; /* Fixed max-height with scroll */
+}
+
+/* Scrollbar track */
+select::-webkit-scrollbar-track {
+    background-color: #f8f9fa;
+}
+.developer-list {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.developer-checkbox {
+    display: block; /* Or 'flex' if you want to align items in a row */
+    margin-bottom: 5px;
+}

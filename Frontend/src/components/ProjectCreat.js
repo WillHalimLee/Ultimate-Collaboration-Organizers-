@@ -1,25 +1,67 @@
-import React, { useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import * as ProjectService from "../services/ProjectService";
-import './css/ProjectModal.css';
 
-const ProjectCreat = ({ isOpen, onClose,refreshProjects }) => {
-    const [project, setProject] = useState({ title: '', description: '' });
+import './css/ProjectModal.css';
+import * as UserService from "../services/userService";
+
+const ProjectCreate = ({ isOpen, onClose, refreshProjects }) => {
+    const [project, setProject] = useState({
+        title: '',
+        description: '',
+        developers: [],
+        manager: '' // Add a manager field to your project state
+    });
+    const [developers, setDevelopers] = useState([]); // Add state for the list of developers
+
+    useEffect(() => {
+        // Function to fetch developers
+        const fetchDevelopers = async () => {
+            try {
+                const devs = await UserService.getDevelopers();
+                setDevelopers(devs);
+            } catch (error) {
+                console.error("Failed to fetch developers", error);
+            }
+        };
+
+        // Get the manager's ID from localStorage and set it in the project state
+        const managerId = JSON.parse(localStorage.getItem("user"));
+        console.log("Manager ID:", managerId);
+        setProject(prev => ({ ...prev, manager: managerId }));
+
+        fetchDevelopers();
+    }, []);
 
     if (!isOpen) return null;
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setProject((prev) => ({ ...prev, [name]: value }));
     };
+
+    const handleDeveloperChange = (e) => {
+        const selectedDevelopers = Array.from(e.target.selectedOptions, option => option.value);
+        setProject(prev => ({ ...prev, developers: selectedDevelopers }));
+    };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
-        try{
+        try {
             await ProjectService.createProject(project);
             refreshProjects();
             onClose();
         } catch (error) {
-            console.error("Failed to update project", error);
+            console.error("Failed to create project", error);
         }
-        onClose();
+    };
+
+    const handleDeveloperSelection = (devId) => {
+        setProject(prev => {
+            const newDevelopers = prev.developers.includes(devId)
+                ? prev.developers.filter(id => id !== devId)
+                : [...prev.developers, devId];
+            return { ...prev, developers: newDevelopers };
+        });
     };
 
     return (
@@ -27,7 +69,7 @@ const ProjectCreat = ({ isOpen, onClose,refreshProjects }) => {
             <div className="modal-body">
                 <h2>Create a New Project</h2>
                 <form onSubmit={handleSubmit} className="modal-form">
-                <div className="form-group">
+                    <div className="form-group">
                         <label htmlFor="projectName">Project Name</label>
                         <input
                             id="projectName"
@@ -50,6 +92,21 @@ const ProjectCreat = ({ isOpen, onClose,refreshProjects }) => {
                             required
                         />
                     </div>
+                    <div className="form-group">
+                        <label>Developers</label>
+                        <div className="developer-list">
+                            {developers.map(dev => (
+                                <label key={dev._id} className="developer-checkbox">
+                                    <input
+                                        type="checkbox"
+                                        checked={project.developers.includes(dev._id)}
+                                        onChange={() => handleDeveloperSelection(dev._id)}
+                                    />
+                                    {dev.Fname + ' ' + dev.Lname}
+                                </label>
+                            ))}
+                        </div>
+                    </div>
                     <div className="form-actions">
                         <button type="button" className="button-cancel" onClick={onClose}>Cancel</button>
                         <button type="submit" className="button-save">Create</button>
@@ -60,4 +117,4 @@ const ProjectCreat = ({ isOpen, onClose,refreshProjects }) => {
     );
 };
 
-export default ProjectCreat;
+export default ProjectCreate;

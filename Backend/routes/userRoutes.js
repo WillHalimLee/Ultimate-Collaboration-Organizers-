@@ -69,6 +69,18 @@ router.post("/login", async (req, res) => {
   }
 });
 
+router.get('/developers', async (req, res) => {
+  console.log('Fetching developers...');
+  try {
+    const developers = await User.find({ job: "developer" }).exec(); // Use .exec() to return a true Promise
+    console.log('Developers:', developers);
+    res.json(developers);
+  } catch (error) {
+    console.log('Error fetching developers:', error);
+    res.status(500).send('opaasd');
+  }
+});
+
 router.get('/:id', async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
@@ -101,6 +113,11 @@ router.put('/:id', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
+
+//get developers
+// Assuming `User` is your Mongoose model for users
+
+
 
 
 module.exports = router;

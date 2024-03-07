@@ -58,3 +58,15 @@ export const handleUpdate = async (id, userData) => {
     throw error;
   }
 };
+
+//get developets
+export const getDevelopers = async () => {
+    try {
+        const response = await axios.get("/api/users/developers");
+        console.log("Developers:", response.data);
+        return response.data; // This should be an array of developer objects with '_id' and 'name' properties.
+    } catch (error) {
+        console.error("Error getting developers:", error);
+        throw error;
+    }
+};

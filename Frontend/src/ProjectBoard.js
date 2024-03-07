@@ -9,6 +9,7 @@ import UserRegister from "./components/UserRegister";
 import "./App.css";
 import * as ProjectService from "./services/ProjectService";
 import * as userService from "./services/userService";
+import * as UserService from "./services/userService";
 
 const ProjectBoard = () => {
   const [projects, setProjects] = useState([]);
@@ -18,16 +19,47 @@ const ProjectBoard = () => {
   const [editingProject, setEditingProject] = useState(null);
   const [userRole, setUserRole] = useState("developer");
   const [userDetails, setUserDetails] = useState(null);
+  const [projectsWithDetails, setProjectsWithDetails] = useState([]);
 
   useEffect(() => {
     fetchProjects();
+    //fetchFullProjectDetails();
     fetchUserDetails();
   }, []);
 
+  // const fetchProjects = async () => {
+  //   const fetchedProjects = await ProjectService.getAllProjects();
+  //   setProjects(fetchedProjects);
+  // };
+
+
+
+// This could be in a higher-order component or page component where you fetch projects
   const fetchProjects = async () => {
-    const fetchedProjects = await ProjectService.getAllProjects();
-    setProjects(fetchedProjects);
+    try {
+      const fetchedProjects = await ProjectService.getAllProjects();
+      const projectsWithDetails = await Promise.all(fetchedProjects.map(async (project) => {
+        const developersDetails = await Promise.all(project.developers.map(async (devId) => {
+          const devDetails = await UserService.getUserById(devId);
+          return devDetails;
+        }));
+
+        // Fetch the manager's details using the manager ID
+        const managerDetails = await UserService.getUserById(project.createdBy);
+
+        return {
+          ...project,
+          developersDetails, // This contains full details including names
+          managerDetails, // This adds the manager details to the project object
+        };
+      }));
+
+      setProjectsWithDetails(projectsWithDetails); // Store the enriched project details with manager and developers
+    } catch (error) {
+      console.error("Failed to fetch projects:", error);
+    }
   };
+
 
   const handleDeleteProject = async (projectId) => {
     try {
@@ -88,24 +120,24 @@ const ProjectBoard = () => {
       <main className="main-content">
         <ProjectSearch onSearchSubmit={fetchProjects} />
         <ProjectList
-          projects={projects}
+          projects={projectsWithDetails}
           onDelete={handleDeleteProject}
           onEdit={handleOpenEditComponent}
-          userRole={userRole}
+          userRole={userDetails?.job}
         />
       </main>
-      {isModalOpen && userRole === "manager" && (
-          <>
-            <ProjectCreat isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} refreshProjects={fetchProjects} />
-            <ProjectEdit
-                projectId={editingProject ? editingProject.id : null}
-                onClose={() => setIsEditComponentOpen(false)}
-                refreshProjects={fetchProjects}
-            />
-            <UserRegister onClose={() => setIsRegisterComponentOpen(false)} />
-          </>
-
-
+      {isModalOpen && userDetails?.job === "manager" && (
+          <ProjectCreat isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} refreshProjects={fetchProjects} />
+      )}
+      {isEditComponentOpen && userDetails?.job === "manager" && (
+          <ProjectEdit
+              projectId={editingProject ? editingProject.id : null}
+              onClose={() => setIsEditComponentOpen(false)}
+              refreshProjects={fetchProjects}
+          />
+      )}
+      {isRegisterComponentOpen && userDetails?.job === "manager" && (
+          <UserRegister onClose={() => setIsRegisterComponentOpen(false)} />
       )}
     </div>
   );

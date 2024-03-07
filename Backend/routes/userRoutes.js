@@ -60,7 +60,7 @@ router.post("/login", async (req, res) => {
       );
 
       // Send the token to the client
-      res.status(200).send({ token: token });
+      res.status(200).send({ token: token, ID: user.id});
     } else {
       res.status(400).send("Invalid Credentials, Wrong Password.");
     }
@@ -68,5 +68,56 @@ router.post("/login", async (req, res) => {
     res.status(500).send(error);
   }
 });
+
+router.get('/developers', async (req, res) => {
+  console.log('Fetching developers...');
+  try {
+    const developers = await User.find({ job: "developer" }).exec(); // Use .exec() to return a true Promise
+    console.log('Developers:', developers);
+    res.json(developers);
+  } catch (error) {
+    console.log('Error fetching developers:', error);
+    res.status(500).send('opaasd');
+  }
+});
+
+router.get('/:id', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(404).send('User not found');
+    res.send(user);
+  } catch (error) {
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+//update
+router.put('/:id', async (req, res) => {
+  console.log(req.body)
+  console.log('UserID to update:', req.body._id);
+  try {
+    const userUpdates = req.body;
+    const userId = req.params.id;
+
+    // Make sure to validate userUpdates or sanitize it as needed
+
+    const user = await User.findByIdAndUpdate(userId, userUpdates, { new: true });
+
+    if (!user) {
+      return res.status(404).send('User not found.');
+    }
+
+    res.send(user);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+//get developers
+// Assuming `User` is your Mongoose model for users
+
+
+
 
 module.exports = router;

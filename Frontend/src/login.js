@@ -14,8 +14,11 @@ const Login = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await userService.login(user);
-      console.log(user);
+       var u = await userService.login(user);
+
+      console.log(u);
+      console.log("User logged in:", await userService.getUserById(u.ID));
+      localStorage.setItem("user", JSON.stringify(u.ID));
       navigate("/app");
     } catch (err) {
       setError("Login failed. Please try again later.");

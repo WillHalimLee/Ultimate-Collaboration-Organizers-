@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./css/UserInformation.css";
 import * as userService from "../services/userService";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const UserInformation = ({ onClose, onSave }) => {
   const [userDetails, setUserDetails] = useState({
@@ -13,19 +14,51 @@ const UserInformation = ({ onClose, onSave }) => {
     address: "",
     dob: "",
     job: "",
+    _id: "",
   });
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const userString = localStorage.getItem("user");
+        if (userString) {
+          const userId = JSON.parse(userString);
+          const userResponse = await userService.getUserById(userId);
+
+          // Validate and format date of birth if present
+          if (userResponse.dob) {
+            const dobDate = new Date(userResponse.dob);
+            if (!isNaN(dobDate.getTime())) {
+              userResponse.dob = dobDate.toISOString().split('T')[0];
+            } else {
+              console.error('Invalid date received from backend:', userResponse.dob);
+            }
+          }
+
+          setUserDetails({ ...userResponse });
+        }
+      } catch (error) {
+        console.error("Error fetching user information:", error);
+      }
+    };
+
+    fetchUser();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUserDetails((prev) => ({ ...prev, [name]: value }));
   };
-  const handleSave = async () => {
-    // Validate and save user information
+
+  const handleSave = async (event) => {
+    event.preventDefault();
     try {
-      const registeredUser = await userService.register(userDetails);
-      console.log("User registered:", registeredUser);
-      onClose(); // Close form/modal upon successful registration
-    } catch (error) {}
+      const registeredUser = await userService.handleUpdate(userDetails._id, userDetails);
+      localStorage.setItem("user", JSON.stringify(registeredUser._id));
+      onSave?.();
+    } catch (error) {
+      console.error("Error saving user information:", error);
+    }
   };
 
   return (
@@ -34,45 +67,45 @@ const UserInformation = ({ onClose, onSave }) => {
       <form onSubmit={handleSave}>
         <label>
           First Name:
-          <input type="text" name="Fname" onChange={handleChange} />
+          <input type="text" value={userDetails.Fname} name="Fname" onChange={handleChange} />
         </label>
         <br />
         <label>
           Last Name:
-          <input type="text" name="Lname" onChange={handleChange} />
+          <input type="text" value={userDetails.Fname} name="Lname" onChange={handleChange} />
         </label>
         <br />
         <label>
           Phone Number:
-          <input type="number" name="phone" onChange={handleChange} />
+          <input type="number" value={userDetails.phone} name="phone" onChange={handleChange} />
         </label>
         <br />
         <label>
           Email:
-          <input type="email" name="email" onChange={handleChange} />
+          <input type="email" value={userDetails.email} name="email" onChange={handleChange} />
         </label>
         <br />
         <label>
           Password:
-          <input type="password" name="password" onChange={handleChange} />
+          <input type="password"  value={userDetails.password} name="password" onChange={handleChange} />
         </label>
         <br />
         <label>
           Address:
-          <input type="text" name="address" onChange={handleChange} />
+          <input type="text" value={userDetails.address} name="address" onChange={handleChange} />
         </label>
         <br />
         <label>
           Date of Birth:
-          <input type="date" name="dob" onChange={handleChange} />
+          <input type="date" value={userDetails.dob} name="dob" onChange={handleChange} />
         </label>
         <br />
         <label>
           Job:
-          <input type="text" name="job" onChange={handleChange} />
+          <input type="text" value={userDetails.job} name="job" onChange={handleChange} />
         </label>
         <br />
-        <button type={"submit"} to="/app">
+        <button type={"submit"}>
           Save
         </button>
       </form>

@@ -2,7 +2,17 @@ import React, { useState } from "react";
 import * as userService from "../services/userService";
 
 const Register = ({ onClose }) => {
-  const [userDetails, setUserDetails] = useState({ name: "", email: "", password: "" });
+  const [userDetails, setUserDetails] = useState({
+    Fname: "",
+    Lname: "",
+    phone: "",
+    email: "",
+    password: "",
+    address: "",
+    dob: "",
+    job: "",
+    _id: "",
+  });
   const [error, setError] = useState(""); // State for storing registration errors
   const [success, setSuccess] = useState(""); // State for a successful registration message
 
@@ -33,9 +43,45 @@ const Register = ({ onClose }) => {
       <div className="modal-body">
         <h2>New User</h2>
         <form onSubmit={handleSubmit}>
-          <input type="text" name="name" placeholder="Enter Name" onChange={handleChange} required />
-          <input type="email" name="email" placeholder="Enter Email" onChange={handleChange} required />
-          <input type="password" name="password" placeholder="Enter Password" onChange={handleChange} required />
+          <label>
+            First Name:
+            <input type="text" value={userDetails.Fname} name="Fname" onChange={handleChange} />
+          </label>
+          <br />
+          <label>
+            Last Name:
+            <input type="text" value={userDetails.Lname} name="Lname" onChange={handleChange} />
+          </label>
+          <br />
+          <label>
+            Phone Number:
+            <input type="number" value={userDetails.phone} name="phone" onChange={handleChange} />
+          </label>
+          <br />
+          <label>
+            Email:
+            <input type="email" value={userDetails.email} name="email" onChange={handleChange} />
+          </label>
+          <br />
+          <label>
+            Password:
+            <input type="password"  value={userDetails.password} name="password" onChange={handleChange} />
+          </label>
+          <br />
+          <label>
+            Address:
+            <input type="text" value={userDetails.address} name="address" onChange={handleChange} />
+          </label>
+          <br />
+          <label>
+            Date of Birth:
+            <input type="date" value={userDetails.dob} name="dob" onChange={handleChange} />
+          </label>
+          <br />
+          <label>
+            Job:
+            <input type="text" value={userDetails.job} name="job" onChange={handleChange} />
+          </label>
           <button type="submit">Register</button>
           <button type="button" onClick={onClose}>
             Cancel

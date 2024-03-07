@@ -1,20 +1,30 @@
 // backend/src/models/Project.js
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
-const projectSchema = new mongoose.Schema(
-  {
-    // define your model attributes here
-    title: {
-      type: String,
-      required: true, // This is the correct way to enforce the field is not null
+const projectSchema = new Schema(
+    {
+        title: {
+            type: String,
+            required: true,
+        },
+        description: {
+            type: String,
+            required: true,
+        },
+        developers: [
+            {
+                type: Schema.Types.ObjectId,
+                ref: 'User' // assuming you have a User model
+            }
+        ],
+        createdBy: {
+            type: Schema.Types.ObjectId,
+            ref: 'User', // assuming you have a User model
+            required: true, // assuming you want to make it mandatory that a project has a creator
+        },
     },
-    description: {
-      type: String,
-      required: true, // This is the correct way to enforce the field is not null
-    },
-    // more attributes...
-  },
-  { collection: "projects" } // Corrected the typo here and used the plural form which is a common convention
+    { timestamps: true, collection: "projects" } // Adding timestamps to automatically add `createdAt` and `updatedAt` fields
 );
 
 const Project = mongoose.model("Project", projectSchema);

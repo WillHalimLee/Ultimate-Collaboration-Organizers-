@@ -11,10 +11,11 @@ const Login = () => {
     const { name, value } = e.target;
     setUser((prev) => ({ ...prev, [name]: value }));
   };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-       var u = await userService.login(user);
+      var u = await userService.login(user);
 
       console.log(u);
       console.log("User logged in:", await userService.getUserById(u.ID));
@@ -26,8 +27,11 @@ const Login = () => {
   };
 
   const handleManagerLogin = async (event) => {
+    event.preventDefault(); // Prevent the default form submission
+    // Do any manager-specific logic here
+
+    // Navigate to the manager settings page
     navigate("/app");
-    event.preventDefault();
   };
 
   return (

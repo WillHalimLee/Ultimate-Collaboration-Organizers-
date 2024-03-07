@@ -1,8 +1,16 @@
-.project-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
+.task-link {
+  text-decoration: none;
+  color: inherit; /* Use inherit to maintain the default text color */
+  transition: box-shadow 0.3s ease; /* Add transition for a smooth effect */
 }
+
+.task-link:hover {
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+}
+
+/* Your existing styles for .project-list and .project-item */
 
 .project-item {
   border: 1px solid #ccc;

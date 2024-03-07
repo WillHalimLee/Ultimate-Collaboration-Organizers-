@@ -5,6 +5,7 @@ import Login from "./login"; // Import your Login component
 import ProjectBoard from "./ProjectBoard"; // Adjust the import path as needed
 import TaskBoard from "./components/TaskBoard"; // Ensure you have an AuthProvider
 import UserInformationPage from "./components/UserInformation"; // Ensure you have an AuthProvider
+import WeeklyView from "./old/WeeklyView"; // Import your WeeklyView component
 
 ReactDOM.render(
   <React.StrictMode>
@@ -14,7 +15,8 @@ ReactDOM.render(
         <Route path="/app" element={<ProjectBoard />} />
         <Route path="/projects/:projectId/tasks" element={<TaskBoard />} />
         <Route path="/user-information" element={<UserInformationPage />} />
-        {/* Define other routes here */}
+        <Route path="/weekly-view/:taskId" element={<WeeklyView />} />
+        {/* Other routes... */}
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,

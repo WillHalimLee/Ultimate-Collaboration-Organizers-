@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import * as TaskService from "../services/TaskService";
 import * as UserService from "../services/userService";
+import "./css/EditTask.css";
+
 
 const TaskEdit = ({ isOpen, onClose, projectId, fetchTasks, TaskID }) => {
   const [task, setTask] = useState({
@@ -99,6 +101,7 @@ const TaskEdit = ({ isOpen, onClose, projectId, fetchTasks, TaskID }) => {
               <option value="Pending">Pending</option>
               <option value="InProgress">In Progress</option>
               <option value="Completed">Completed</option>
+               <option value="Emergency">Emergency</option>
             </select>
           </div>
           <div>

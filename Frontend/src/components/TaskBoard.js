@@ -5,6 +5,8 @@ import TaskList from "./TaskList";
 import * as taskService from "../services/TaskService";
 import TaskEdit from "./TaskEdit";
 import "./css/TaskBoard.css";
+import * as UserService from "../services/userService";
+import * as TaskService from "../services/TaskService";
 
 const TaskBoard = () => {
   const { projectId } = useParams();
@@ -13,14 +15,50 @@ const TaskBoard = () => {
   const [isEditComponentOpen, setIsEditComponentOpen] = useState(false);
   const [editingProject, setEditingProject] = useState(null);
 
-  const refreshTasks = useCallback(async () => {
-    const updatedTasks = await taskService.getTasksByProjectId(projectId);
-    setTasks(updatedTasks);
-  }, [projectId]);
+  const refreshTasks = async () => {
+    try {
+      const fetchedTasks = await taskService.getTasksByProjectId(projectId);
+      const tasksWithDetails = await Promise.all(fetchedTasks.map(async (task) => {
+        let assignedToDetails = [];
+        if (task.assignedTo && task.assignedTo.length > 0) {
+          assignedToDetails = await Promise.all(
+              task.assignedTo
+                  .filter(userId => userId != null)
+                  .map(async (userId) => {
+                    const userDetails = await UserService.getUserById(userId);
+                    return userDetails;
+                  })
+          );
+        }
+
+        let createdByDetails = null;
+        if (task.createdBy) {
+          try {
+            createdByDetails = await UserService.getUserById(task.createdBy);
+            console.log(createdByDetails.Fname);
+          } catch (error) {
+            console.error(`Failed to fetch creator details: ${error}`);
+          }
+        }
+
+        return {
+          ...task,
+          assignedToDetails,
+          createdByDetails,
+        };
+      }));
+
+      setTasks(tasksWithDetails);
+    } catch (error) {
+      console.error("Failed to fetch tasks:", error);
+    }
+  };
+
+
 
   useEffect(() => {
     refreshTasks();
-  }, [refreshTasks]);
+  }, []);
 
   const handleAddTaskClick = () => {
     setIsTaskModalOpen(true);
@@ -61,7 +99,7 @@ const TaskBoard = () => {
           projectId={projectId}
           onClose={() => setIsEditComponentOpen(false)}
           fetchTasks={refreshTasks}
-          TaskID={editingProject ? editingProject.id : null}
+          TaskID={editingProject}
         />
       )}
       {/* Back to Projects Button */}

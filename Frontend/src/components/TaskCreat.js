@@ -1,32 +1,54 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 
 import * as taskService from "../services/TaskService";
+import * as userService from "../services/userService";
 
 const TaskCreat = ({ isOpen, onClose, projectId, fetchTasks }) => {
-  const [Tasks, setTasks] = useState({ title: "", description: "", status: "", dueDate: "", projectId: projectId });
-
+  const [task, setTask] = useState({
+    title: "",
+    description: "",
+    status: "Pending",
+    dueDate: "",
+    projectId: projectId,
+    createdBy: JSON.parse(localStorage.getItem("user")), // Assuming the user's ID is stored in localStorage
+    assignedTo: []
+  });
+  const [developers, setDevelopers] = useState([]);
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setTasks((prev) => ({ ...prev, [name]: value }));
+    setTask((prev) => ({ ...prev, [name]: value }));
   };
+
+  useEffect(() => {
+    const fetchDevelopers = async () => {
+      const devs = await userService.getDevelopers(); // Implement this in userService
+      setDevelopers(devs);
+    };
+    fetchDevelopers();
+  }, []);
+
+  const handleDeveloperSelection = (devId) => {
+    setTask(prev => ({
+      ...prev,
+      assignedTo: prev.assignedTo.includes(devId)
+          ? prev.assignedTo.filter(id => id !== devId)
+          : [...prev.assignedTo, devId]
+    }));
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await taskService.createTask(Tasks);
+      await taskService.createTask(task);
       fetchTasks();
       onClose();
     } catch (error) {
-      if (error.response) {
-        console.error("Error data:", error.response.data);
-        console.error("Error status:", error.response.status);
-      } else if (error.request) {
-        console.error("Error request:", error.request);
-      } else {
-        console.error("Error message:", error.message);
-      }
+      // Handle the error properly
+      console.error("Error creating task:", error);
     }
   };
 
+  if (!isOpen) return null;
   return (
     <div className="modal-overlay">
       <div className="modal-body">
@@ -35,21 +57,21 @@ const TaskCreat = ({ isOpen, onClose, projectId, fetchTasks }) => {
           <div>
             <label htmlFor="title">Title</label>
             <input
-              id="title"
-              name="title"
-              type="text"
-              placeholder="Enter a name for your Task"
-              onChange={handleChange}
-              required
+                id="title"
+                name="title"
+                type="text"
+                placeholder="Enter a name for your Task"
+                onChange={handleChange}
+                required
             />
           </div>
           <div>
             <label htmlFor="description">Description</label>
             <textarea
-              id="description"
-              name="description"
-              placeholder="Enter a Task description"
-              onChange={handleChange}
+                id="description"
+                name="description"
+                placeholder="Enter a Task description"
+                onChange={handleChange}
             />
           </div>
           <div>
@@ -62,7 +84,20 @@ const TaskCreat = ({ isOpen, onClose, projectId, fetchTasks }) => {
           </div>
           <div>
             <label htmlFor="dueDate">Due Date</label>
-            <input id="dueDate" name="dueDate" type="date" onChange={handleChange} />
+            <input id="dueDate" name="dueDate" type="date" onChange={handleChange}/>
+          </div>
+          <div className="form-group">
+            <label>Assign Developers</label>
+            {developers.map((dev) => (
+                <label key={dev._id}>
+                  <input
+                      type="checkbox"
+                      onChange={() => handleDeveloperSelection(dev._id)}
+                      checked={task.assignedTo.includes(dev._id)}
+                  />
+                  {dev.Fname + ' ' + dev.Lname} {/* Adjust depending on your developer object structure */}
+                </label>
+            ))}
           </div>
           <button type="submit">Save Task</button>
           <button type="button" onClick={onClose}>

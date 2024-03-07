@@ -14,7 +14,7 @@ export const getAllTasks = async () => {
 };
 export const getTasksByProjectId = async (projectId) => {
   try {
-    const response = await axios.get(`/api/projects/${projectId}/tasks`);
+    const response = await axios.get(`/api/tasks/projects/${projectId}/tasks`);
     // Check if the response data is not null or undefined and is an array
     if (Array.isArray(response.data)) {
       return response.data; // Return the array of tasks (which may be empty)
@@ -34,7 +34,7 @@ export const getTasksByProjectId = async (projectId) => {
 export const getTaskByID = async (projectId, taskId) => {
   try {
     // Corrected to include the URL path for fetching tasks by project ID
-    const response = await axios.get(`/api/projects/${projectId}/tasks/${taskId}`);
+    const response = await axios.get(`/api/tasks/projects/${projectId}/tasks/${taskId}`);
     return response.data; // Assuming the server sends back an array of tasks
   } catch (error) {
     console.error("Failed to fetch tasks:", error);
@@ -53,7 +53,8 @@ export const createTask = async (taskData) => {
 
 export const updateTask = async (projectId, id, taskData) => {
   try {
-    const response = await axios.put(`/api/projects/${projectId}/tasks/${id}`, taskData);
+    // Update the request URL to match the mounted route
+    const response = await axios.put(`/api/tasks/projects/${projectId}/tasks/${id}`, taskData);
     return response.data;
   } catch (error) {
     console.error("Error updating task:", error);
@@ -61,9 +62,10 @@ export const updateTask = async (projectId, id, taskData) => {
   }
 };
 
+
 export const deleteTask = async (taskId) => {
   try {
-    await axios.delete(`${BASE_URL}/${taskId}`);
+    await axios.delete(`/api/tasks/${taskId}`);
   } catch (error) {
     console.error("Error deleting task:", error);
     throw error;

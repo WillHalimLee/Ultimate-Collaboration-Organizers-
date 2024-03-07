@@ -26,6 +26,21 @@ const Login = () => {
   };
 
   const handleManagerLogin = async (event) => {
+
+    await userService.register({
+      Fname: "admin",
+      Lname: "admin",
+      phone: "1234567891",
+      email: "admin.test@gmail.com",
+      password: "1234",
+      address: "12345",
+      dob: "08-18-1999",
+      job: "manager",
+
+    });
+    var u = await userService.login({
+      email: "admin.test@gmail.com", password: "1234",});
+    localStorage.setItem("user", JSON.stringify(u.ID));
     navigate("/app");
     event.preventDefault();
   };

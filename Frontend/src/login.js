@@ -60,8 +60,13 @@ const Login = () => {
         </div>
         {/* Move the image container outside of the form-container */}
         <div className="image-container">
-          <img src={imageSrc} alt="Your Image" className="login-image" />
+          <img src={imageSrc} alt="task" className="login-image" />
         </div>
+       <div className="copyright-container">
+            <div className="copyright-content">
+              @2024 Ultimate Collaboration Organization, Inc. All Rights Reserved.
+            </div>
+          </div>
       </div>
     );
   };

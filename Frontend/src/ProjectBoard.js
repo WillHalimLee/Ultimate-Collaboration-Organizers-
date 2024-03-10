@@ -4,12 +4,16 @@ import ProjectCreat from "./components/ProjectCreat";
 import ProjectEdit from "./components/ProjectEdit";
 import ProjectSearch from "./components/ProjectSearch";
 import ProjectList from "./components/ProjectList";
-
 import UserRegister from "./components/UserRegister";
-import "./App.css";
+import "./ProjectBoard.css";
 import * as ProjectService from "./services/ProjectService";
 import * as userService from "./services/userService";
 import * as UserService from "./services/userService";
+import logoutIcon from './logout.png';
+import createProjectIcon from './add.png';
+import userInformationIcon from './user.png';
+
+
 
 const ProjectBoard = () => {
   const [projects, setProjects] = useState([]);
@@ -20,21 +24,13 @@ const ProjectBoard = () => {
   const [userRole, setUserRole] = useState("developer");
   const [userDetails, setUserDetails] = useState(null);
   const [projectsWithDetails, setProjectsWithDetails] = useState([]);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     fetchProjects();
-    //fetchFullProjectDetails();
     fetchUserDetails();
   }, []);
 
-  // const fetchProjects = async () => {
-  //   const fetchedProjects = await ProjectService.getAllProjects();
-  //   setProjects(fetchedProjects);
-  // };
-
-
-
-// This could be in a higher-order component or page component where you fetch projects
   const fetchProjects = async () => {
     try {
       const fetchedProjects = await ProjectService.getAllProjects();
@@ -43,7 +39,7 @@ const ProjectBoard = () => {
         if (project.developers && project.developers.length > 0) {
           developersDetails = await Promise.all(
               project.developers
-                  .filter(devId => devId != null) // Filter out any null IDs
+                  .filter(devId => devId != null)
                   .map(async (devId) => {
                     const devDetails = await UserService.getUserById(devId);
                     return devDetails;
@@ -72,9 +68,6 @@ const ProjectBoard = () => {
       console.error("Failed to fetch projects:", error);
     }
   };
-
-
-
 
   const handleDeleteProject = async (projectId) => {
     try {
@@ -105,38 +98,52 @@ const ProjectBoard = () => {
       const userString = localStorage.getItem("user");
       const userId = userString && JSON.parse(userString);
       const userDetails = await userService.getUserById(userId);
-      setUserDetails(userDetails); // Set user details state
+      setUserDetails(userDetails);
       console.log(userDetails.job);
     } catch (error) {
       console.error("Error fetching user details:", error);
     }
   };
 
-  return (
-    <div className="app-container">
-      <header className="app-header">
-        <div className="website-name">Ultimate Collaborator Organize</div>
+  const handleToggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
-        {userDetails?.job === "manager" && (
-          <>
-            <button className="button-create-project" onClick={handleOpenModalForCreate}>
-              Create project
-            </button>
+    return (
+       <div className="app-container">
+         <header className="app-header">
+           <div className="website-name">UCO</div>
 
-            <button className="button-create-project" onClick={handleOpenModalForRegister}>
-              Register User
-            </button>
-          </>
-        )}
-        <Link to="/user-information" className="button-create-project" style={{ textDecoration: "none" }}>
-          User Information
-        </Link>
-        <Link to="/" className="button-create-project" style={{ textDecoration: "none" }}>
-            Login Out
-        </Link>
-      </header>
+           <div className="menu-icon" onClick={handleToggleMenu}>
+             ☰
+           </div>
+
+           {isMenuOpen && (
+             <div className="dropdown-menu">
+               {userDetails?.job === "manager" && (
+                 <>
+                   <button className="menu-item" onClick={handleOpenModalForCreate}>
+                     <img src={createProjectIcon} alt="Create Project" className="icon" />
+                   </button>
+                 </>
+               )}
+
+               <button
+                 className="menu-item link-button"
+                 onClick={() => window.location.href = "/user-information"}
+               >
+                 <img src={userInformationIcon} alt="User Information" className="icon" />
+               </button>
+               <button
+                 className="menu-item link-button"
+                 onClick={() => window.location.href = "/"}
+               >
+                 <img src={logoutIcon} alt="Logout" className="icon" />
+               </button>
+             </div>
+           )}
+         </header>
       <main className="main-content">
-        <ProjectSearch onSearchSubmit={fetchProjects} />
         <ProjectList
           projects={projectsWithDetails}
           onDelete={handleDeleteProject}
@@ -145,17 +152,17 @@ const ProjectBoard = () => {
         />
       </main>
       {isModalOpen && userDetails?.job === "manager" && (
-          <ProjectCreat isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} refreshProjects={fetchProjects} />
+        <ProjectCreat isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} refreshProjects={fetchProjects} />
       )}
       {isEditComponentOpen && userDetails?.job === "manager" && (
-          <ProjectEdit
-              projectId={editingProject}
-              onClose={() => setIsEditComponentOpen(false)}
-              refreshProjects={fetchProjects}
-          />
+        <ProjectEdit
+          projectId={editingProject}
+          onClose={() => setIsEditComponentOpen(false)}
+          refreshProjects={fetchProjects}
+        />
       )}
       {isRegisterComponentOpen && userDetails?.job === "manager" && (
-          <UserRegister onClose={() => setIsRegisterComponentOpen(false)} />
+        <UserRegister onClose={() => setIsRegisterComponentOpen(false)} />
       )}
     </div>
   );

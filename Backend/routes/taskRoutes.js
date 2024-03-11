@@ -1,6 +1,7 @@
 const express = require("express");
 const Task = require("../models/Task");
-const {sendEmergencyEmail} = require("../services/emailService"); // Adjust the path if necessary
+const {sendEmergencyEmail} = require("../services/emailService");
+const {Types} = require("mongoose"); // Adjust the path if necessary
 const router = express.Router();
 
 // Create a new task
@@ -34,6 +35,27 @@ router.get("/projects/:projectId/tasks", async (req, res) => {
   }
 });
 
+
+router.get("/projects/:projectId/tasks/report", async (req, res) => {
+  const { projectId } = req.params;
+
+  // Check if projectId is a valid ObjectId
+
+  try {
+    const tasksReport = await Task.aggregate([
+      { $match: { projectId: new Types.ObjectId(projectId) } },
+      { $group: { _id: "$status", count: { $sum: 1 } } }
+    ]);
+
+    res.json(tasksReport);
+  } catch (error) {
+    console.error('Error generating tasks report:', error);
+    res.status(500).send('An error occurred while generating the tasks report.');
+  }
+});
+
+
+
 // Endpoint to fetch tasks by project ID and status using URL parameters
 router.get('/projects/:projectId/tasks/:status', async (req, res) => {
   const { projectId, status } = req.params;
@@ -56,7 +78,9 @@ router.get('/projects/:projectId/tasks/:status', async (req, res) => {
   }
 });
 
-module.exports = router;
+// Add this endpoint in your tasks router file
+
+
 
 
 

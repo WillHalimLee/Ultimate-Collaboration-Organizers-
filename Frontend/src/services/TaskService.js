@@ -50,6 +50,19 @@ export const getTasksByProjectIdAndStatus = async (projectId, status) => {
   }
 };
 
+// Add this function in your task service file (assuming it's located in ./services/TaskService.js)
+
+export const getTasksReportByProjectId = async (projectId) => {
+  try {
+    const response = await axios.get(`/api/tasks/projects/${projectId}/tasks/report`);
+    return response.data;
+  } catch (error) {
+    console.error('Failed to fetch tasks report:', error);
+    throw error;
+  }
+};
+
+
 
 export const getTaskByID = async (projectId, taskId) => {
   try {

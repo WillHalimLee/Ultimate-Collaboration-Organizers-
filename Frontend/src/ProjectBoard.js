@@ -9,9 +9,11 @@ import "./ProjectBoard.css";
 import * as ProjectService from "./services/ProjectService";
 import * as userService from "./services/userService";
 import * as UserService from "./services/userService";
+import * as TaskService from "./services/TaskService";
 import logoutIcon from './logout.png';
 import createProjectIcon from './add.png';
 import userInformationIcon from './user.png';
+import {getTasksReportByProjectId} from "./services/TaskService";
 
 
 
@@ -25,6 +27,8 @@ const ProjectBoard = () => {
   const [userDetails, setUserDetails] = useState(null);
   const [projectsWithDetails, setProjectsWithDetails] = useState([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [tasksReport, setTasksReport] = useState({});
+
 
   useEffect(() => {
     fetchProjects();
@@ -56,10 +60,19 @@ const ProjectBoard = () => {
           }
         }
 
+        // Fetch the task report for the project
+        let taskStatusCounts = [];
+        try {
+          taskStatusCounts = await TaskService.getTasksReportByProjectId(project._id);
+        } catch (taskReportError) {
+          console.error(`Failed to fetch task report for project ${project._id}: ${taskReportError}`);
+        }
+
         return {
           ...project,
           developersDetails,
           managerDetails,
+          taskStatusCounts // Include the task report data in the project's data
         };
       }));
 

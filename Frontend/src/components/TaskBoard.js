@@ -13,6 +13,8 @@ const TaskBoard = () => {
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
   const [isEditComponentOpen, setIsEditComponentOpen] = useState(false);
   const [editingProject, setEditingProject] = useState(null);
+  const [tasksReport, setTasksReport] = useState({});
+
 
   const refreshTasks = async () => {
     try {
@@ -26,6 +28,20 @@ const TaskBoard = () => {
   };
 
   useEffect(() => {
+    const fetchTasksReport = async () => {
+      try {
+        const report = await TaskService.getTasksReportByProjectId(projectId);
+        const reportObject = report.reduce((acc, current) => {
+          acc[current._id] = current.count;
+          return acc;
+        }, {});
+        setTasksReport(reportObject);
+      } catch (error) {
+        console.error('Failed to fetch tasks report:', error);
+      }
+    };
+
+    fetchTasksReport();
     refreshTasks();
   }, [projectId]);
 
@@ -62,6 +78,13 @@ const TaskBoard = () => {
               </div>
           ))}
         </div>
+        <div className="tasks-report">
+          <h4>Tasks Report</h4>
+          <p>Pending: {tasksReport.Pending || 0}</p>
+          <p>In Progress: {tasksReport.InProgress || 0}</p>
+          <p>Completed: {tasksReport.Completed || 0}</p>
+          <p>Emergency: {tasksReport.Emergency || 0}</p>
+        </div>
 
         {isTaskModalOpen && (
             <TaskCreat
@@ -80,8 +103,8 @@ const TaskBoard = () => {
             />
         )}
 
-        <div style={{ marginTop: "20px" }}>
-          <Link to="/app" className="button-create-project" style={{ textDecoration: "none" }}>
+        <div style={{marginTop: "20px"}}>
+          <Link to="/app" className="button-create-project" style={{textDecoration: "none"}}>
             Back to Projects
           </Link>
         </div>

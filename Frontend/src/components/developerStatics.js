@@ -39,7 +39,7 @@ const DevelopersStatsPage = () => {
             ) : (
                 <p>No developers found.</p>
             )}
-            <Link to="/dashboard" className="back-to-dashboard" style={{ textDecoration: "none" }}> {/* Update this link to match your routes */}
+            <Link to="/app" className="back-to-dashboard" style={{ textDecoration: "none" }}> {/* Update this link to match your routes */}
                 Back to Dashboard
             </Link>
         </div>

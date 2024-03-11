@@ -2,7 +2,7 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
-const {find} = require("../models/Task"); // Assuming this is a Mongoose model
+const Task = require("../models/Task"); // Assuming this is a Mongoose model
 const router = express.Router();
 const SECRET_KEY = "your_secret_key";
 
@@ -91,24 +91,37 @@ router.get('/developers/:developerId/stats', async (req, res) => {
       return res.status(404).send('Developer not found.');
     }
 
-    // Fetch tasks assigned to the developer
-    const tasksAssigned = await find({ assignedTo: developerId });
-    const tasksCompleted = tasksAssigned.filter(task => task.status === 'Completed').length;
-    const totalTasks = tasksAssigned.length;
+    // Fetch tasks assigned to the developer and group by status
+    const tasksGroupedByStatus = await Task.aggregate([
+      { $match: { assignedTo: developer._id } }, // Make sure to match by ObjectId
+      { $group: { _id: "$status", count: { $sum: 1 } } }
+    ]);
 
-    // Calculate statistics (for simplicity, only total tasks and completed tasks are calculated)
-    const stats = {
-      totalTasks,
-      tasksCompleted,
-      completionRate: totalTasks > 0 ? (tasksCompleted / totalTasks * 100).toFixed(2) + '%' : 'N/A',
+    // Initialize an object to hold the count for each status
+    const statusCounts = {
+      pending: 0,
+      inProgress: 0,
+      emergency: 0,
+      done: 0,
     };
 
-    res.json({ developer: developerId, stats });
+    // Iterate over the aggregation results and populate the statusCounts object
+    tasksGroupedByStatus.forEach((statusGroup) => {
+      // The key for the statusCounts object should match your Task model's status values
+      const statusKey = statusGroup._id.toLowerCase().replace(/\s+/g, '');
+      if (statusCounts.hasOwnProperty(statusKey)) {
+        statusCounts[statusKey] = statusGroup.count;
+      }
+    });
+
+    // Send the statusCounts object as a response
+    res.json({ developer: developerId, stats: statusCounts });
   } catch (error) {
     console.error('Error fetching developer stats:', error);
     res.status(500).send('An error occurred while fetching developer statistics.');
   }
 });
+
 
 
 router.get('/:id', async (req, res) => {

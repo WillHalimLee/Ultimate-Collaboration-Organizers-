@@ -13,19 +13,25 @@ const Login = () => {
     const { name, value } = e.target;
     setUser((prev) => ({ ...prev, [name]: value }));
   };
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    try {
-       var u = await userService.login(user);
 
-      console.log(u);
-      console.log("User logged in:", await userService.getUserById(u.ID));
-      localStorage.setItem("user", JSON.stringify(u.ID));
-      navigate("/app");
-    } catch (err) {
-      setError("Login failed. Please try again later.");
-    }
-  };
+ const handleSubmit = async (event) => {
+   event.preventDefault();
+   try {
+     setError(""); // Clear the error message
+     var u = await userService.login(user);
+
+     console.log(u);
+     console.log("User logged in:", await userService.getUserById(u.ID));
+     localStorage.setItem("user", JSON.stringify(u.ID));
+     navigate("/app");
+   } catch (err) {
+     setError("Login failed. Please try again later.");
+     // Set a timeout to clear the error message after 2 seconds
+     setTimeout(() => {
+       setError("");
+     }, 2000);
+   }
+ };
 
   const handleManagerLogin = async (event) => {
     event.preventDefault(); // Prevent the default form submission
@@ -40,7 +46,7 @@ const Login = () => {
 
     return (
       <div className="login-container">
-        <div className="form-container">
+        <div className="form-container-login">
           <h1 className="login-title">UCO</h1>
           <h2 className="login-subtitle">Sign In.</h2>
           <form onSubmit={handleSubmit} className="login-form">
@@ -50,9 +56,9 @@ const Login = () => {
             <div className="form-group">
               <input type="password" name="password" placeholder="Password*" onChange={handleChange} required />
             </div>
-            <button type="submit" className="login-button">
-              Login
-            </button>
+         <button type="submit" className="login-button">
+           Login
+         </button>
             {error && <p className="error-message">{error}</p>}
             <h3 className="create-title">Don't Have An Account?</h3>
             <button onClick={() => { window.location.href = "/user-register"; }}
@@ -60,7 +66,6 @@ const Login = () => {
             </button>
           </form>
         </div>
-        {/* Move the image container outside of the form-container */}
         <div className="image-container">
           <img src={imageSrc} alt="task" className="login-image" />
         </div>

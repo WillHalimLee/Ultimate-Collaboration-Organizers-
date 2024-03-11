@@ -4,7 +4,6 @@ import ProjectCreat from "./components/ProjectCreat";
 import ProjectEdit from "./components/ProjectEdit";
 import ProjectSearch from "./components/ProjectSearch";
 import ProjectList from "./components/ProjectList";
-
 import "./ProjectBoard.css";
 import * as ProjectService from "./services/ProjectService";
 import * as userService from "./services/userService";
@@ -155,7 +154,6 @@ const ProjectBoard = () => {
                         </button>
                       </>
                   )}
-
                   <button
                       className="menu-item link-button"
                       onClick={() => window.location.href = "/user-information"}
@@ -168,13 +166,6 @@ const ProjectBoard = () => {
                   >
                     <img src={logoutIcon} alt="Logout" className="icon"/>
                   </button>
-                  <button
-                      className="menu-item link-button"
-                      onClick={() => window.location.href = "/user-register"}
-                  >
-                    <img src={userInformationIcon} alt="User Register" className="icon"/>
-                  </button>
-
                 </div>
             )}
           </header>

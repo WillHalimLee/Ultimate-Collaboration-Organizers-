@@ -64,39 +64,37 @@ const ProjectCreate = ({ isOpen, onClose, refreshProjects }) => {
         });
     };
 
-    return (
-        <div className="modal-overlay">
-            <div className="modal-body">
+  return (
+        <div>
+            <div>
                 <h2>Create a New Project</h2>
-                <form onSubmit={handleSubmit} className="modal-form">
-                    <div className="form-group">
+                <form onSubmit={handleSubmit}>
+                    <div>
                         <label htmlFor="projectName">Project Name</label>
                         <input
                             id="projectName"
                             name="title"
                             type="text"
-
                             onChange={handleChange}
                             placeholder="Enter a name for your project"
                             required
                         />
                     </div>
-                    <div className="form-group">
+                    <div>
                         <label htmlFor="projectDescription">Description</label>
                         <textarea
                             id="projectDescription"
                             name="description"
-
                             onChange={handleChange}
                             placeholder="Enter a project description"
                             required
                         />
                     </div>
-                    <div className="form-group">
+                    <div>
                         <label>Developers</label>
-                        <div className="developer-list">
+                        <div>
                             {developers.map(dev => (
-                                <label key={dev._id} className="developer-checkbox">
+                                <label key={dev._id}>
                                     <input
                                         type="checkbox"
                                         checked={project.developers.includes(dev._id)}
@@ -107,9 +105,9 @@ const ProjectCreate = ({ isOpen, onClose, refreshProjects }) => {
                             ))}
                         </div>
                     </div>
-                    <div className="form-actions">
-                        <button type="button" className="button-cancel" onClick={onClose}>Cancel</button>
-                        <button type="submit" className="button-save">Create</button>
+                    <div>
+                        <button type="button" onClick={onClose}>Cancel</button>
+                        <button type="submit">Create</button>
                     </div>
                 </form>
             </div>

@@ -34,6 +34,32 @@ router.get("/projects/:projectId/tasks", async (req, res) => {
   }
 });
 
+// Endpoint to fetch tasks by project ID and status using URL parameters
+router.get('/projects/:projectId/tasks/:status', async (req, res) => {
+  const { projectId, status } = req.params;
+
+  try {
+    const tasks = await Task.find({
+      projectId: projectId,
+      status: status,
+    });
+
+    // Check if 'tasks' is an array and has elements
+    if (Array.isArray(tasks) && tasks.length > 0) {
+      res.json(tasks);
+    } else {
+      res.status(404).send('No tasks found matching the criteria.');
+    }
+  } catch (error) {
+    console.error('Error fetching tasks:', error);
+    res.status(500).send('An error occurred while fetching tasks.');
+  }
+});
+
+module.exports = router;
+
+
+
 
 // Get a specific task by ID for a project
 router.get("/projects/:projectId/tasks/:id", async (req, res) => {

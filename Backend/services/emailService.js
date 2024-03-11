@@ -14,34 +14,6 @@ const transporter = nodemailer.createTransport({
     },
 });
 
-async function sendEmergencyEmailToDevelopers(task, developerIds) {
-    // Fetch developer details
-    const developers = await User.find({
-        '_id': { $in: developerIds }
-    });
-
-    // Extract emails
-    const emails = developers.map(dev => dev.email);
-
-    // Create and send a personalized email for each developer
-    emails.forEach(email => {
-        const mailOptions = {
-            from: 'tcssgroup574@gmail.com', // Sender address
-            to: email, // List of receivers
-            subject: 'Emergency Task Update', // Subject line
-            text: `The task "${task.title}" (${task.description}) has been set to Emergency. Please check it immediately.`, // Plain text body
-            html: `<strong>The task "${task.title}" (${task.description}) has been set to Emergency. Please check it immediately.</strong>`, // HTML body
-        };
-
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                return console.log('Error sending email:', error);
-            }
-            console.log('Email sent: %s', info.messageId);
-        });
-    });
-}
-
 async function sendEmergencyEmail(task) {
     try {
         const developers = await User.find({ job: "developer" }).exec(); // Assuming "developer" is a job designation in your User model
@@ -63,6 +35,5 @@ async function sendEmergencyEmail(task) {
 }
 
 module.exports = {
-    sendEmergencyEmailToDevelopers,
     sendEmergencyEmail
 };

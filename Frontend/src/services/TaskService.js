@@ -31,6 +31,26 @@ export const getTasksByProjectId = async (projectId) => {
   }
 };
 
+
+export const getTasksByProjectIdAndStatus = async (projectId, status) => {
+  try {
+    const response = await axios.get(`/api/projects/${projectId}/tasks/${status}`);
+    // Check if the response data is not null or undefined and is an array
+    if (Array.isArray(response.data)) {
+      return response.data; // Return the array of tasks (which may be filtered by status)
+    } else {
+      console.error("Unexpected response format:", response.data);
+      return []; // Return an empty array as a fallback
+    }
+  } catch (error) {
+    console.error(`Failed to fetch tasks with status ${status}:`, error);
+    // You could handle HTTP errors differently here if needed
+    // For simplicity, return an empty array to indicate no tasks or an error occurred
+    return [];
+  }
+};
+
+
 export const getTaskByID = async (projectId, taskId) => {
   try {
     // Corrected to include the URL path for fetching tasks by project ID

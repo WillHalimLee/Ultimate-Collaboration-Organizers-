@@ -76,7 +76,19 @@ const ProjectBoard = () => {
         };
       }));
 
-      setProjectsWithDetails(projectsWithDetails);
+      const groupedProjects = projectsWithDetails.reduce((acc, project) => {
+        const createdBy = project.createdBy || 'unknown';
+        // Use 'unknown' as a fallback
+        if (!acc[createdBy]) {
+          acc[createdBy] = [];
+        }
+        acc[createdBy].push(project);
+        return acc;
+      }, {});
+
+      setProjectsWithDetails(groupedProjects); // Store the grouped projects
+      console.log("groupedProjects", groupedProjects);
+
     } catch (error) {
       console.error("Failed to fetch projects:", error);
     }
@@ -123,65 +135,84 @@ const ProjectBoard = () => {
   };
 
     return (
-       <div className="app-container">
-         <header className="app-header">
-           <div className="website-name">UCO</div>
+        <div className="app-container">
+          <header className="app-header">
+            <div className="website-name">UCO</div>
 
-           <div className="menu-icon" onClick={handleToggleMenu}>
-             ☰
-           </div>
+            <div className="menu-icon" onClick={handleToggleMenu}>
+              ☰
+            </div>
 
-           {isMenuOpen && (
-             <div className="dropdown-menu">
-               {userDetails?.job === "manager" && (
-                 <>
-                   <button className="menu-item" onClick={handleOpenModalForCreate}>
-                     <img src={createProjectIcon} alt="Create Project" className="icon" />
-                   </button>
-                 </>
-               )}
+            {isMenuOpen && (
+                <div className="dropdown-menu">
+                  {userDetails?.job === "manager" && (
+                      <>
+                        <button className="menu-item" onClick={handleOpenModalForCreate}>
+                          <img src={createProjectIcon} alt="Create Project" className="icon"/>
+                        </button>
+                      </>
+                  )}
 
-               <button
-                 className="menu-item link-button"
-                 onClick={() => window.location.href = "/user-information"}
-               >
-                 <img src={userInformationIcon} alt="User Information" className="icon" />
-               </button>
-               <button
-                 className="menu-item link-button"
-                 onClick={() => window.location.href = "/"}
-               >
-                 <img src={logoutIcon} alt="Logout" className="icon" />
-               </button>
-               <button
-                 className="menu-item link-button"
-                 onClick={() => window.location.href = "/user-register"}
-               >
-                 <img src={userInformationIcon} alt="User Register" className="icon" />
-               </button>
-             </div>
-           )}
-         </header>
-      <main className="main-content">
-        <ProjectList
-          projects={projectsWithDetails}
-          onDelete={handleDeleteProject}
-          onEdit={handleOpenEditComponent}
-          userRole={userDetails?.job}
-        />
-      </main>
-      {isModalOpen && userDetails?.job === "manager" && (
-        <ProjectCreat isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} refreshProjects={fetchProjects} />
-      )}
-      {isEditComponentOpen && userDetails?.job === "manager" && (
-        <ProjectEdit
-          projectId={editingProject}
-          onClose={() => setIsEditComponentOpen(false)}
-          refreshProjects={fetchProjects}
-        />
-      )}
-    </div>
-  );
+                  <button
+                      className="menu-item link-button"
+                      onClick={() => window.location.href = "/user-information"}
+                  >
+                    <img src={userInformationIcon} alt="User Information" className="icon"/>
+                  </button>
+                  <button
+                      className="menu-item link-button"
+                      onClick={() => window.location.href = "/"}
+                  >
+                    <img src={logoutIcon} alt="Logout" className="icon"/>
+                  </button>
+                  <button
+                      className="menu-item link-button"
+                      onClick={() => window.location.href = "/user-register"}
+                  >
+                    <img src={userInformationIcon} alt="User Register" className="icon"/>
+                  </button>
+                </div>
+            )}
+          </header>
+          <main className="main-content">
+            {Object.entries(projectsWithDetails).map(([managerId, managerProjects]) => {
+              // Assuming managerProjects is an array and the first project has a populated managerDetails
+              const managerName = managerProjects.length > 0 && managerProjects[0].managerDetails
+                  ? `${managerProjects[0].managerDetails.Fname} ${managerProjects[0].managerDetails.Lname}`
+                  : 'Unknown Manager';
+
+              return (
+                  <div key={managerId} className="manager-column">
+                    <h2>Projects Created By: {managerName}</h2>
+                    <ProjectList
+                        projects={managerProjects} // Pass the array of projects for this manager
+                        onDelete={handleDeleteProject}
+                        onEdit={handleOpenEditComponent}
+                        userRole={userDetails?.job}
+                    />
+                  </div>
+              );
+            })}
+          </main>
+
+
+          {
+              isModalOpen && userDetails?.job === "manager" && (
+                  <ProjectCreat isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} refreshProjects={fetchProjects}/>
+              )
+          }
+          {
+              isEditComponentOpen && userDetails?.job === "manager" && (
+                  <ProjectEdit
+                      projectId={editingProject}
+                      onClose={() => setIsEditComponentOpen(false)}
+                      refreshProjects={fetchProjects}
+                  />
+              )
+          }
+        </div>
+    )
+        ;
 };
 
 export default ProjectBoard;

@@ -6,11 +6,18 @@ import deleteIcon from "./delete.png";
 import editIcon from "./edit.png";
 
 class ProjectList extends React.Component {
+
+
   // Method to render task status counts
   renderTaskStatusCounts(taskStatusCounts) {
+    if (!Array.isArray(this.props.projects)) {
+      console.error("Expected projects to be an array, received:", this.props.projects);
+      return null; // Or return some fallback UI
+    }
     if (!taskStatusCounts || taskStatusCounts.length === 0) {
       return <p>No task status data available</p>;
     }
+
 
     return taskStatusCounts.map((statusCount) => (
         <p key={statusCount._id}>{`${statusCount._id}: ${statusCount.count}`}</p>

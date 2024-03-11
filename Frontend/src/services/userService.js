@@ -70,3 +70,16 @@ export const getDevelopers = async () => {
         throw error;
     }
 };
+
+
+// New function to fetch statistics for a specific developer by ID
+export const getDeveloperStats = async (developerId) => {
+    try {
+        const response = await axios.get(`/api/users/developers/${developerId}/stats`);
+        console.log(`Statistics for developer ${developerId}:`, response.data);
+        return response.data; // This should return the statistics object for the specified developer
+    } catch (error) {
+        console.error(`Error getting statistics for developer ${developerId}:`, error);
+        throw error;
+    }
+};

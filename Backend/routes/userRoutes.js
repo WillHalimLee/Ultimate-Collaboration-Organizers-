@@ -1,7 +1,8 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const User = require("../models/User"); // Assuming this is a Mongoose model
+const User = require("../models/User");
+const {find} = require("../models/Task"); // Assuming this is a Mongoose model
 const router = express.Router();
 const SECRET_KEY = "your_secret_key";
 
@@ -80,6 +81,35 @@ router.get('/developers', async (req, res) => {
     res.status(500).send('opaasd');
   }
 });
+router.get('/developers/:developerId/stats', async (req, res) => {
+  const { developerId } = req.params;
+
+  try {
+    // Validate that the user is a developer
+    const developer = await User.findOne({ _id: developerId, job: "developer" });
+    if (!developer) {
+      return res.status(404).send('Developer not found.');
+    }
+
+    // Fetch tasks assigned to the developer
+    const tasksAssigned = await find({ assignedTo: developerId });
+    const tasksCompleted = tasksAssigned.filter(task => task.status === 'Completed').length;
+    const totalTasks = tasksAssigned.length;
+
+    // Calculate statistics (for simplicity, only total tasks and completed tasks are calculated)
+    const stats = {
+      totalTasks,
+      tasksCompleted,
+      completionRate: totalTasks > 0 ? (tasksCompleted / totalTasks * 100).toFixed(2) + '%' : 'N/A',
+    };
+
+    res.json({ developer: developerId, stats });
+  } catch (error) {
+    console.error('Error fetching developer stats:', error);
+    res.status(500).send('An error occurred while fetching developer statistics.');
+  }
+});
+
 
 router.get('/:id', async (req, res) => {
   try {

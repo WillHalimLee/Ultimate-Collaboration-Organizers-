@@ -150,6 +150,9 @@ const ProjectBoard = () => {
                         <button className="menu-item" onClick={handleOpenModalForCreate}>
                           <img src={createProjectIcon} alt="Create Project" className="icon"/>
                         </button>
+                        <button className="menu-item" onClick={() => window.location.href = "/developers-stats"}>
+                          <p> developer stats</p>
+                        </button>
                       </>
                   )}
 
@@ -171,6 +174,7 @@ const ProjectBoard = () => {
                   >
                     <img src={userInformationIcon} alt="User Register" className="icon"/>
                   </button>
+
                 </div>
             )}
           </header>

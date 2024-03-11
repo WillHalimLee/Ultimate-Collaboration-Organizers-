@@ -1,5 +1,6 @@
 const express = require("express");
-const Task = require("../models/Task"); // Adjust the path if necessary
+const Task = require("../models/Task");
+const {sendEmergencyEmail} = require("../services/emailService"); // Adjust the path if necessary
 const router = express.Router();
 
 // Create a new task
@@ -7,6 +8,11 @@ router.post("/", async (req, res) => {
   try {
     const task = new Task(req.body);
     await task.save();
+
+    if (task.status === 'Emergency') {
+      await sendEmergencyEmail(task);
+    }
+
     res.status(201).send(task);
   } catch (error) {
     res.status(500).send({ message: "Error creating task", error: error.message });
@@ -50,6 +56,9 @@ router.put("/projects/:projectId/tasks/:id", async (req, res) => {
     if (!task) {
       res.status(404).send({ message: "Task not found" });
     } else {
+      if (req.body.status === 'Emergency') {
+        await sendEmergencyEmail(task);
+      }
       res.send(task);
     }
   } catch (error) {

@@ -33,10 +33,12 @@ const TaskEdit = ({ isOpen, onClose, projectId, fetchTasks, TaskID }) => {
     const fetchTask = async () => {
       setIsLoading(true);
       try {
-        const response = await TaskService.getTaskByID(projectId,TaskID);
+        console.log("TaskID", TaskID);
+        console.log("projectId", projectId);
+        const response = await TaskService.getTaskByID(projectId, TaskID);
         setTask({
-          ...response,
-          assignedTo: response.assignedTo.map(dev => dev._id) // Assuming assignedTo is an array of objects
+          ...response
+          // assignedTo: Array.isArray(response.assignedTo) ? response.assignedTo.map(dev => dev._id) : [] // Fixes the error
         });
       } catch (error) {
         console.error('Failed to fetch task data.', error);
@@ -44,6 +46,7 @@ const TaskEdit = ({ isOpen, onClose, projectId, fetchTasks, TaskID }) => {
         setIsLoading(false);
       }
     };
+
 
     if (TaskID) {
       fetchTask();

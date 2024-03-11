@@ -4,7 +4,7 @@ import ProjectCreat from "./components/ProjectCreat";
 import ProjectEdit from "./components/ProjectEdit";
 import ProjectSearch from "./components/ProjectSearch";
 import ProjectList from "./components/ProjectList";
-import UserRegister from "./components/UserRegister";
+
 import "./ProjectBoard.css";
 import * as ProjectService from "./services/ProjectService";
 import * as userService from "./services/userService";
@@ -88,10 +88,10 @@ const ProjectBoard = () => {
     setIsEditComponentOpen(true);
   };
 
-  const handleOpenModalForRegister = () => {
-    setEditingProject(null);
-    setIsRegisterComponentOpen(true);
-  };
+  //const handleOpenModalForRegister = () => {
+   //setEditingProject(null);
+   // setIsRegisterComponentOpen(true);
+ // };
 
   const fetchUserDetails = async () => {
     try {
@@ -140,6 +140,12 @@ const ProjectBoard = () => {
                >
                  <img src={logoutIcon} alt="Logout" className="icon" />
                </button>
+               <button
+                 className="menu-item link-button"
+                 onClick={() => window.location.href = "/user-register"}
+               >
+                 <img src={userInformationIcon} alt="User Register" className="icon" />
+               </button>
              </div>
            )}
          </header>
@@ -160,9 +166,6 @@ const ProjectBoard = () => {
           onClose={() => setIsEditComponentOpen(false)}
           refreshProjects={fetchProjects}
         />
-      )}
-      {isRegisterComponentOpen && userDetails?.job === "manager" && (
-        <UserRegister onClose={() => setIsRegisterComponentOpen(false)} />
       )}
     </div>
   );

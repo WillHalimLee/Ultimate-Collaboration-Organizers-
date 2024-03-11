@@ -1,5 +1,8 @@
 import React, { useState } from "react";
+import "./css/UserRegister.css";
 import * as userService from "../services/userService";
+import { Link } from "react-router-dom";
+import "./css/UserRegister.css";
 
 const Register = ({ onClose }) => {
   const [userDetails, setUserDetails] = useState({

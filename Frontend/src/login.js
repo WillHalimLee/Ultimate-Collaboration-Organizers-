@@ -53,8 +53,8 @@ const Login = () => {
             </button>
             {error && <p className="error-message">{error}</p>}
             <h3 className="create-title">Don't Have An Account?</h3>
-            <button onClick={handleManagerLogin} className="create-button">
-              Create One Now!
+            <button onClick={() => { window.location.href = "/user-register"; }} 
+            className="create-button">Create One Now!
             </button>
           </form>
         </div>

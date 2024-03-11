@@ -34,7 +34,7 @@ export const getTasksByProjectId = async (projectId) => {
 
 export const getTasksByProjectIdAndStatus = async (projectId, status) => {
   try {
-    const response = await axios.get(`/api/projects/${projectId}/tasks/${status}`);
+    const response = await axios.get(`/api/projects/${projectId}/tasks/status/${status}`);
     // Check if the response data is not null or undefined and is an array
     if (Array.isArray(response.data)) {
       return response.data; // Return the array of tasks (which may be filtered by status)

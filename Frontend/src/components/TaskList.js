@@ -41,7 +41,7 @@ const TaskList = ({ tasks, onDelete, onEdit }) => {
                 <button
                     onClick={(e) => {
                       e.preventDefault();
-                      onEdit(task);
+                      onEdit(task._id);
                     }}
                 >
                   Edit

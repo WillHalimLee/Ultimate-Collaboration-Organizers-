@@ -59,6 +59,15 @@ const TaskBoard = () => {
     return tasks.filter((task) => task.status === status);
   };
 
+  async function deleteTask(taskId) {
+    try {
+      await TaskService.deleteTask(taskId);
+      refreshTasks();
+    } catch (error) {
+      console.error("Failed to delete task:", error);
+    }
+  }
+
   return (
       <div className="TaskBoard">
         <h2 className="TaskBoardTitle">Task Board</h2>
@@ -72,7 +81,7 @@ const TaskBoard = () => {
                 <h3>{status}</h3>
                 <TaskList
                     tasks={filterTasksByStatus(status) || []}
-                    onDelete={refreshTasks}
+                    onDelete={deleteTask}
                     onEdit={handleOpenEditComponent}
                 />
               </div>
@@ -98,6 +107,7 @@ const TaskBoard = () => {
             <TaskEdit
                 isOpen={isEditComponentOpen}
                 onClose={() => setIsEditComponentOpen(false)}
+                projectId={projectId}
                 fetchTasks={refreshTasks}
                 TaskID={editingProject}
             />

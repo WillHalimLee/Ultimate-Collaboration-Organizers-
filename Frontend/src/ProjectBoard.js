@@ -140,12 +140,6 @@ const ProjectBoard = () => {
                >
                  <img src={logoutIcon} alt="Logout" className="icon" />
                </button>
-               <button
-                 className="menu-item link-button"
-                 onClick={() => window.location.href = "/user-register"}
-               >
-                 <img src={userInformationIcon} alt="User Register" className="icon" />
-               </button>
              </div>
            )}
          </header>

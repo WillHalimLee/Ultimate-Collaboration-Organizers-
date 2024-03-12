@@ -1,25 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import {useNavigate, useParams} from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import * as TaskService from "../services/TaskService";
 
-
 const CalendarView = () => {
-    const { projectId } = useParams(); // Ensure this matches the route param name
+    const { projectId } = useParams();
     const [tasks, setTasks] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchTasks = async () => {
             try {
-                // Adjust the method name and parameters as per your service's API
                 const fetchedTasks = await TaskService.getTasksByProjectId(projectId);
                 const formattedTasks = fetchedTasks.map(task => ({
                     title: task.title,
                     start: task.createdAt, // Assuming 'createdAt' is available and in a suitable format
                     end: task.dueDate, // Ensure 'dueDate' is in the right format or transform it
-                    // You can add more properties as needed
+                    color: getColorByStatus(task.status), // Set color based on task status
                 }));
                 setTasks(formattedTasks);
             } catch (error) {
@@ -28,25 +26,37 @@ const CalendarView = () => {
         };
 
         fetchTasks();
-    }, [projectId]); // Dependency array to refetch if projectId changes
+    }, [projectId]);
+
+    // Function to determine the color of a task based on its status
+    const getColorByStatus = (status) => {
+        switch (status) {
+            case 'Pending':
+                return '#FFD700'; // Gold
+            case 'InProgress':
+                return '#1E90FF'; // DodgerBlue
+            case 'Completed':
+                return '#32CD32'; // LimeGreen
+            case 'Emergency':
+                return '#FF4500'; // OrangeRed
+            default:
+                return '#D3D3D3'; // LightGray for unknown statuses
+        }
+    };
 
     return (
         <>
-
-        <FullCalendar
-            plugins={[dayGridPlugin]}
-            initialView="dayGridMonth"
-            events={tasks}
-        />
-        <button
-            type="button"
-            onClick={() => {
-                navigate(`/projects/${projectId}/tasks`);
-            }}
-
+            <FullCalendar
+                plugins={[dayGridPlugin]}
+                initialView="dayGridMonth"
+                events={tasks}
+            />
+            <button
+                type="button"
+                onClick={() => navigate(`/projects/${projectId}/tasks`)}
             >
-        <h2>back to tasks</h2>
-        </button>
+                <h2>Back to Tasks</h2>
+            </button>
         </>
     );
 };

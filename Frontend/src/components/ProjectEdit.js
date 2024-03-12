@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
-
 import * as ProjectService from "../services/ProjectService";
 import * as UserService from "../services/userService";
-import "./css/EditProjectComponent.css";
+import "./css/EditProjectComponent.css"; // Ensure the CSS file includes modal styling
+
 const ProjectEdit = ({ projectId, onClose, refreshProjects }) => {
   const [project, setProject] = useState({
     title: "",
     description: "",
     developers: [],
     manager: "",
-    // You may need to include more fields here based on your Project model
   });
   const [allDevelopers, setAllDevelopers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -31,9 +30,8 @@ const ProjectEdit = ({ projectId, onClose, refreshProjects }) => {
       setIsLoading(true);
       try {
         const response = await ProjectService.getProjectByID(projectId);
-        const fetchedDevelopers = response.developers || []; // Ensure it's an array
+        const fetchedDevelopers = response.developers || [];
 
-        // Get the full details of the developers to set the checkboxes
         const developersDetails = await Promise.all(
           fetchedDevelopers.map(async (devId) => {
             const devDetails = await UserService.getUserById(devId);
@@ -41,7 +39,6 @@ const ProjectEdit = ({ projectId, onClose, refreshProjects }) => {
           })
         );
 
-        // Map the details to just retrieve the IDs for the checkbox state
         const developerIds = developersDetails.map((dev) => dev._id);
 
         setProject({
@@ -75,10 +72,6 @@ const ProjectEdit = ({ projectId, onClose, refreshProjects }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (!projectId) {
-      console.error("Project ID is undefined");
-      return;
-    }
     try {
       await ProjectService.updateProject(projectId, project);
       refreshProjects();
@@ -91,8 +84,8 @@ const ProjectEdit = ({ projectId, onClose, refreshProjects }) => {
   if (isLoading) return <p>Loading...</p>;
 
   return (
-    <div>
-      <div>
+    <div className="project-modal open">
+      <div className="modal-content">
         <h2>Edit Project</h2>
         <form onSubmit={handleSubmit}>
           <div>
@@ -108,15 +101,17 @@ const ProjectEdit = ({ projectId, onClose, refreshProjects }) => {
             {allDevelopers.map((dev) => (
               <label key={dev._id}>
                 <input type="checkbox" checked={project.developers.includes(dev._id)} onChange={() => handleDeveloperSelection(dev._id)} />
-                {dev.Fname} {/* Assuming `name` is the property that holds the developer's name */}
+                {dev.Fname} {/* Replace with appropriate property names */}
               </label>
             ))}
           </div>
-          <div>
-            <button type="button" onClick={onClose}>
+          <div className="button-group">
+            <button type="button" onClick={onClose} className="cancel-button">
               Cancel
             </button>
-            <button type="submit">Save Changes</button>
+            <button type="submit" className="create-button">
+              Save Changes
+            </button>
           </div>
         </form>
       </div>

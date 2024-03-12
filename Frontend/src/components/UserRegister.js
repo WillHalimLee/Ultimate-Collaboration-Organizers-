@@ -80,19 +80,28 @@ const Register = ({ onClose }) => {
                 </label>
               </div>
               <div className="single-input">
-                <label className="form-label">
+                <label>
                   Job:
-                  <input type="text" value={userDetails.job} name="job" onChange={handleChange} className="form-input" />
+                  <select
+                      value={userDetails.job}
+                      name="job"
+                      onChange={handleChange}
+                      className="form-input"
+                  >
+                    <option value="">Select a job</option>
+                    <option value="manager">Manager</option>
+                    <option value="developer">Developer</option>
+                  </select>
                 </label>
               </div>
             </div>
             <button type="submit" className="form-button" onClick={handleRegisterClick}></button>
             <button
-              type="button"
-              onClick={() => {
-                navigate("/");
-              }}
-              className="form-button cancel"></button>
+                type="button"
+                onClick={() => {
+                  navigate("/");
+                }}
+                className="form-button cancel"></button>
           </form>
           {error && <div className="error">{error}</div>}
           {success && <div className="success">{success}</div>}

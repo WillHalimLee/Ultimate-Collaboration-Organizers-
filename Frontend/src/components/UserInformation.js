@@ -97,14 +97,23 @@ const UserInformation = ({ onClose, onSave }) => {
         <br />
         <label>
           Job:
-          <input type="text" value={userDetails.job} name="job" onChange={handleChange} />
+          <select
+              value={userDetails.job}
+              name="job"
+              onChange={handleChange}
+              className="form-input"
+          >
+            <option value="">Select a job</option>
+            <option value="manager">Manager</option>
+            <option value="developer">Developer</option>
+          </select>
         </label>
-        <br />
+        <br/>
         <button type={"submit"}>Save</button>
       </form>
 
-      <div style={{ marginTop: "20px" }}>
-        <Link to="/app" className="button-create-project" style={{ textDecoration: "none" }}>
+      <div style={{marginTop: "20px"}}>
+        <Link to="/app" className="button-create-project" style={{textDecoration: "none"}}>
           Back to Projects
         </Link>
       </div>

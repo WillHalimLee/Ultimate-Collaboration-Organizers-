@@ -1,10 +1,9 @@
 const express = require("express");
 const Task = require("../models/Task");
 const {sendEmergencyEmail} = require("../services/emailService");
-const {Types} = require("mongoose"); // Adjust the path if necessary
+const {Types} = require("mongoose");
 const router = express.Router();
 
-// Create a new task
 router.post("/", async (req, res) => {
   try {
     const task = new Task(req.body);
@@ -34,7 +33,6 @@ router.delete("/:id", async (req, res) => {
 
 module.exports = router;
 
-// Get all tasks for a specific project
 router.get("/projects/:projectId/tasks", async (req, res) => {
   console.log(req.params.projectId);
   try {
@@ -52,8 +50,6 @@ router.get("/projects/:projectId/tasks", async (req, res) => {
 
 router.get("/projects/:projectId/tasks/report", async (req, res) => {
   const { projectId } = req.params;
-
-  // Check if projectId is a valid ObjectId
 
   try {
     const tasksReport = await Task.aggregate([
@@ -99,9 +95,6 @@ router.get("/projects/:projectId/tasks/:id", async (req, res) => {
     res.status(500).send(error.message);
   }
 });
-
-
-// Endpoint to fetch tasks by project ID and status using URL parameters
 router.get('/projects/:projectId/tasks/status/:status', async (req, res) => {
   const { projectId, status } = req.params;
 
@@ -111,7 +104,6 @@ router.get('/projects/:projectId/tasks/status/:status', async (req, res) => {
       status: status,
     });
 
-    // Check if 'tasks' is an array and has elements
     if (Array.isArray(tasks) && tasks.length > 0) {
       res.json(tasks);
     } else {
@@ -123,20 +115,6 @@ router.get('/projects/:projectId/tasks/status/:status', async (req, res) => {
   }
 });
 
-// Add this endpoint in your tasks router file
-
-
-// Endpoint to fetch start and end dates for all tasks within a given project
-
-
-
-
-
-
-// Get a specific task by ID for a project
-
-
-// Update a task
 router.put("/projects/:projectId/tasks/:id", async (req, res) => {
   try {
     const task = await Task.findByIdAndUpdate(req.params.id, req.body, { new: true });

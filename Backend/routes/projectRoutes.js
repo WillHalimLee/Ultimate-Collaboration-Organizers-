@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Project = require("../models/Project");
 
-// GET route for fetching all projects
+
 router.get("/", async (req, res) => {
   try {
     const projects = await Project.find({});
@@ -12,10 +12,10 @@ router.get("/", async (req, res) => {
   }
 });
 
-// POST route for creating a new project
+
 router.post("/", async (req, res) => {
   try {
-    const { title, description, developers, manager } = req.body; // Include manager ID from the request body
+    const { title, description, developers, manager } = req.body;
     if (!title || !description || !manager) {
       return res.status(400).send("Project title, description, and manager are required");
     }
@@ -24,7 +24,7 @@ router.post("/", async (req, res) => {
       title,
       description,
       developers,
-      createdBy: manager, // Save the manager ID in the 'createdBy' field of the project
+      createdBy: manager,
     });
 
     await project.save();
@@ -35,12 +35,11 @@ router.post("/", async (req, res) => {
 });
 
 
-// GET route for searching projects by title
 router.get("/search", async (req, res) => {
   try {
     const { searchTerm } = req.query;
     const projects = await Project.find({
-      title: { $regex: searchTerm, $options: "i" }, // Case-insensitive search
+      title: { $regex: searchTerm, $options: "i" },
     });
     res.json(projects);
   } catch (error) {
@@ -48,7 +47,7 @@ router.get("/search", async (req, res) => {
   }
 });
 
-// GET route for fetching a single project by its ID
+
 router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -62,7 +61,6 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// DELETE endpoint to remove a project by ID
 router.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -78,7 +76,7 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-// PUT endpoint to update a project by ID
+
 router.put("/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -91,10 +89,10 @@ router.put("/:id", async (req, res) => {
 
     project.title = title || project.title;
     project.description = description || project.description;
-    // Update the developers list if provided
+
     if (developers) project.developers = developers;
 
-    await project.save(); // Save the updated project to the database
+    await project.save();
 
     res.json(project);
   } catch (error) {

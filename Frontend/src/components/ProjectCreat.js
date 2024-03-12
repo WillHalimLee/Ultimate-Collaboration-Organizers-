@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import * as ProjectService from "../services/ProjectService";
-import "./css/projectCreate.css"; // Import the CSS file
+import "./css/projectCreate.css"; 
 import * as UserService from "../services/userService";
 
 const ProjectCreate = ({ isOpen, onClose, refreshProjects }) => {
@@ -8,12 +8,12 @@ const ProjectCreate = ({ isOpen, onClose, refreshProjects }) => {
     title: "",
     description: "",
     developers: [],
-    manager: "", // Add a manager field to your project state
+    manager: "", 
   });
-  const [developers, setDevelopers] = useState([]); // Add state for the list of developers
+  const [developers, setDevelopers] = useState([]); 
 
   useEffect(() => {
-    // Function to fetch developers
+
     const fetchDevelopers = async () => {
       try {
         const devs = await UserService.getDevelopers();
@@ -23,7 +23,7 @@ const ProjectCreate = ({ isOpen, onClose, refreshProjects }) => {
       }
     };
 
-    // Get the manager's ID from localStorage and set it in the project state
+
     const managerId = JSON.parse(localStorage.getItem("user"));
     console.log("Manager ID:", managerId);
     setProject((prev) => ({ ...prev, manager: managerId }));

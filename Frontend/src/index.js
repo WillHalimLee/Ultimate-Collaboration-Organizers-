@@ -5,7 +5,6 @@ import DevelopersStatsPage from "./components/developerStatics";
 import Login from "./login";
 import ProjectBoard from "./ProjectBoard";
 import TaskBoard from "./components/TaskBoard";
-import WeeklyView from "./old/WeeklyView";
 import UserInformationPage from "./components/UserInformation";
 import UserRegisterPage from "./components/UserRegister";
 import CalendarView from "./components/CalendarView";

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./css/UserRegister.css";
 import * as userService from "../services/userService";
 import "./css/UserRegister.css";
 
@@ -101,7 +100,7 @@ const Register = ({ onClose }) => {
                 onClick={() => {
                   navigate("/");
                 }}
-                className="form-button cancel"></button>
+                className="form-button-cancel"></button>
           </form>
           {error && <div className="error">{error}</div>}
           {success && <div className="success">{success}</div>}

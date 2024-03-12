@@ -8,7 +8,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url('lowfi.jpg'); 
+  background-image: url('lowfi.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -16,23 +16,20 @@
 
 
 .form-container {
-  background-color: rgba(255, 255, 255, 0.8); 
+  background-color: rgba(255, 255, 255, 0.8);
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
   font-family: 'Madimi One', sans-serif;
-  text-align: left; 
-  font-size: 5px;
-
+  text-align: left;
 }
 .centered-heading {
-  text-align: center; 
+  text-align: center;
 }
 
 .form-label {
   display: block;
   margin-bottom: 5px;
-
 }
 
 .form-input {
@@ -62,8 +59,11 @@
   height: 40px;
 }
 
-.form-button.cancel {
+.form-button-cancel {
   background-image: url('cancel.png');
+    border: none;
+
   width: 40px;
   height: 40px;
+  background-size: cover;
 }

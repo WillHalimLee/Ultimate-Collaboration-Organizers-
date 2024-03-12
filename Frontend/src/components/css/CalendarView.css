@@ -4,6 +4,7 @@
     max-width: 900px;
     margin: 40px auto;
     padding: 20px;
+    font-family: 'Madimi One', sans-serif;
     border: 1px solid #ddd;
     background-color: white;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -12,6 +13,7 @@
 
 .fc-toolbar-title {
     color: #333;
+    font-family: 'Madimi One', sans-serif;
     font-size: 1.75rem;
 }
 
@@ -34,15 +36,18 @@
     font-size: 0.85rem;
     border-radius: 4px;
     padding: 4px 8px;
+    font-family: 'Madimi One', sans-serif;
+
 }
 
 .fc-event-title {
     white-space: nowrap;
     overflow: hidden;
+    font-family: 'Madimi One', sans-serif;
     text-overflow: ellipsis;
 }
 
-button[type="button"] {
+button.back-to-tasks-btn {
     background-color: #6f4f86;
     color: white;
     padding: 10px 20px;
@@ -51,16 +56,17 @@ button[type="button"] {
     font-size: 1rem;
     cursor: pointer;
     display: block;
+     font-family: 'Madimi One', sans-serif;
     margin: 20px auto;
     text-align: center;
     transition: background-color 0.3s;
 }
 
-button[type="button"]:hover {
+button.back-to-tasks-btn:hover {
     background-color: #7f76a8;
 }
 
-button[type="button"] h2 {
+button.back-to-tasks-btn h2 {
     margin: 0;
 }
 

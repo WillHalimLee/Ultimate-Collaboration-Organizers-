@@ -10,19 +10,19 @@
    font-family: 'Madimi One', sans-serif;
   margin: 10px;
   background: url("stinkynote.png") no-repeat center center;
-  background-color: #f9f7f0; 
+  background-color: #f9f7f0;
   border: 1px solid #ccc;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  overflow: hidden; 
-  word-wrap: break-word; 
+  overflow: hidden;
+  word-wrap: break-word;
 }
 
 .task-item-sticky-note h3 {
   margin-top: 0;
   overflow: hidden;
   white-space: nowrap;
-  text-overflow: ellipsis; 
+  text-overflow: ellipsis;
 }
 
 

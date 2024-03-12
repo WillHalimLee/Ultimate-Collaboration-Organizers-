@@ -44,21 +44,23 @@ const CalendarView = () => {
         }
     };
 
-    return (
-        <>
-            <FullCalendar
-                plugins={[dayGridPlugin]}
-                initialView="dayGridMonth"
-                events={tasks}
-            />
-            <button
-                type="button"
-                onClick={() => navigate(`/projects/${projectId}/tasks`)}
-            >
-                <h2>Back to Tasks</h2>
-            </button>
-        </>
-    );
+return (
+    <>
+        <FullCalendar
+            plugins={[dayGridPlugin]}
+            initialView="dayGridMonth"
+            events={tasks}
+            className="fc"
+        />
+        <button
+            type="button"
+            className="back-to-tasks-btn"
+            onClick={() => navigate(`/projects/${projectId}/tasks`)}
+        >
+            <h2>Back to Tasks</h2>
+        </button>
+    </>
+);
 };
 
 export default CalendarView;

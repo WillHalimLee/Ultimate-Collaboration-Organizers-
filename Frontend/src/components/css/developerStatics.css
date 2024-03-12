@@ -85,10 +85,10 @@ body {
     display: block;
     font-size: 60px;
     color: #3498db;
-    background-image: url('dashboard.png'); 
+    background-image: url('dashboard.png');
     background-repeat: no-repeat;
-    background-size: 80px; 
-    padding-left: 100px; 
+    background-size: 80px;
+    padding-left: 100px;
 }
 
 .back-to-dashboard:hover {

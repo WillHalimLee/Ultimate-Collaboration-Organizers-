@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import * as ProjectService from "../services/ProjectService";
 import * as UserService from "../services/userService";
-import "./css/EditProjectComponent.css";
+import "./css/projectCreate.css";
 
 const ProjectEdit = ({ projectId, onClose, refreshProjects }) => {
   const [project, setProject] = useState({

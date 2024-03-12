@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import "./css/UserInformation.css";
 import * as userService from "../services/userService";
 import { Link } from "react-router-dom";
-import axios from "axios";
 
 const UserInformation = ({ onClose, onSave }) => {
   const [userDetails, setUserDetails] = useState({
@@ -62,9 +61,9 @@ const UserInformation = ({ onClose, onSave }) => {
   };
 
   return (
-    <div className="UserInformation">
-      <h2>User Information</h2>
-      <form onSubmit={handleSave}>
+    <div className="user-information-container">
+      <h2 className="user-information-title">User Information</h2>
+      <form className="user-information-form" onSubmit={handleSave}>
         <label>
           First Name:
           <input type="text" value={userDetails.Fname} name="Fname" onChange={handleChange} />
@@ -98,22 +97,24 @@ const UserInformation = ({ onClose, onSave }) => {
         <label>
           Job:
           <select
-              value={userDetails.job}
-              name="job"
-              onChange={handleChange}
-              className="form-input"
+            value={userDetails.job}
+            name="job"
+            onChange={handleChange}
+            className="form-input"
           >
             <option value="">Select a job</option>
             <option value="manager">Manager</option>
             <option value="developer">Developer</option>
           </select>
         </label>
-        <br/>
-        <button type={"submit"}>Save</button>
+        <br />
+        <button type="submit" className="user-information-save-button">
+          Save
+        </button>
       </form>
 
-      <div style={{marginTop: "20px"}}>
-        <Link to="/app" className="button-create-project" style={{textDecoration: "none"}}>
+      <div className="user-information-back-link">
+        <Link to="/app" className="button-create-project" style={{ textDecoration: "none" }}>
           Back to Projects
         </Link>
       </div>

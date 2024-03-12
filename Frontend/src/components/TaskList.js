@@ -44,6 +44,7 @@ const TaskList = ({ tasks, onDelete, onEdit }) => {
                 onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
+                  console.log("Edit button clicked" + task._id);
                   onEdit(task._id);
                 }}
               >

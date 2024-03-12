@@ -56,6 +56,7 @@ const TaskBoard = () => {
   };
 
   const handleOpenEditComponent = (taskId) => {
+    console.log("Editing task:", taskId);
     setEditingTask(taskId);
     setIsEditComponentOpen(true);
   };
@@ -148,7 +149,7 @@ const TaskBoard = () => {
             onClose={() => setIsEditComponentOpen(false)}
             projectId={projectId}
             fetchTasks={refreshTasks}
-            taskId={editingTask}
+            TaskID={editingTask}
           />
         )}
       </main>

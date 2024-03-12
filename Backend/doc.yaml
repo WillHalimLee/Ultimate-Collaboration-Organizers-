@@ -1,20 +1,19 @@
-swagger: '2.0'
+swagger: "2.0"
 info:
-  version: '1.0.0'
+  version: "1.0.0"
   title: Project API
   description: API for managing projects
 basePath: /api
 schemes:
   - http
 tags:
-      - name: Projects
-        description: Endpoints related to projects management
-      - name: Tasks
-        description: Endpoints related to tasks management
-      - name: Users
-        description: Endpoints related to user registration and login
+  - name: Projects
+    description: Endpoints related to projects management
+  - name: Tasks
+    description: Endpoints related to tasks management
+  - name: Users
+    description: Endpoints related to user registration and login
 paths:
-
   # Projects Section
   /projects:
     get:
@@ -28,7 +27,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/Project'
+              $ref: "#/definitions/Project"
     post:
       tags:
         - Projects
@@ -39,12 +38,12 @@ paths:
           name: project
           description: The project to create
           schema:
-            $ref: '#/definitions/Project'
+            $ref: "#/definitions/Project"
       responses:
         201:
           description: The created project
           schema:
-            $ref: '#/definitions/Project'
+            $ref: "#/definitions/Project"
 
   # Project Search Section
   /projects/search:
@@ -64,7 +63,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/Project'
+              $ref: "#/definitions/Project"
 
   # Single Project Section
   /projects/{id}:
@@ -82,7 +81,7 @@ paths:
         200:
           description: A single project
           schema:
-            $ref: '#/definitions/Project'
+            $ref: "#/definitions/Project"
     delete:
       tags:
         - Projects
@@ -110,12 +109,12 @@ paths:
           name: project
           description: The project updates
           schema:
-            $ref: '#/definitions/Project'
+            $ref: "#/definitions/Project"
       responses:
         200:
           description: The updated project
           schema:
-            $ref: '#/definitions/Project'
+            $ref: "#/definitions/Project"
 
   # Tasks Section
   /tasks:
@@ -130,7 +129,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/Task'
+              $ref: "#/definitions/Task"
     post:
       tags:
         - Tasks
@@ -141,12 +140,12 @@ paths:
           name: task
           description: The task to create
           schema:
-            $ref: '#/definitions/Task'
+            $ref: "#/definitions/Task"
       responses:
         201:
           description: The created task
           schema:
-            $ref: '#/definitions/Task'
+            $ref: "#/definitions/Task"
 
   # Single Task Section
   /tasks/{id}:
@@ -164,7 +163,7 @@ paths:
         200:
           description: A single task
           schema:
-            $ref: '#/definitions/Task'
+            $ref: "#/definitions/Task"
     delete:
       tags:
         - Tasks
@@ -192,18 +191,18 @@ paths:
           name: task
           description: The task updates
           schema:
-            $ref: '#/definitions/Task'
+            $ref: "#/definitions/Task"
       responses:
         200:
           description: The updated task
           schema:
-            $ref: '#/definitions/Task'
+            $ref: "#/definitions/Task"
 
   # User Registration and Authentication Section
   /register:
     post:
       tags:
-        - User
+        - Users
       summary: Register a new user
       description: Creates a new user with the provided information
       parameters:
@@ -211,44 +210,17 @@ paths:
           name: user
           description: The user to create
           schema:
-            type: object
-            required:
-              - Fname
-              - Lname
-              - phone
-              - email
-              - address
-              - password
-              - dob
-              - job
-            properties:
-              Fname:
-                type: string
-              Lname:
-                type: string
-              phone:
-                type: string
-              email:
-                type: string
-              address:
-                type: string
-              password:
-                type: string
-              dob:
-                type: string
-                format: date
-              job:
-                type: string
+            $ref: "#/definitions/User"
       responses:
         201:
           description: The registered user's information (excluding password)
           schema:
-            $ref: '#/definitions/User'
+            $ref: "#/definitions/User"
 
   /login:
     post:
       tags:
-        - User
+        - Users
       summary: Log in as a user
       description: Logs in as a user with the provided email and password
       parameters:
@@ -269,10 +241,101 @@ paths:
         200:
           description: The logged in user's information (excluding password)
           schema:
-            $ref: '#/definitions/User'
+            $ref: "#/definitions/User"
+  # User Section
+  /users:
+    get:
+      tags:
+        - Users
+      summary: Fetch all users
+      description: Returns an array of all users
+      responses:
+        200:
+          description: An array of users
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/User"
+  /users/{id}:
+    get:
+      tags:
+        - Users
+      summary: Fetch a single user by ID
+      description: Returns a single user by its ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+      responses:
+        200:
+          description: A single user
+          schema:
+            $ref: "#/definitions/User"
+    put:
+      tags:
+        - Users
+      summary: Update a user by ID
+      description: Updates a single user by its ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: string
+        - in: body
+          name: user
+          description: The user updates
+          schema:
+            $ref: "#/definitions/User"
+      responses:
+        200:
+          description: The updated user
+          schema:
+            $ref: "#/definitions/User"
 
+  /users/developers:
+    get:
+      tags:
+        - Users
+      summary: Fetch all developers
+      description: Returns an array of all users with job title 'developer'
+      responses:
+        200:
+          description: An array of developers
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/User"
+
+  /users/developers/{developerId}/stats:
+    get:
+      tags:
+        - Users
+      summary: Fetch statistics for a developer
+      description: Returns statistics for a developer based on their ID
+      parameters:
+        - in: path
+          name: developerId
+          required: true
+          type: string
+      responses:
+        200:
+          description: Statistics for the developer
+          schema:
+            type: object
+            properties:
+              developer:
+                type: string
+              stats:
+                type: object
+                properties:
+                  totalTasks:
+                    type: integer
+                  tasksCompleted:
+                    type: integer
+                  completionRate:
+                    type: string
 definitions:
-
   # Definition Section: Project
   Project:
     type: object
@@ -280,6 +343,8 @@ definitions:
       title:
         type: string
       description:
+        type: string
+      developers:
         type: string
 
   # Definition Section: Task
@@ -297,7 +362,7 @@ definitions:
       status:
         type: string
       dueDate:
-        type: string
+        type: date
         format: date
       projectId:
         type: string
@@ -305,6 +370,11 @@ definitions:
   # Definition Section: User
   User:
     type: object
+    required:
+      - Fname
+      - Lname
+      - email
+      - job
     properties:
       Fname:
         type: string
@@ -317,7 +387,7 @@ definitions:
       address:
         type: string
       dob:
-        type: string
+        type: date
         format: date
       job:
         type: string

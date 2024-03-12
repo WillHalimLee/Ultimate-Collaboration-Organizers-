@@ -97,12 +97,14 @@ router.get('/developers/:developerId/stats', async (req, res) => {
       { $group: { _id: "$status", count: { $sum: 1 } } }
     ]);
 
+    console.log('Tasks grouped by status:', tasksGroupedByStatus);
+
     // Initialize an object to hold the count for each status
     const statusCounts = {
       pending: 0,
-      inProgress: 0,
+      inprogress: 0,
       emergency: 0,
-      done: 0,
+      Completed: 0,
     };
 
     // Iterate over the aggregation results and populate the statusCounts object
@@ -158,9 +160,6 @@ router.put('/:id', async (req, res) => {
 });
 
 //get developers
-// Assuming `User` is your Mongoose model for users
-
-
-
+// Assuming `User` is your Mongoose model for user
 
 module.exports = router;

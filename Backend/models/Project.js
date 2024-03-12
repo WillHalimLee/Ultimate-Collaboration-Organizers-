@@ -1,4 +1,4 @@
-// backend/src/models/Project.js
+
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
@@ -15,16 +15,16 @@ const projectSchema = new Schema(
     developers: [
       {
         type: Schema.Types.ObjectId,
-        ref: "User", // assuming you have a User model
+        ref: "User",
       },
     ],
     createdBy: {
       type: Schema.Types.ObjectId,
-      ref: "User", // assuming you have a User model
-      required: true, // assuming you want to make it mandatory that a project has a creator
+      ref: "User",
+      required: true,
     },
   },
-  { timestamps: true, collection: "projects" } // Adding timestamps to automatically add `createdAt` and `updatedAt` fields
+  { timestamps: true, collection: "projects" }
 );
 
 const Project = mongoose.model("Project", projectSchema);

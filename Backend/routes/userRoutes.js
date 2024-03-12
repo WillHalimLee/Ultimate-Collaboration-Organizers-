@@ -2,14 +2,14 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
-const Task = require("../models/Task"); // Assuming this is a Mongoose model
+const Task = require("../models/Task");
 const router = express.Router();
 const SECRET_KEY = "your_secret_key";
 
 router.post("/register", async (req, res) => {
   const { Fname, Lname, phone, email, address, password, dob, job } = req.body;
   try {
-    // Hash password before saving
+
     const user = new User({
       Fname,
       Lname,
@@ -30,14 +30,14 @@ router.post("/register", async (req, res) => {
       phone: user.phone,
       email: user.email,
       address: user.address,
-      // Do not send back the password, even if it's hashed
+
       dob: user.dob,
       job: user.job,
     });
   } catch (error) {
     console.error("Registration error:", error);
     if (error.code === 11000) {
-      // MongoDB duplicate key error
+
       return res.status(400).send("Email already exists.");
     }
     res.status(500).send("An error occurred during registration.");
@@ -57,10 +57,10 @@ router.post("/login", async (req, res) => {
       const token = jwt.sign(
         { id: user.id, email: user.email },
         SECRET_KEY,
-        { expiresIn: "1h" } // Token expires in 1 hour
+        { expiresIn: "1h" }
       );
 
-      // Send the token to the client
+
       res.status(200).send({ token: token, ID: user.id});
     } else {
       res.status(400).send("Invalid Credentials, Wrong Password.");
@@ -73,7 +73,7 @@ router.post("/login", async (req, res) => {
 router.get('/developers', async (req, res) => {
   console.log('Fetching developers...');
   try {
-    const developers = await User.find({ job: "developer" }).exec(); // Use .exec() to return a true Promise
+    const developers = await User.find({ job: "developer" }).exec();
     console.log('Developers:', developers);
     res.json(developers);
   } catch (error) {
@@ -91,15 +91,15 @@ router.get('/developers/:developerId/stats', async (req, res) => {
       return res.status(404).send('Developer not found.');
     }
 
-    // Fetch tasks assigned to the developer and group by status
+
     const tasksGroupedByStatus = await Task.aggregate([
-      { $match: { assignedTo: developer._id } }, // Make sure to match by ObjectId
+      { $match: { assignedTo: developer._id } },
       { $group: { _id: "$status", count: { $sum: 1 } } }
     ]);
 
     console.log('Tasks grouped by status:', tasksGroupedByStatus);
 
-    // Initialize an object to hold the count for each status
+
     const statusCounts = {
       pending: 0,
       inprogress: 0,
@@ -107,16 +107,16 @@ router.get('/developers/:developerId/stats', async (req, res) => {
       Completed: 0,
     };
 
-    // Iterate over the aggregation results and populate the statusCounts object
+
     tasksGroupedByStatus.forEach((statusGroup) => {
-      // The key for the statusCounts object should match your Task model's status values
+
       const statusKey = statusGroup._id.toLowerCase().replace(/\s+/g, '');
       if (statusCounts.hasOwnProperty(statusKey)) {
         statusCounts[statusKey] = statusGroup.count;
       }
     });
 
-    // Send the statusCounts object as a response
+
     res.json({ developer: developerId, stats: statusCounts });
   } catch (error) {
     console.error('Error fetching developer stats:', error);
@@ -144,8 +144,6 @@ router.put('/:id', async (req, res) => {
     const userUpdates = req.body;
     const userId = req.params.id;
 
-    // Make sure to validate userUpdates or sanitize it as needed
-
     const user = await User.findByIdAndUpdate(userId, userUpdates, { new: true });
 
     if (!user) {
@@ -158,8 +156,5 @@ router.put('/:id', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
-
-//get developers
-// Assuming `User` is your Mongoose model for user
 
 module.exports = router;

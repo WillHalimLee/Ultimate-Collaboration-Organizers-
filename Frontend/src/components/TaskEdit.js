@@ -30,6 +30,8 @@ const TaskEdit = ({ isOpen, onClose, projectId, fetchTasks, TaskID }) => {
 
     const fetchTask = async () => {
       setIsLoading(true);
+      console.log("TaskID", TaskID);
+        console.log("projectId", projectId);
       try {
         console.log("TaskID", TaskID);
         console.log("projectId", projectId);
@@ -45,10 +47,11 @@ const TaskEdit = ({ isOpen, onClose, projectId, fetchTasks, TaskID }) => {
     };
 
     if (TaskID) {
+      console.log("TaskID", TaskID);
       fetchTask();
       fetchDevelopers();
     }
-  }, [TaskID]);
+  }, [TaskID,projectId]);
 
   const handleDeveloperSelection = (devId) => {
     setTask(prev => ({

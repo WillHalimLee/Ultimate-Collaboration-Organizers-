@@ -7,21 +7,26 @@ import TaskEdit from "./TaskEdit";
 import "./css/TaskBoard.css";
 import { useNavigate } from "react-router-dom";
 
+// Import icons
+import calendarIcon from './calendar.png';
+import addTaskIcon from './taskAdd.png';
+import taskReportIcon from './report.png';
+import backToProjectsIcon from './return.png';
+
 const TaskBoard = () => {
   const { projectId } = useParams();
   const [tasks, setTasks] = useState([]);
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
   const [isEditComponentOpen, setIsEditComponentOpen] = useState(false);
-  const [editingProject, setEditingProject] = useState(null);
+  const [editingTask, setEditingTask] = useState(null);
   const [tasksReport, setTasksReport] = useState({});
+  const [isTasksReportVisible, setIsTasksReportVisible] = useState(false);
   const navigate = useNavigate();
-
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const refreshTasks = async () => {
     try {
       const fetchedTasks = await TaskService.getTasksByProjectId(projectId);
-      console.log("fetchedTasks", fetchedTasks);
-      // Assuming tasks already contain necessary details
       setTasks(fetchedTasks);
     } catch (error) {
       console.error("Failed to fetch tasks:", error);
@@ -50,12 +55,11 @@ const TaskBoard = () => {
     setIsTaskModalOpen(true);
   };
 
-  const handleOpenEditComponent = (task) => {
-    setEditingProject(task);
+  const handleOpenEditComponent = (taskId) => {
+    setEditingTask(taskId);
     setIsEditComponentOpen(true);
   };
 
-  // Function to filter tasks by status
   const filterTasksByStatus = (status) => {
     return tasks.filter((task) => task.status === status);
   };
@@ -67,63 +71,88 @@ const TaskBoard = () => {
     } catch (error) {
       console.error("Failed to delete task:", error);
     }
-  }
+  };
+
+  const handleToggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleTaskReportClick = () => {
+    setIsTasksReportVisible(!isTasksReportVisible);
+  };
 
   return (
-      <div className="TaskBoard">
-        <h2 className="TaskBoardTitle">Task Board</h2>
+    <div className="app-container">
+      <header className="app-header">
+        <div className="website-name">UCO</div>
+        <div className="menu-icon" onClick={handleToggleMenu}>
+          ☰
+        </div>
 
-        <button onClick={() => navigate(`/weekly-view/${projectId}`)}>
-          Go to Calendar View
-        </button>
-        <button className="AddTaskButton" onClick={handleAddTaskClick}>
-          Add New Task
-        </button>
+        {isMenuOpen && (
+          <div className="dropdown-menu">
+            <button className="menu-item" onClick={() => navigate(`/weekly-view/${projectId}`)}>
+              <img src={calendarIcon} alt="Calendar View" className="icon" />
+            </button>
+            <button className="menu-item" onClick={handleAddTaskClick}>
+              <img src={addTaskIcon} alt="Add New Task" className="icon" />
+            </button>
+            <button className="menu-item" onClick={handleTaskReportClick}>
+              <img src={taskReportIcon} alt="Task Report" className="icon" />
+            </button>
+            <Link to="/app" className="menu-item">
+              <img src={backToProjectsIcon} alt="Back to Projects" className="icon" />
+            </Link>
+          </div>
+        )}
+      </header>
 
+      <main className="task-board-main">
+        <div className="center-title">
+          <h2 className="task-board-title">Task Board</h2>
+        </div>
         <div className="task-status-columns">
           {['Pending', 'InProgress', 'Completed', 'Emergency'].map((status) => (
-              <div key={status} className="task-status-column">
-                <h3>{status}</h3>
-                <TaskList
-                    tasks={filterTasksByStatus(status) || []}
-                    onDelete={deleteTask}
-                    onEdit={handleOpenEditComponent}
-                />
-              </div>
+            <div key={status} className={`task-status-column ${status.toLowerCase()}`}>
+              <h3 className={`status-title ${status.toLowerCase()}`}>{status}</h3>
+              <TaskList
+                tasks={filterTasksByStatus(status) || []}
+                onDelete={deleteTask}
+                onEdit={handleOpenEditComponent}
+              />
+            </div>
           ))}
         </div>
-        <div className="tasks-report">
-          <h4>Tasks Report</h4>
-          <p>Pending: {tasksReport.Pending || 0}</p>
-          <p>In Progress: {tasksReport.InProgress || 0}</p>
-          <p>Completed: {tasksReport.Completed || 0}</p>
-          <p>Emergency: {tasksReport.Emergency || 0}</p>
-        </div>
+
+        {isTasksReportVisible && (
+          <div className="tasks-report visible">
+            <h4>Tasks Report</h4>
+            <p>Pending: {tasksReport.Pending || 0}</p>
+            <p>In Progress: {tasksReport.InProgress || 0}</p>
+            <p>Completed: {tasksReport.Completed || 0}</p>
+            <p>Emergency: {tasksReport.Emergency || 0}</p>
+          </div>
+        )}
 
         {isTaskModalOpen && (
-            <TaskCreat
-                isOpen={isTaskModalOpen}
-                onClose={() => setIsTaskModalOpen(false)}
-                projectId={projectId}
-                fetchTasks={refreshTasks}
-            />
+          <TaskCreat
+            isOpen={isTaskModalOpen}
+            onClose={() => setIsTaskModalOpen(false)}
+            projectId={projectId}
+            fetchTasks={refreshTasks}
+          />
         )}
         {isEditComponentOpen && (
-            <TaskEdit
-                isOpen={isEditComponentOpen}
-                onClose={() => setIsEditComponentOpen(false)}
-                projectId={projectId}
-                fetchTasks={refreshTasks}
-                TaskID={editingProject}
-            />
+          <TaskEdit
+            isOpen={isEditComponentOpen}
+            onClose={() => setIsEditComponentOpen(false)}
+            projectId={projectId}
+            fetchTasks={refreshTasks}
+            taskId={editingTask}
+          />
         )}
-
-        <div style={{marginTop: "20px"}}>
-          <Link to="/app" className="button-create-project" style={{textDecoration: "none"}}>
-            Back to Projects
-          </Link>
-        </div>
-      </div>
+      </main>
+    </div>
   );
 };
 

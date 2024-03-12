@@ -1,90 +1,83 @@
-/* UserInformation.css */
-body {
-    margin: 0;
-    padding: 0;
-    background-color: #d3cfd3;
+.user-information-container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: white;
 }
 
-.UserInformation {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: white;
+.user-information-title {
+  background-color: #6f4f86;
+  color: #b7a57a;
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
 }
 
-.UserInformation h2 {
-    background-color: #6f4f86; /* Purple background */
-    color: #b7a57a; /* Gold text color */
-    padding: 10px;
-    border-radius: 8px; /* Rounded corners for the title background */
-    text-align: center;
-    /* Additional styles for shadow, spacing, etc., can be added here if desired */
+.user-information-form label {
+  font-family: 'Madimi One', sans-serif;
+  font-size: 18px;
+  display: block;
+  margin: 10px 0;
 }
 
-label {
-    font-family: 'Madimi One', sans-serif;
-    font-size: 18px;
-    display: block;
-    margin: 10px 0;
+.user-information-form input[type="text"],
+.user-information-form input[type="number"],
+.user-information-form input[type="email"],
+.user-information-form input[type="date"] {
+  font-family: 'Arial', sans-serif;
+  width: calc(100% - 22px);
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f4f4f4;
 }
 
-input[type="text"],
-input[type="number"],
-input[type="email"],
-input[type="date"] {
-    font-family: 'Arial', sans-serif;
-    width: calc(100% - 22px);
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f4f4f4;
+.user-information-save-button {
+  background-color: #6f4f86;
+  color: #b7a57a;
+  font-family: 'Madimi One', sans-serif;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px;
+  display: block;
+  margin-top: 20px;
 }
 
-button {
-    background-color: #6f4f86;
-    color: #b7a57a;
-    font-family: 'Madimi One', sans-serif;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 18px;
-    display: block;
-
-    margin-top: 20px;
+.user-information-save-button:hover {
+  background-color: #7f76a8;
 }
 
-button:hover {
-    background-color: #7f76a8;
+.user-information-back-link {
+  margin-top: 20px;
 }
 
 .button-create-project {
-    background-color: #6f4f86;
-    color: #b7a57a;
-    font-family: 'Madimi One', sans-serif;
-    padding: 10px 15px;
-    text-align: center;
-    display: inline-block;
-    border-radius: 8px;
-    text-decoration: none;
-    font-size: 18px;
-    margin-top: 20px;
-    display: block;
-    width: 50%;
-
+  background-color: #6f4f86;
+  color: #b7a57a;
+  font-family: 'Madimi One', sans-serif;
+  padding: 10px 15px;
+  text-align: center;
+  display: inline-block;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 18px;
+  margin-top: 20px;
+  display: block;
+  width: 50%;
 }
 
 .button-create-project:hover {
-    background-color: #7f76a8;
-
+  background-color: #7f76a8;
 }
 
 @media (max-width: 768px) {
-    .UserInformation {
-        width: 90%;
-    }
+  .user-information-container {
+    width: 90%;
+  }
 }

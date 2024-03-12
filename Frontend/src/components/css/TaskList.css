@@ -1,2 +1,51 @@
+.task-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.task-item-sticky-note {
+  position: relative;
+  width: 250px;
+  padding: 20px;
+   font-family: 'Madimi One', sans-serif;
+  margin: 10px;
+  background: url("stinkynote.png") no-repeat center center;
+  background-color: #f9f7f0; /* Sticky note background color */
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Prevent long text from overflowing */
+  word-wrap: break-word; /* Allow long words to break and wrap to the next line */
+}
+
+.task-item-sticky-note h3 {
+  margin-top: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis; /* Add ellipsis if h3 text overflows */
+}
+
+
+.button-container-2 {
+  position: absolute;
+  top: 3%;
+  right: 3%;
+  display: flex;
+  flex-direction: column;
+}
+.button-container-2 button {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  margin-bottom: 5px;
+  border: none;
+  cursor: pointer;
+  background: none;
+}
+
+.button-container-2 button img {
+  width: 15px;
+  height: 15px;
+}
 
 

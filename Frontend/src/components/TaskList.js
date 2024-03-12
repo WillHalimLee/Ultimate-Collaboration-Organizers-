@@ -23,7 +23,6 @@ const TaskList = ({ tasks, onDelete, onEdit }) => {
             {task.createdByDetails && (
               <p>Created By: {`${task.createdByDetails.Fname} ${task.createdByDetails.Lname}`}</p>
             )}
-
             <p>Assigned To:</p>
             <ul>
               {task.assignedToDetails &&

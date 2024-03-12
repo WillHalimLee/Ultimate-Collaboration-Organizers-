@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import * as ProjectService from "../services/ProjectService";
-import './css/ProjectModal.css';
+import './css/ProjectCreate.css'; // Import the CSS file
 import * as UserService from "../services/userService";
 
 const ProjectCreate = ({ isOpen, onClose, refreshProjects }) => {
@@ -63,9 +63,9 @@ const ProjectCreate = ({ isOpen, onClose, refreshProjects }) => {
         });
     };
 
-  return (
-        <div>
-            <div>
+    return (
+        <div className={`project-modal ${isOpen ? 'open' : 'closed'}`}>
+            <div className="modal-content">
                 <h2>Create a New Project</h2>
                 <form onSubmit={handleSubmit}>
                     <div>
@@ -105,8 +105,8 @@ const ProjectCreate = ({ isOpen, onClose, refreshProjects }) => {
                         </div>
                     </div>
                     <div>
-                        <button type="button" onClick={onClose}>Cancel</button>
-                        <button type="submit">Create</button>
+                        <button type="button" onClick={onClose} className="cancel-button">Cancel</button>
+                        <button type="submit" className="create-button">Create</button>
                     </div>
                 </form>
             </div>

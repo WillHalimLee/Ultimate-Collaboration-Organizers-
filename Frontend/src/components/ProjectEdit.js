@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
-
 import * as ProjectService from "../services/ProjectService";
 import * as UserService from "../services/userService";
 import "./css/EditProjectComponent.css";
+
 const ProjectEdit = ({ projectId, onClose, refreshProjects }) => {
   const [project, setProject] = useState({
     title: "",
     description: "",
     developers: [],
     manager: "",
-    // You may need to include more fields here based on your Project model
   });
   const [allDevelopers, setAllDevelopers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -31,19 +30,14 @@ const ProjectEdit = ({ projectId, onClose, refreshProjects }) => {
       setIsLoading(true);
       try {
         const response = await ProjectService.getProjectByID(projectId);
-        const fetchedDevelopers = response.developers || []; // Ensure it's an array
-
-        // Get the full details of the developers to set the checkboxes
+        const fetchedDevelopers = response.developers || [];
         const developersDetails = await Promise.all(
           fetchedDevelopers.map(async (devId) => {
             const devDetails = await UserService.getUserById(devId);
             return devDetails;
           })
         );
-
-        // Map the details to just retrieve the IDs for the checkbox state
         const developerIds = developersDetails.map((dev) => dev._id);
-
         setProject({
           ...response,
           developers: developerIds,
@@ -108,7 +102,7 @@ const ProjectEdit = ({ projectId, onClose, refreshProjects }) => {
             {allDevelopers.map((dev) => (
               <label key={dev._id}>
                 <input type="checkbox" checked={project.developers.includes(dev._id)} onChange={() => handleDeveloperSelection(dev._id)} />
-                {dev.Fname} {/* Assuming `name` is the property that holds the developer's name */}
+                {dev.Fname}
               </label>
             ))}
           </div>

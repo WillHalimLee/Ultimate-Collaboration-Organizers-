@@ -24,7 +24,7 @@ const UserInformation = ({ onClose, onSave }) => {
           const userId = JSON.parse(userString);
           const userResponse = await userService.getUserById(userId);
 
-          // Validate and format date of birth if present
+
           if (userResponse.dob) {
             const dobDate = new Date(userResponse.dob);
             if (!isNaN(dobDate.getTime())) {

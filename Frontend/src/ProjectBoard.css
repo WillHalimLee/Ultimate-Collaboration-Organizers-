@@ -42,9 +42,9 @@ html, body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: white; /* Set the text color to white or any color that contrasts with the circular background */
-  font-size: 1em; /* Adjust the font size as needed */
-  color: #b7a57a; /* Set the text color to white or any color that contrasts with the circular background */
+  color: white; 
+  font-size: 1em; 
+  color: #b7a57a; 
 }
 
 .menu-icon {
@@ -65,7 +65,7 @@ html, body {
   flex-direction: row;
   position: absolute;
   top: 7%;
-  right: 50px; /* Adjust this value as needed */
+  right: 50px; 
   background-color: #fff;
   border: 2px solid #000;
   box-shadow: 0px 12`0px rgba(0, 0, 0, 0.1);
@@ -73,7 +73,7 @@ html, body {
 }
 
 .menu-item {
-  margin-right: 15px; /* Adjust the spacing between menu items */
+  margin-right: 15px; 
   background-color: #5;
   border: none;
   cursor: pointer;
@@ -89,9 +89,9 @@ html, body {
   font-family: 'Madimi One', sans-serif;
   font-size: 30px;
   color: #b7a57a;
-  background-color: #6f4f86; /* Choose your desired background color */
-  padding: 5px; /* Adjust padding as needed */
-  border-radius: 20px; /* Optional: Add border-radius for rounded corners */
-  display: inline-block; /* Adjust width based on title length */
-  margin-bottom: 15px; /* Optional: Add margin to separate it from the ProjectList */
+  background-color: #6f4f86; 
+  padding: 5px; 
+  border-radius: 20px; 
+  display: inline-block; 
+  margin-bottom: 15px; 
 }

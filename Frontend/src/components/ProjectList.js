@@ -7,17 +7,14 @@ import editIcon from "./edit.png";
 
 class ProjectList extends React.Component {
 
-
-  // Method to render task status counts
   renderTaskStatusCounts(taskStatusCounts) {
     if (!Array.isArray(this.props.projects)) {
       console.error("Expected projects to be an array, received:", this.props.projects);
-      return null; // Or return some fallback UI
+      return null;
     }
     if (!taskStatusCounts || taskStatusCounts.length === 0) {
       return <p>No task status data available</p>;
     }
-
 
     return taskStatusCounts.map((statusCount) => (
         <p key={statusCount._id}>{`${statusCount._id}: ${statusCount.count}`}</p>
@@ -33,10 +30,7 @@ class ProjectList extends React.Component {
               <Link key={project._id} to={`/projects/${project._id}/tasks`} className="project-item-link">
                 <div className="project-item blackboard-background">
                   <h3>{project.title}</h3>
-                  <p>{project.description}
-
-
-                  </p>
+                  <p>{project.description}</p>
                   {project.managerDetails && (
                       <p>Created by: {project.managerDetails.Fname + ' ' + project.managerDetails.Lname}</p>
                   )}
@@ -46,12 +40,9 @@ class ProjectList extends React.Component {
                         <li key={dev._id}>{dev.Fname + ' ' + dev.Lname}</li>
                     ))}
                   </ul>
-
-                  {/* Render the task status counts here */}
                   <div className="task-status-counts">
                     {this.renderTaskStatusCounts(project.taskStatusCounts)}
                   </div>
-
                   {userRole === "manager" && (
                       <div className="button-container">
                         <button

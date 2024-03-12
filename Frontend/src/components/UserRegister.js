@@ -32,7 +32,7 @@ const Register = ({ onClose }) => {
     } catch (error) {
       setError("Failed to register. Please try again.");
 
-      // Clear the error message after 3 seconds
+
       setTimeout(() => {
         setError("");
       }, 2000);

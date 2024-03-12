@@ -6,8 +6,6 @@ import * as TaskService from "../services/TaskService";
 import TaskEdit from "./TaskEdit";
 import "./css/TaskBoard.css";
 import { useNavigate } from "react-router-dom";
-
-// Import icons
 import calendarIcon from './calendar.png';
 import addTaskIcon from './taskAdd.png';
 import taskReportIcon from './report.png';

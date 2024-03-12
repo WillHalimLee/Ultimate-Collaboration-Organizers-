@@ -9,7 +9,7 @@ const TaskCreate = ({ isOpen, onClose, projectId, fetchTasks }) => {
     status: "Pending",
     dueDate: "",
     projectId: projectId,
-    createdBy: JSON.parse(localStorage.getItem("user")), // Assuming the user's ID is stored in localStorage
+    createdBy: JSON.parse(localStorage.getItem("user")),
     assignedTo: [],
   });
   const [developers, setDevelopers] = useState([]);
@@ -21,7 +21,7 @@ const TaskCreate = ({ isOpen, onClose, projectId, fetchTasks }) => {
 
   useEffect(() => {
     const fetchDevelopers = async () => {
-      const devs = await userService.getDevelopers(); // Implement this in userService
+      const devs = await userService.getDevelopers();
       setDevelopers(devs);
     };
     fetchDevelopers();
@@ -43,7 +43,6 @@ const TaskCreate = ({ isOpen, onClose, projectId, fetchTasks }) => {
       fetchTasks();
       onClose();
     } catch (error) {
-      // Handle the error properly
       console.error("Error creating task:", error);
     }
   };
@@ -95,7 +94,7 @@ const TaskCreate = ({ isOpen, onClose, projectId, fetchTasks }) => {
                   onChange={() => handleDeveloperSelection(dev._id)}
                   checked={task.assignedTo.includes(dev._id)}
                 />
-                {dev.Fname + ' ' + dev.Lname} {/* Adjust depending on your developer object structure */}
+                {dev.Fname + ' ' + dev.Lname}
               </label>
             ))}
           </div>

@@ -1,7 +1,8 @@
 import axios from "axios";
-import {lazy} from "react";
+import { lazy } from "react";
 
-const API_URL = "/api/users"; // Base URL for user-related endpoints
+const API_URL = "/api/users";
+
 export const register = async (taskData) => {
   try {
     const response = await axios.post("/api/users/register", taskData);
@@ -20,33 +21,30 @@ export const login = async (userData) => {
     console.log("User logged in:", response.data.token);
     console.log("HELLO ");
     if (response.data) {
-      localStorage.setItem("user", JSON.stringify(response.data)); // Store user data in localStorage
+      localStorage.setItem("user", JSON.stringify(response.data));
     }
-    return response.data; // Optionally return data for further processing
+    return response.data;
   } catch (error) {
     console.error("Error logging in:", error.response ? error.response.data : error.message);
-    throw error; // Propagate the error to be handled by the caller
+    throw error;
   }
 };
 
-//get user by id
 export const getUserById = async (id) => {
-    console.log("ID:", id);
-    try {
-        const response = await axios.get(`/api/users/${id}`);
-        console.log("User:", response.data);
-        return response.data;
-    } catch (error) {
-        console.error("Error getting user:", error);
-        throw error;
-    }
-}
+  console.log("ID:", id);
+  try {
+    const response = await axios.get(`/api/users/${id}`);
+    console.log("User:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error getting user:", error);
+    throw error;
+  }
+};
+
 export const handleUpdate = async (id, userData) => {
   try {
-    // Call the update API
     const response = await axios.put(`/api/users/${id}`, userData);
-
-    // Optional: Check if the update was successful
     if (response.status === 200) {
       console.log("User updated successfully:", response.data);
       return response.data;
@@ -59,27 +57,24 @@ export const handleUpdate = async (id, userData) => {
   }
 };
 
-//get developets
 export const getDevelopers = async () => {
-    try {
-        const response = await axios.get("/api/users/developers");
-        console.log("Developers:", response.data);
-        return response.data; // This should be an array of developer objects with '_id' and 'name' properties.
-    } catch (error) {
-        console.error("Error getting developers:", error);
-        throw error;
-    }
+  try {
+    const response = await axios.get("/api/users/developers");
+    console.log("Developers:", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error getting developers:", error);
+    throw error;
+  }
 };
 
-
-// New function to fetch statistics for a specific developer by ID
 export const getDeveloperStats = async (developerId) => {
-    try {
-        const response = await axios.get(`/api/users/developers/${developerId}/stats`);
-        console.log(`Statistics for developer ${developerId}:`, response.data);
-        return response.data; // This should return the statistics object for the specified developer
-    } catch (error) {
-        console.error(`Error getting statistics for developer ${developerId}:`, error);
-        throw error;
-    }
+  try {
+    const response = await axios.get(`/api/users/developers/${developerId}/stats`);
+    console.log(`Statistics for developer ${developerId}:`, response.data);
+    return response.data;
+  } catch (error) {
+    console.error(`Error getting statistics for developer ${developerId}:`, error);
+    throw error;
+  }
 };

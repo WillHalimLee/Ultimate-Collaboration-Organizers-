@@ -60,7 +60,7 @@ const ProjectBoard = () => {
           }
         }
 
-        // Fetch the task report for the project
+
         let taskStatusCounts = [];
         try {
           taskStatusCounts = await TaskService.getTasksReportByProjectId(project._id);
@@ -72,13 +72,13 @@ const ProjectBoard = () => {
           ...project,
           developersDetails,
           managerDetails,
-          taskStatusCounts // Include the task report data in the project's data
+          taskStatusCounts 
         };
       }));
 
       const groupedProjects = projectsWithDetails.reduce((acc, project) => {
         const createdBy = project.createdBy || 'unknown';
-        // Use 'unknown' as a fallback
+
         if (!acc[createdBy]) {
           acc[createdBy] = [];
         }
@@ -86,7 +86,7 @@ const ProjectBoard = () => {
         return acc;
       }, {});
 
-      setProjectsWithDetails(groupedProjects); // Store the grouped projects
+      setProjectsWithDetails(groupedProjects); 
       console.log("groupedProjects", groupedProjects);
 
     } catch (error) {
@@ -113,10 +113,7 @@ const ProjectBoard = () => {
     setIsEditComponentOpen(true);
   };
 
-  //const handleOpenModalForRegister = () => {
-   //setEditingProject(null);
-   // setIsRegisterComponentOpen(true);
- // };
+
 
   const fetchUserDetails = async () => {
     try {
@@ -172,7 +169,6 @@ const ProjectBoard = () => {
           </header>
           <main className="main-content">
             {Object.entries(projectsWithDetails).map(([managerId, managerProjects]) => {
-              // Assuming managerProjects is an array and the first project has a populated managerDetails
               const managerName = managerProjects.length > 0 && managerProjects[0].managerDetails
                   ? `${managerProjects[0].managerDetails.Fname} ${managerProjects[0].managerDetails.Lname}`
                   : 'Unknown Manager';
@@ -181,7 +177,7 @@ const ProjectBoard = () => {
                   <div key={managerId} className="manager-column">
                     <h2 className ="project-created"> Projects Created By: {managerName}</h2>
                     <ProjectList
-                        projects={managerProjects} // Pass the array of projects for this manager
+                        projects={managerProjects} 
                         onDelete={handleDeleteProject}
                         onEdit={handleOpenEditComponent}
                         userRole={userDetails?.job}

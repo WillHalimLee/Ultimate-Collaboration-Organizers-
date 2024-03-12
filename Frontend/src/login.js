@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as userService from "./services/userService";
 import "./login.css";
-import imageSrc from "./task.png"; // Replace with the actual path to your image
+import imageSrc from "./task.png"; 
 
 const Login = () => {
   const [user, setUser] = useState({ email: "", password: "" });
@@ -17,7 +17,7 @@ const Login = () => {
  const handleSubmit = async (event) => {
    event.preventDefault();
    try {
-     setError(""); // Clear the error message
+     setError(""); 
      var u = await userService.login(user);
 
      console.log(u);
@@ -26,7 +26,7 @@ const Login = () => {
      navigate("/app");
    } catch (err) {
      setError("Login failed. Please try again later.");
-     // Set a timeout to clear the error message after 2 seconds
+
      setTimeout(() => {
        setError("");
      }, 2000);
@@ -34,8 +34,8 @@ const Login = () => {
  };
 
   const handleManagerLogin = async (event) => {
-    event.preventDefault(); // Prevent the default form submission
-    // Do any manager-specific logic here
+    event.preventDefault(); 
+
 
 
     var u = await userService.login({

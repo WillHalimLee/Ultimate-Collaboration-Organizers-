@@ -19,15 +19,14 @@
   background-color: #6F4F86;
 }
 
-/* New styles for the circular background */
 .login-title::after {
   content: 'UCO';
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: #b7a57a; /* Set the text color to white or any color that contrasts with the circular background */
-  font-size: 1em; /* Adjust the font size as needed */
+  color: #b7a57a; 
+  font-size: 1em; 
 }
 
 .login-subtitle {
@@ -125,11 +124,9 @@ input:focus {
 
 .error-message {
   text-align: left;
-  margin-left: 400px; /* Adjust this value based on your layout */
+  margin-left: 400px; 
   max-width: 600px;
-  color: red; /* or any color you prefer */
-  font-size: 1em; /* Adjust the font size as needed */
+  color: red; 
+  font-size: 1em; 
   font-family: 'Madimi One', sans-serif;
 }
-
-/* Add this style if you want some space between the error message and the button */

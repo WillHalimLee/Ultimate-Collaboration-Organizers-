@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import * as TaskService from "../services/TaskService";
 import * as UserService from "../services/userService";
-import "./css/EditTask.css"; // Ensure this is pointing to the correct CSS file
+import "./css/EditTask.css";
 
 const TaskEdit = ({ isOpen, onClose, projectId, fetchTasks, TaskID }) => {
   const [task, setTask] = useState({
@@ -23,7 +23,7 @@ const TaskEdit = ({ isOpen, onClose, projectId, fetchTasks, TaskID }) => {
         const devs = await UserService.getDevelopers();
         setAllDevelopers(devs);
       } catch (error) {
-        console.error("Failed to fetch developers", error);
+        console.error(error);
       } finally {
         setIsLoading(false);
       }
@@ -37,7 +37,7 @@ const TaskEdit = ({ isOpen, onClose, projectId, fetchTasks, TaskID }) => {
           ...response,
         });
       } catch (error) {
-        console.error("Failed to fetch task data.", error);
+        console.error(error);
       } finally {
         setIsLoading(false);
       }
@@ -68,16 +68,12 @@ const TaskEdit = ({ isOpen, onClose, projectId, fetchTasks, TaskID }) => {
       fetchTasks();
       onClose();
     } catch (error) {
-      console.error("Failed to update task", error);
+      console.error(error);
     }
   };
 
-  if (!isOpen) return null; // Ensure modal is only displayed when isOpen is true
-
   return (
     <div className={`project-modal ${isOpen ? "open" : ""}`} style={{ display: isOpen ? "flex" : "none" }}>
-      {" "}
-      {/* Use project-modal classes for styling */}
       <div className="modal-content">
         <h2>Edit Task</h2>
         <form onSubmit={handleSubmit}>
@@ -104,7 +100,7 @@ const TaskEdit = ({ isOpen, onClose, projectId, fetchTasks, TaskID }) => {
           </div>
           <div>
             <label>Assigned Developers</label>
-            <div className="ad">
+            <div className="assigned-developers">
               {allDevelopers.map((dev) => (
                 <label key={dev._id}>
                   <input type="checkbox" checked={task.assignedTo.includes(dev._id)} onChange={() => handleDeveloperSelection(dev._id)} />
@@ -114,8 +110,6 @@ const TaskEdit = ({ isOpen, onClose, projectId, fetchTasks, TaskID }) => {
             </div>
           </div>
           <div className="button-group">
-            {" "}
-            {/* Ensure buttons are styled consistently */}
             <button type="button" onClick={onClose} className="cancel-button">
               Cancel
             </button>

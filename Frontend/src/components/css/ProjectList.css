@@ -24,13 +24,13 @@
   background-position: center;
   background-repeat: no-repeat;
   color: white;
-  height: 290px; /* Set a fixed height for the blackboard image */
-  padding: 50px; /* Adjust padding as needed */
+  height: 290px; 
+  padding: 50px; 
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  overflow: hidden; /* Prevent text overflow */
+  overflow: hidden; 
 }
 
 .project-item h3,
@@ -38,14 +38,14 @@
 .project-item ul {
   margin: 0;
   overflow: hidden;
-  text-overflow: ellipsis; /* Add ellipsis for overflow */
+  text-overflow: ellipsis; 
   white-space: nowrap;
-    font-size: 14px; /* Adjust font size as needed */
+    font-size: 14px; 
 }
 
 
 .task-status-counts {
-  flex-grow: 0; /* Prevent task status counts from affecting the layout */
+  flex-grow: 0; 
 }
 
 .button-container {

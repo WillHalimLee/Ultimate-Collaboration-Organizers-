@@ -1,4 +1,3 @@
-// frontend/src/services/ProjectService.js
 import axios from 'axios';
 
 const BASE_URL = '/api/projects';
@@ -6,7 +5,7 @@ const BASE_URL = '/api/projects';
 export const getAllProjects = async () => {
     try {
         const response = await axios.get(BASE_URL);
-        return response.data; // Assuming the server sends back an array of projects
+        return response.data;
     } catch (error) {
         console.error('Failed to fetch projects:', error);
         throw error;
@@ -19,7 +18,7 @@ export const createProject = async (projectData) => {
         return response.data;
     } catch (error) {
         console.error('Error creating new project:', error);
-        throw error; // Rethrow the error to be handled by the caller
+        throw error;
     }
 };
 
@@ -38,27 +37,26 @@ export const deleteProject = async (projectId) => {
         await axios.delete(`/api/projects/${projectId}`);
     } catch (error) {
         console.error('Error deleting project:', error);
-        throw error; // Optionally re-throw to handle it in the component
+        throw error;
     }
 };
 
-// In ProjectService.js
 export const updateProject = async (id, projectData) => {
-    try{
+    try {
         const response = await axios.put(`/api/projects/${id}`, projectData);
         return response.data;
     } catch (error) {
         console.error('Error updating project:', error);
         throw error;
     }
-
 };
 
 export const getProjectByID = async (id) => {
-    const response = await axios.get(`/api/projects/${id}`);
-    return response.data;
+    try {
+        const response = await axios.get(`/api/projects/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching project by ID:', error);
+        throw error;
+    }
 };
-
-
-
-

@@ -7,7 +7,7 @@ import "./css/TaskList.css";
 const TaskList = ({ tasks, onDelete, onEdit }) => {
   const formatDate = (date) => (date ? new Date(date).toLocaleDateString("en-US") : "No Date");
 
-  // Checkd if tasks is not an array or it's empty and render an appropriate message or component
+
   if (!Array.isArray(tasks) || tasks.length === 0) {
     return <div className="no-tasks">No tasks available</div>;
   }

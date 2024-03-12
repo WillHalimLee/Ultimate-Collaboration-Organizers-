@@ -6,7 +6,6 @@ const App = () => {
       <Routes>
         <Route path="/" element={isAuthenticated ? <Navigate to="/app" /> : <LoginPage />} />
         <Route path="/app" element={isAuthenticated ? <MainApp userRole={userRole} /> : <Navigate to="/" />} />
-        {/* Define other routes, if needed */}
       </Routes>
     </BrowserRouter>
   );

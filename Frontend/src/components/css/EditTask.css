@@ -52,15 +52,14 @@
     margin-right: 10px;
     font-family: 'Madimi One', sans-serif;
     text-decoration: none;
-    /* Remove underline */
 }
 
 .modal-content button.create-button {
     background-color: #6f4f86;
-    /* Grey color */
+
     color: white;
     text-decoration: none;
-    /* Remove underline */
+
 }
 .ad{
     display: flex;

@@ -10,7 +10,7 @@ const app = express();
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(cors());
-// Import routes
+
 const projectRoutes = require("./routes/projectRoutes");
 const taskRoutes = require("./routes/taskRoutes");
 const userRoutes = require("./routes/userRoutes");
@@ -29,7 +29,7 @@ mongoose
   .then(() => console.log("MongoDB connected successfully."))
   .catch((error) => console.error("MongoDB connection error:", error));
 
-// Define routes
+
 app.use("/api/projects", projectRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/users", userRoutes);

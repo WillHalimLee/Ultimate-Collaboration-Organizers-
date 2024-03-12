@@ -15,7 +15,6 @@ const userSchema = new mongoose.Schema(
     },
     phone: {
       type: String, // MongoDB does not have a 'NUMBER' type, so we use String to store phone numbers
-      required: [true, "Phone number is required"],
       validate: {
         validator: function (v) {
           return /\d{10}/.test(v); // Simple validation for a 10 digit phone number
@@ -38,7 +37,6 @@ const userSchema = new mongoose.Schema(
     },
     address: {
       type: String,
-      required: [true, "Address is required"],
       trim: true,
     },
     password: {
@@ -48,7 +46,6 @@ const userSchema = new mongoose.Schema(
     },
     dob: {
       type: Date,
-      required: [true, "Date of birth is required"],
     },
     job: {
       type: String,

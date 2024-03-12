@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import * as TaskService from "../services/TaskService";
 import * as UserService from "../services/userService";
-
+import "./css/EditTask.css";
 const TaskEdit = ({ isOpen, onClose, projectId, fetchTasks, TaskID }) => {
   const [task, setTask] = useState({
-    title: '',
-    description: '',
-    status: '',
-    dueDate: '',
-    projectId: '',
-    createdBy: '',
-    assignedTo: []
+    title: "",
+    description: "",
+    status: "",
+    dueDate: "",
+    projectId: "",
+    createdBy: "",
+    assignedTo: [],
   });
   const [allDevelopers, setAllDevelopers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -35,10 +35,10 @@ const TaskEdit = ({ isOpen, onClose, projectId, fetchTasks, TaskID }) => {
         console.log("projectId", projectId);
         const response = await TaskService.getTaskByID(projectId, TaskID);
         setTask({
-          ...response
+          ...response,
         });
       } catch (error) {
-        console.error('Failed to fetch task data.', error);
+        console.error("Failed to fetch task data.", error);
       } finally {
         setIsLoading(false);
       }
@@ -51,11 +51,9 @@ const TaskEdit = ({ isOpen, onClose, projectId, fetchTasks, TaskID }) => {
   }, [TaskID]);
 
   const handleDeveloperSelection = (devId) => {
-    setTask(prev => ({
+    setTask((prev) => ({
       ...prev,
-      assignedTo: prev.assignedTo.includes(devId)
-          ? prev.assignedTo.filter(id => id !== devId)
-          : [...prev.assignedTo, devId],
+      assignedTo: prev.assignedTo.includes(devId) ? prev.assignedTo.filter((id) => id !== devId) : [...prev.assignedTo, devId],
     }));
   };
 
@@ -82,17 +80,19 @@ const TaskEdit = ({ isOpen, onClose, projectId, fetchTasks, TaskID }) => {
   if (isLoading) return <p>Loading...</p>;
 
   return (
-    <div>
+    <div className="container">
       <div>
         <h2>Edit Task</h2>
         <form onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="title">Title</label>
-            <input id="title" type="text" name="title" value={task.title} onChange={handleChange} required/>
+            <label className="title" htmlFor="title">
+              Title
+            </label>
+            <input id="title" type="text" name="title" value={task.title} onChange={handleChange} required />
           </div>
           <div>
             <label htmlFor="description">Description</label>
-            <textarea id="description" name="description" value={task.description} onChange={handleChange}/>
+            <textarea id="description" name="description" value={task.description} onChange={handleChange} />
           </div>
           <div>
             <label htmlFor="status">Status</label>
@@ -105,19 +105,15 @@ const TaskEdit = ({ isOpen, onClose, projectId, fetchTasks, TaskID }) => {
           </div>
           <div>
             <label htmlFor="dueDate">Due Date</label>
-            <input id="dueDate" name="dueDate" type="date" value={task.dueDate} onChange={handleChange}/>
+            <input id="dueDate" name="dueDate" type="date" value={task.dueDate} onChange={handleChange} />
           </div>
           <div>
             <label>Assigned Developers</label>
-            {allDevelopers.map(dev => (
-                <label key={dev._id}>
-                  <input
-                      type="checkbox"
-                      checked={task.assignedTo.includes(dev._id)}
-                      onChange={() => handleDeveloperSelection(dev._id)}
-                  />
-                  {dev.Fname} {dev.Lname}
-                </label>
+            {allDevelopers.map((dev) => (
+              <label key={dev._id}>
+                <input type="checkbox" checked={task.assignedTo.includes(dev._id)} onChange={() => handleDeveloperSelection(dev._id)} />
+                {dev.Fname} {dev.Lname}
+              </label>
             ))}
           </div>
           <button type="submit">Save Task</button>

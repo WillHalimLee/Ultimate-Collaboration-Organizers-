@@ -8,7 +8,7 @@ const ProjectCreate = ({ isOpen, onClose, refreshProjects }) => {
         title: '',
         description: '',
         developers: [],
-        manager: '' // Add a manager field to your project state
+        manager: '' // Addd a manager field to your project state
     });
     const [developers, setDevelopers] = useState([]); // Add state for the list of developers
 

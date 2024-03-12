@@ -113,3 +113,18 @@ export const deleteProject = async (projectId) => {
     throw error; // Optionally re-throw to handle it in the component
   }
 };
+
+export const fetchTaskDatesByProjectId = async (projectId) => {
+  try {
+    const response = await fetch(`/api/tasks/projects/${projectId}/tasks/dates`);
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    const tasksWithDates = await response.json();
+    return tasksWithDates;
+  } catch (error) {
+    console.error('Failed to load tasks:', error);
+    return [];
+  }
+};
+

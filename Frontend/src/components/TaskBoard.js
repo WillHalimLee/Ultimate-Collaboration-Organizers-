@@ -5,7 +5,7 @@ import TaskList from "./TaskList";
 import * as TaskService from "../services/TaskService";
 import TaskEdit from "./TaskEdit";
 import "./css/TaskBoard.css";
-import * as UserService from "../services/userService";
+import { useNavigate } from "react-router-dom";
 
 const TaskBoard = () => {
   const { projectId } = useParams();
@@ -14,6 +14,7 @@ const TaskBoard = () => {
   const [isEditComponentOpen, setIsEditComponentOpen] = useState(false);
   const [editingProject, setEditingProject] = useState(null);
   const [tasksReport, setTasksReport] = useState({});
+  const navigate = useNavigate();
 
 
   const refreshTasks = async () => {
@@ -71,6 +72,10 @@ const TaskBoard = () => {
   return (
       <div className="TaskBoard">
         <h2 className="TaskBoardTitle">Task Board</h2>
+
+        <button onClick={() => navigate(`/weekly-view/${projectId}`)}>
+          Go to Calendar View
+        </button>
         <button className="AddTaskButton" onClick={handleAddTaskClick}>
           Add New Task
         </button>

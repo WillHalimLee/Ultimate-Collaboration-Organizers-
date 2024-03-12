@@ -67,6 +67,26 @@ router.get("/projects/:projectId/tasks/report", async (req, res) => {
     res.status(500).send('An error occurred while generating the tasks report.');
   }
 });
+
+router.get('/projects/:projectId/tasks/dates', async (req, res) => {
+  const { projectId } = req.params;
+
+  try {
+    const tasks = await Task.find({ projectId: projectId }, 'createdAt dueDate title')
+        .exec();
+
+    const tasksWithDates = tasks.map(task => ({
+      title: task.title,
+      start: task.createdAt,
+      end: task.dueDate
+    }));
+
+    res.json(tasksWithDates);
+  } catch (error) {
+    console.error('Failed to fetch tasks:', error);
+    res.status(500).send({ message: "An error occurred while fetching tasks.", error: error.message });
+  }
+});
 router.get("/projects/:projectId/tasks/:id", async (req, res) => {
   try {
     const task = await Task.findOne({ _id: req.params.id, projectId: req.params.projectId });
@@ -106,6 +126,9 @@ router.get('/projects/:projectId/tasks/status/:status', async (req, res) => {
 // Add this endpoint in your tasks router file
 
 
+// Endpoint to fetch start and end dates for all tasks within a given project
+
+
 
 
 
@@ -129,6 +152,8 @@ router.put("/projects/:projectId/tasks/:id", async (req, res) => {
     res.status(500).send(error.message);
   }
 });
+
+
 
 
 

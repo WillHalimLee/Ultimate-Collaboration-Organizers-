@@ -9,6 +9,7 @@ import TaskBoard from "./components/TaskBoard";
 import WeeklyView from "./old/WeeklyView"; // Ensure this is the correct path
 import UserInformationPage from "./components/UserInformation"; // Ensure you have an
 import UserRegisterPage from "./components/UserRegister";
+import CalendarView from "./components/CalendarView";
 
 // Find the root div in your index.html
 const rootElement = document.getElementById("root");
@@ -26,7 +27,7 @@ root.render(
           <Route path="/projects/:projectId/tasks" element={<TaskBoard />} />
           <Route path="/user-information" element={<UserInformationPage />} />
           <Route path="/user-register" element={<UserRegisterPage />} />
-          <Route path="/weekly-view/:taskId" element={<WeeklyView />} />
+          <Route path="/weekly-view/:projectId" element={<CalendarView  />} />
           <Route path="/developers-stats" element={<DevelopersStatsPage />} />
           {/* Other routes... */}
         </Routes>

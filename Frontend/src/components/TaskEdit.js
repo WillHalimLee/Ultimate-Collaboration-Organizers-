@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import * as TaskService from "../services/TaskService";
 import * as UserService from "../services/userService";
-import "./css/EditTask.css";
-
 
 const TaskEdit = ({ isOpen, onClose, projectId, fetchTasks, TaskID }) => {
   const [task, setTask] = useState({
@@ -10,8 +8,8 @@ const TaskEdit = ({ isOpen, onClose, projectId, fetchTasks, TaskID }) => {
     description: '',
     status: '',
     dueDate: '',
-    projectId: '', // This needs to be provided when initializing TaskEdit
-    createdBy: '', // This will be set based on the task data
+    projectId: '',
+    createdBy: '',
     assignedTo: []
   });
   const [allDevelopers, setAllDevelopers] = useState([]);
@@ -38,7 +36,6 @@ const TaskEdit = ({ isOpen, onClose, projectId, fetchTasks, TaskID }) => {
         const response = await TaskService.getTaskByID(projectId, TaskID);
         setTask({
           ...response
-          // assignedTo: Array.isArray(response.assignedTo) ? response.assignedTo.map(dev => dev._id) : [] // Fixes the error
         });
       } catch (error) {
         console.error('Failed to fetch task data.', error);
@@ -46,7 +43,6 @@ const TaskEdit = ({ isOpen, onClose, projectId, fetchTasks, TaskID }) => {
         setIsLoading(false);
       }
     };
-
 
     if (TaskID) {
       fetchTask();
@@ -75,7 +71,7 @@ const TaskEdit = ({ isOpen, onClose, projectId, fetchTasks, TaskID }) => {
       return;
     }
     try {
-      await TaskService.updateTask(projectId,TaskID, task);
+      await TaskService.updateTask(projectId, TaskID, task);
       fetchTasks();
       onClose();
     } catch (error) {
@@ -86,11 +82,11 @@ const TaskEdit = ({ isOpen, onClose, projectId, fetchTasks, TaskID }) => {
   if (isLoading) return <p>Loading...</p>;
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-body">
-        <h2>Edit Task</h2> {}
-        <form onSubmit={handleSubmit} className="modal-form">
-          <div className="form-group">
+    <div>
+      <div>
+        <h2>Edit Task</h2>
+        <form onSubmit={handleSubmit}>
+          <div>
             <label htmlFor="title">Title</label>
             <input id="title" type="text" name="title" value={task.title} onChange={handleChange} required/>
           </div>
@@ -104,23 +100,23 @@ const TaskEdit = ({ isOpen, onClose, projectId, fetchTasks, TaskID }) => {
               <option value="Pending">Pending</option>
               <option value="InProgress">In Progress</option>
               <option value="Completed">Completed</option>
-               <option value="Emergency">Emergency</option>
+              <option value="Emergency">Emergency</option>
             </select>
           </div>
           <div>
             <label htmlFor="dueDate">Due Date</label>
             <input id="dueDate" name="dueDate" type="date" value={task.dueDate} onChange={handleChange}/>
           </div>
-          <div className="form-group">
+          <div>
             <label>Assigned Developers</label>
             {allDevelopers.map(dev => (
-                <label key={dev._id} className="developer-checkbox">
+                <label key={dev._id}>
                   <input
                       type="checkbox"
                       checked={task.assignedTo.includes(dev._id)}
                       onChange={() => handleDeveloperSelection(dev._id)}
                   />
-                  {dev.Fname} {dev.Lname} {/* Assuming developers have first and last names */}
+                  {dev.Fname} {dev.Lname}
                 </label>
             ))}
           </div>

@@ -1,9 +1,8 @@
-import React, {useEffect, useState} from "react";
-
+import React, { useEffect, useState } from "react";
 import * as taskService from "../services/TaskService";
 import * as userService from "../services/userService";
 
-const TaskCreat = ({ isOpen, onClose, projectId, fetchTasks }) => {
+const TaskCreate = ({ isOpen, onClose, projectId, fetchTasks }) => {
   const [task, setTask] = useState({
     title: "",
     description: "",
@@ -11,9 +10,10 @@ const TaskCreat = ({ isOpen, onClose, projectId, fetchTasks }) => {
     dueDate: "",
     projectId: projectId,
     createdBy: JSON.parse(localStorage.getItem("user")), // Assuming the user's ID is stored in localStorage
-    assignedTo: []
+    assignedTo: [],
   });
   const [developers, setDevelopers] = useState([]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setTask((prev) => ({ ...prev, [name]: value }));
@@ -28,11 +28,11 @@ const TaskCreat = ({ isOpen, onClose, projectId, fetchTasks }) => {
   }, []);
 
   const handleDeveloperSelection = (devId) => {
-    setTask(prev => ({
+    setTask((prev) => ({
       ...prev,
       assignedTo: prev.assignedTo.includes(devId)
-          ? prev.assignedTo.filter(id => id !== devId)
-          : [...prev.assignedTo, devId]
+        ? prev.assignedTo.filter((id) => id !== devId)
+        : [...prev.assignedTo, devId],
     }));
   };
 
@@ -50,28 +50,28 @@ const TaskCreat = ({ isOpen, onClose, projectId, fetchTasks }) => {
 
   if (!isOpen) return null;
   return (
-    <div className="modal-overlay">
-      <div className="modal-body">
+    <div>
+      <div>
         <h2>Add New Task</h2>
         <form onSubmit={handleSubmit}>
           <div>
             <label htmlFor="title">Title</label>
             <input
-                id="title"
-                name="title"
-                type="text"
-                placeholder="Enter a name for your Task"
-                onChange={handleChange}
-                required
+              id="title"
+              name="title"
+              type="text"
+              placeholder="Enter a name for your Task"
+              onChange={handleChange}
+              required
             />
           </div>
           <div>
             <label htmlFor="description">Description</label>
             <textarea
-                id="description"
-                name="description"
-                placeholder="Enter a Task description"
-                onChange={handleChange}
+              id="description"
+              name="description"
+              placeholder="Enter a Task description"
+              onChange={handleChange}
             />
           </div>
           <div>
@@ -84,19 +84,19 @@ const TaskCreat = ({ isOpen, onClose, projectId, fetchTasks }) => {
           </div>
           <div>
             <label htmlFor="dueDate">Due Date</label>
-            <input id="dueDate" name="dueDate" type="date" onChange={handleChange}/>
+            <input id="dueDate" name="dueDate" type="date" onChange={handleChange} />
           </div>
-          <div className="form-group">
+          <div>
             <label>Assign Developers</label>
             {developers.map((dev) => (
-                <label key={dev._id}>
-                  <input
-                      type="checkbox"
-                      onChange={() => handleDeveloperSelection(dev._id)}
-                      checked={task.assignedTo.includes(dev._id)}
-                  />
-                  {dev.Fname + ' ' + dev.Lname} {/* Adjust depending on your developer object structure */}
-                </label>
+              <label key={dev._id}>
+                <input
+                  type="checkbox"
+                  onChange={() => handleDeveloperSelection(dev._id)}
+                  checked={task.assignedTo.includes(dev._id)}
+                />
+                {dev.Fname + ' ' + dev.Lname} {/* Adjust depending on your developer object structure */}
+              </label>
             ))}
           </div>
           <button type="submit">Save Task</button>
@@ -109,4 +109,4 @@ const TaskCreat = ({ isOpen, onClose, projectId, fetchTasks }) => {
   );
 };
 
-export default TaskCreat;
+export default TaskCreate;

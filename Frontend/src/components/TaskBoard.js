@@ -5,7 +5,7 @@ import TaskList from "./TaskList";
 import * as TaskService from "../services/TaskService";
 import TaskEdit from "./TaskEdit";
 import "./css/TaskBoard.css";
-import * as UserService from "../services/userService";
+import { useNavigate } from "react-router-dom";
 
 const TaskBoard = () => {
   const { projectId } = useParams();
@@ -14,6 +14,7 @@ const TaskBoard = () => {
   const [isEditComponentOpen, setIsEditComponentOpen] = useState(false);
   const [editingProject, setEditingProject] = useState(null);
   const [tasksReport, setTasksReport] = useState({});
+  const navigate = useNavigate();
 
 
   const refreshTasks = async () => {
@@ -59,9 +60,22 @@ const TaskBoard = () => {
     return tasks.filter((task) => task.status === status);
   };
 
+  async function deleteTask(taskId) {
+    try {
+      await TaskService.deleteTask(taskId);
+      refreshTasks();
+    } catch (error) {
+      console.error("Failed to delete task:", error);
+    }
+  }
+
   return (
       <div className="TaskBoard">
         <h2 className="TaskBoardTitle">Task Board</h2>
+
+        <button onClick={() => navigate(`/weekly-view/${projectId}`)}>
+          Go to Calendar View
+        </button>
         <button className="AddTaskButton" onClick={handleAddTaskClick}>
           Add New Task
         </button>
@@ -72,7 +86,7 @@ const TaskBoard = () => {
                 <h3>{status}</h3>
                 <TaskList
                     tasks={filterTasksByStatus(status) || []}
-                    onDelete={refreshTasks}
+                    onDelete={deleteTask}
                     onEdit={handleOpenEditComponent}
                 />
               </div>
@@ -98,6 +112,7 @@ const TaskBoard = () => {
             <TaskEdit
                 isOpen={isEditComponentOpen}
                 onClose={() => setIsEditComponentOpen(false)}
+                projectId={projectId}
                 fetchTasks={refreshTasks}
                 TaskID={editingProject}
             />

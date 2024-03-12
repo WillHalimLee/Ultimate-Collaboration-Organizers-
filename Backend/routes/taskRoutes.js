@@ -19,6 +19,20 @@ router.post("/", async (req, res) => {
     res.status(500).send({ message: "Error creating task", error: error.message });
   }
 });
+router.delete("/:id", async (req, res) => {
+  try {
+    const task = await Task.findByIdAndDelete(req.params.id);
+    if (task) {
+      res.status(204).send();
+    } else {
+      res.status(404).send({ message: "Task not found" });
+    }
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
+module.exports = router;
 
 // Get all tasks for a specific project
 router.get("/projects/:projectId/tasks", async (req, res) => {
@@ -54,10 +68,41 @@ router.get("/projects/:projectId/tasks/report", async (req, res) => {
   }
 });
 
+router.get('/projects/:projectId/tasks/dates', async (req, res) => {
+  const { projectId } = req.params;
+
+  try {
+    const tasks = await Task.find({ projectId: projectId }, 'createdAt dueDate title')
+        .exec();
+
+    const tasksWithDates = tasks.map(task => ({
+      title: task.title,
+      start: task.createdAt,
+      end: task.dueDate
+    }));
+
+    res.json(tasksWithDates);
+  } catch (error) {
+    console.error('Failed to fetch tasks:', error);
+    res.status(500).send({ message: "An error occurred while fetching tasks.", error: error.message });
+  }
+});
+router.get("/projects/:projectId/tasks/:id", async (req, res) => {
+  try {
+    const task = await Task.findOne({ _id: req.params.id, projectId: req.params.projectId });
+    if (task) {
+      res.send(task);
+    } else {
+      res.status(404).send({ message: "Task not found" });
+    }
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
 
 
 // Endpoint to fetch tasks by project ID and status using URL parameters
-router.get('/projects/:projectId/tasks/:status', async (req, res) => {
+router.get('/projects/:projectId/tasks/status/:status', async (req, res) => {
   const { projectId, status } = req.params;
 
   try {
@@ -81,23 +126,15 @@ router.get('/projects/:projectId/tasks/:status', async (req, res) => {
 // Add this endpoint in your tasks router file
 
 
+// Endpoint to fetch start and end dates for all tasks within a given project
+
+
 
 
 
 
 // Get a specific task by ID for a project
-router.get("/projects/:projectId/tasks/:id", async (req, res) => {
-  try {
-    const task = await Task.findOne({ _id: req.params.id, projectId: req.params.projectId });
-    if (task) {
-      res.send(task);
-    } else {
-      res.status(404).send({ message: "Task not found" });
-    }
-  } catch (error) {
-    res.status(500).send(error.message);
-  }
-});
+
 
 // Update a task
 router.put("/projects/:projectId/tasks/:id", async (req, res) => {
@@ -116,18 +153,8 @@ router.put("/projects/:projectId/tasks/:id", async (req, res) => {
   }
 });
 
-// Delete a task
-router.delete("/:id", async (req, res) => {
-  try {
-    const task = await Task.findByIdAndDelete(req.params.id);
-    if (task) {
-      res.status(204).send();
-    } else {
-      res.status(404).send({ message: "Task not found" });
-    }
-  } catch (error) {
-    res.status(500).send(error.message);
-  }
-});
+
+
+
 
 module.exports = router;

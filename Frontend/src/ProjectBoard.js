@@ -4,7 +4,6 @@ import ProjectCreat from "./components/ProjectCreat";
 import ProjectEdit from "./components/ProjectEdit";
 import ProjectSearch from "./components/ProjectSearch";
 import ProjectList from "./components/ProjectList";
-
 import "./ProjectBoard.css";
 import * as ProjectService from "./services/ProjectService";
 import * as userService from "./services/userService";
@@ -13,6 +12,7 @@ import * as TaskService from "./services/TaskService";
 import logoutIcon from './logout.png';
 import createProjectIcon from './add.png';
 import userInformationIcon from './user.png';
+import statsIcon from './stats.png'
 import {getTasksReportByProjectId} from "./services/TaskService";
 
 
@@ -151,11 +151,10 @@ const ProjectBoard = () => {
                           <img src={createProjectIcon} alt="Create Project" className="icon"/>
                         </button>
                         <button className="menu-item" onClick={() => window.location.href = "/developers-stats"}>
-                          <p> developer stats</p>
+                        <img src={statsIcon} alt="stats" className="icon"/>
                         </button>
                       </>
                   )}
-
                   <button
                       className="menu-item link-button"
                       onClick={() => window.location.href = "/user-information"}
@@ -168,13 +167,6 @@ const ProjectBoard = () => {
                   >
                     <img src={logoutIcon} alt="Logout" className="icon"/>
                   </button>
-                  <button
-                      className="menu-item link-button"
-                      onClick={() => window.location.href = "/user-register"}
-                  >
-                    <img src={userInformationIcon} alt="User Register" className="icon"/>
-                  </button>
-
                 </div>
             )}
           </header>
@@ -187,7 +179,7 @@ const ProjectBoard = () => {
 
               return (
                   <div key={managerId} className="manager-column">
-                    <h2>Projects Created By: {managerName}</h2>
+                    <h2 className ="project-created"> Projects Created By: {managerName}</h2>
                     <ProjectList
                         projects={managerProjects} // Pass the array of projects for this manager
                         onDelete={handleDeleteProject}

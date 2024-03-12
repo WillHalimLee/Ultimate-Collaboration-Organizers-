@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-import './css/EditProjectComponent.css';
 import * as ProjectService from "../services/ProjectService";
 import * as UserService from "../services/userService";
-
 
 const ProjectEdit = ({ projectId, onClose, refreshProjects }) => {
     const [project, setProject] = useState({
@@ -83,7 +81,6 @@ const ProjectEdit = ({ projectId, onClose, refreshProjects }) => {
             return;
         }
         try {
-
             await ProjectService.updateProject(projectId, project);
             refreshProjects();
             onClose();
@@ -95,11 +92,11 @@ const ProjectEdit = ({ projectId, onClose, refreshProjects }) => {
     if (isLoading) return <p>Loading...</p>;
 
     return (
-        <div className="modal-overlay">
-            <div className="modal-body">
+        <div>
+            <div>
                 <h2>Edit Project</h2>
-                <form onSubmit={handleSubmit} className="modal-form">
-                    <div className="form-group">
+                <form onSubmit={handleSubmit}>
+                    <div>
                         <label htmlFor="projectName">Project Name</label>
                         <input
                             id="projectName"
@@ -111,7 +108,7 @@ const ProjectEdit = ({ projectId, onClose, refreshProjects }) => {
                             required
                         />
                     </div>
-                    <div className="form-group">
+                    <div>
                         <label htmlFor="projectDescription">Description</label>
                         <textarea
                             id="projectDescription"
@@ -122,7 +119,7 @@ const ProjectEdit = ({ projectId, onClose, refreshProjects }) => {
                             required
                         />
                     </div>
-                    <div className="form-group">
+                    <div>
                         <label>Developers</label>
                         {allDevelopers.map(dev => (
                             <label key={dev._id}>
@@ -135,9 +132,9 @@ const ProjectEdit = ({ projectId, onClose, refreshProjects }) => {
                             </label>
                         ))}
                     </div>
-                    <div className="form-actions">
-                        <button type="button" className="button-cancel" onClick={onClose}>Cancel</button>
-                        <button type="submit" className="button-save">Save Changes</button>
+                    <div>
+                        <button type="button" onClick={onClose}>Cancel</button>
+                        <button type="submit">Save Changes</button>
                     </div>
                 </form>
             </div>

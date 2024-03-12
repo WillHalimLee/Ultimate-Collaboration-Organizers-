@@ -6,7 +6,7 @@ import DevelopersStatsPage from "./components/developerStatics";
 import Login from "./login";
 import ProjectBoard from "./ProjectBoard";
 import TaskBoard from "./components/TaskBoard";
-import WeeklyView from "./old/WeeklyView"; // Ensure this is the correct path
+
 import UserInformationPage from "./components/UserInformation"; // Ensure you have an
 import UserRegisterPage from "./components/UserRegister";
 import CalendarView from "./components/CalendarView";

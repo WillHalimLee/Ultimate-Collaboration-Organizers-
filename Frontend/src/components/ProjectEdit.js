@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import * as ProjectService from "../services/ProjectService";
 import * as UserService from "../services/userService";
-import "./css/projectCreate.css";
+import "./css/projectCreate.css"; // Ensure the CSS file includes modal styling
 
 const ProjectEdit = ({ projectId, onClose, refreshProjects }) => {
   const [project, setProject] = useState({
@@ -31,13 +31,16 @@ const ProjectEdit = ({ projectId, onClose, refreshProjects }) => {
       try {
         const response = await ProjectService.getProjectByID(projectId);
         const fetchedDevelopers = response.developers || [];
+
         const developersDetails = await Promise.all(
           fetchedDevelopers.map(async (devId) => {
             const devDetails = await UserService.getUserById(devId);
             return devDetails;
           })
         );
+
         const developerIds = developersDetails.map((dev) => dev._id);
+
         setProject({
           ...response,
           developers: developerIds,
@@ -69,10 +72,6 @@ const ProjectEdit = ({ projectId, onClose, refreshProjects }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (!projectId) {
-      console.error("Project ID is undefined");
-      return;
-    }
     try {
       await ProjectService.updateProject(projectId, project);
       refreshProjects();
@@ -85,8 +84,8 @@ const ProjectEdit = ({ projectId, onClose, refreshProjects }) => {
   if (isLoading) return <p>Loading...</p>;
 
   return (
-    <div>
-      <div>
+    <div className="project-modal open">
+      <div className="modal-content">
         <h2>Edit Project</h2>
         <form onSubmit={handleSubmit}>
           <div>
@@ -99,18 +98,22 @@ const ProjectEdit = ({ projectId, onClose, refreshProjects }) => {
           </div>
           <div>
             <label>Developers</label>
-            {allDevelopers.map((dev) => (
-              <label key={dev._id}>
-                <input type="checkbox" checked={project.developers.includes(dev._id)} onChange={() => handleDeveloperSelection(dev._id)} />
-                {dev.Fname}
-              </label>
-            ))}
+            <div className="ad">
+              {allDevelopers.map((dev) => (
+                <label key={dev._id}>
+                  <input type="checkbox" checked={project.developers.includes(dev._id)} onChange={() => handleDeveloperSelection(dev._id)} />
+                  {dev.Fname} {/* Replace with appropriate property names */}
+                </label>
+              ))}
+            </div>
           </div>
-          <div>
-            <button type="button" onClick={onClose}>
+          <div className="button-group">
+            <button type="button" onClick={onClose} className="cancel-button">
               Cancel
             </button>
-            <button type="submit">Save Changes</button>
+            <button type="submit" className="create-button">
+              Save Changes
+            </button>
           </div>
         </form>
       </div>

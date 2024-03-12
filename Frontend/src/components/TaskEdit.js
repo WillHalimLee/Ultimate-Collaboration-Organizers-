@@ -100,7 +100,7 @@ const TaskEdit = ({ isOpen, onClose, projectId, fetchTasks, TaskID }) => {
           </div>
           <div>
             <label>Assigned Developers</label>
-            <div className="assigned-developers">
+            <div className="ad">
               {allDevelopers.map((dev) => (
                 <label key={dev._id}>
                   <input type="checkbox" checked={task.assignedTo.includes(dev._id)} onChange={() => handleDeveloperSelection(dev._id)} />

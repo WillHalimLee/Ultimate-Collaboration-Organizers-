@@ -13,7 +13,7 @@ const taskSchema = new mongoose.Schema(
         status: {
             type: String,
             required: true,
-            default: "Pending", // Example statuses: Pending, In Progress, Completed
+            default: "Pending",
         },
         dueDate: {
             type: Date,
@@ -27,11 +27,11 @@ const taskSchema = new mongoose.Schema(
         createdBy: {
             type: mongoose.Schema.Types.ObjectId,
             required: true,
-            ref: "User", // Reference to the User model
+            ref: "User",
         },
         assignedTo: [{
             type: mongoose.Schema.Types.ObjectId,
-            ref: "User", // Reference to the User model
+            ref: "User",
         }],
     },
     {

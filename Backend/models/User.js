@@ -14,10 +14,10 @@ const userSchema = new mongoose.Schema(
       trim: true,
     },
     phone: {
-      type: String, // MongoDB does not have a 'NUMBER' type, so we use String to store phone numbers
+      type: String,
       validate: {
         validator: function (v) {
-          return /\d{10}/.test(v); // Simple validation for a 10 digit phone number
+          return /\d{10}/.test(v);
         },
         message: (props) => `${props.value} is not a valid phone number!`,
       },
@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema(
     email: {
       type: String,
       required: [true, "Email is required"],
-      unique: true, // Ensures email uniqueness within the collection
+      unique: true,
       trim: true,
       lowercase: true,
       validate: {
@@ -57,7 +57,7 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-// Hash password before saving if it's modified
+
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
   try {

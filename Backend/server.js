@@ -17,10 +17,10 @@ const userRoutes = require("./routes/userRoutes");
 
 app.use(express.json());
 
-// MongoDB Connection String
+
 const mongoDBConnectionString =
   "mongodb+srv://tcss460:ivTEidSQoxDb1CdW@tcss460project.l51fo53.mongodb.net/Tcss460Project?retryWrites=true&w=majority&appName=Tcss460Project";
-// Connect to MongoDB
+
 mongoose
   .connect(mongoDBConnectionString, {
     useNewUrlParser: true,
@@ -31,7 +31,7 @@ mongoose
 
 // Define routes
 app.use("/api/projects", projectRoutes);
-app.use("/api/tasks", taskRoutes); // Assuming you want to structure your task API like this
+app.use("/api/tasks", taskRoutes);
 app.use("/api/users", userRoutes);
 
 const PORT = process.env.PORT || 5000;

@@ -76,7 +76,7 @@ const ProjectCreate = ({ isOpen, onClose, refreshProjects }) => {
           </div>
           <div>
             <label>Developers</label>
-            <div>
+            <div className="ad">
               {developers.map((dev) => (
                 <label key={dev._id}>
                   <input type="checkbox" checked={project.developers.includes(dev._id)} onChange={() => handleDeveloperSelection(dev._id)} />

@@ -1,5 +1,5 @@
 const nodemailer = require('nodemailer');
-const User = require("../models/User");  // Adjust the path to where your User model is defined
+const User = require("../models/User");
 
 // Setup nodemailer transporter
 const transporter = nodemailer.createTransport({

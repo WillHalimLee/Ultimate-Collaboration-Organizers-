@@ -29,9 +29,9 @@ const UserInformation = ({ onClose, onSave }) => {
           if (userResponse.dob) {
             const dobDate = new Date(userResponse.dob);
             if (!isNaN(dobDate.getTime())) {
-              userResponse.dob = dobDate.toISOString().split('T')[0];
+              userResponse.dob = dobDate.toISOString().split("T")[0];
             } else {
-              console.error('Invalid date received from backend:', userResponse.dob);
+              console.error("Invalid date received from backend:", userResponse.dob);
             }
           }
 
@@ -86,11 +86,6 @@ const UserInformation = ({ onClose, onSave }) => {
         </label>
         <br />
         <label>
-          Password:
-          <input type="password"  value={userDetails.password} name="password" onChange={handleChange} />
-        </label>
-        <br />
-        <label>
           Address:
           <input type="text" value={userDetails.address} name="address" onChange={handleChange} />
         </label>
@@ -105,9 +100,7 @@ const UserInformation = ({ onClose, onSave }) => {
           <input type="text" value={userDetails.job} name="job" onChange={handleChange} />
         </label>
         <br />
-        <button type={"submit"}>
-          Save
-        </button>
+        <button type={"submit"}>Save</button>
       </form>
 
       <div style={{ marginTop: "20px" }}>

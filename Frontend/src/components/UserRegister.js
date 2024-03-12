@@ -28,10 +28,7 @@ const Register = ({ onClose }) => {
     e.preventDefault();
     try {
       const registeredUser = await userService.register(userDetails);
-      console.log("User registered:", registeredUser);
-      setSuccess("Registration successful!");
-      setError("");
-      onClose();
+      navigate("/");
     } catch (error) {
       setError("Failed to register. Please try again.");
 
@@ -60,75 +57,42 @@ const Register = ({ onClose }) => {
                 <div className="name-input">
                   <label className="form-label">
                     First Name:
-                    <input
-                      type="text"
-                      value={userDetails.Fname}
-                      name="Fname"
-                      onChange={handleChange}
-                      className="form-input"
-                    />
+                    <input type="text" value={userDetails.Fname} name="Fname" onChange={handleChange} className="form-input" />
                   </label>
                 </div>
                 <div className="name-input">
                   <label className="form-label">
                     Last Name:
-                    <input
-                      type="text"
-                      value={userDetails.Lname}
-                      name="Lname"
-                      onChange={handleChange}
-                      className="form-input"
-                    />
+                    <input type="text" value={userDetails.Lname} name="Lname" onChange={handleChange} className="form-input" />
                   </label>
                 </div>
               </div>
               <div className="single-input">
                 <label className="form-label">
                   Email:
-                  <input
-                    type="email"
-                    value={userDetails.email}
-                    name="email"
-                    onChange={handleChange}
-                    className="form-input"
-                  />
+                  <input type="email" value={userDetails.email} name="email" onChange={handleChange} className="form-input" />
                 </label>
               </div>
               <div className="single-input">
                 <label className="form-label">
                   Password:
-                  <input
-                    type="password"
-                    value={userDetails.password}
-                    name="password"
-                    onChange={handleChange}
-                    className="form-input"
-                  />
+                  <input type="password" value={userDetails.password} name="password" onChange={handleChange} className="form-input" />
                 </label>
               </div>
               <div className="single-input">
                 <label className="form-label">
                   Job:
-                  <input
-                    type="text"
-                    value={userDetails.job}
-                    name="job"
-                    onChange={handleChange}
-                    className="form-input"
-                  />
+                  <input type="text" value={userDetails.job} name="job" onChange={handleChange} className="form-input" />
                 </label>
               </div>
             </div>
-            <button type="submit" className="form-button" onClick={handleRegisterClick}>
-            </button>
+            <button type="submit" className="form-button" onClick={handleRegisterClick}></button>
             <button
               type="button"
               onClick={() => {
                 navigate("/");
               }}
-              className="form-button cancel"
-            >
-            </button>
+              className="form-button cancel"></button>
           </form>
           {error && <div className="error">{error}</div>}
           {success && <div className="success">{success}</div>}

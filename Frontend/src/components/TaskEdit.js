@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import * as TaskService from "../services/TaskService";
 import * as UserService from "../services/userService";
-import "./css/EditTask.css";
+import "./css/EditTask.css"; // Ensure this is pointing to the correct CSS file
+
 const TaskEdit = ({ isOpen, onClose, projectId, fetchTasks, TaskID }) => {
   const [task, setTask] = useState({
     title: "",
@@ -30,11 +31,7 @@ const TaskEdit = ({ isOpen, onClose, projectId, fetchTasks, TaskID }) => {
 
     const fetchTask = async () => {
       setIsLoading(true);
-      console.log("TaskID", TaskID);
-        console.log("projectId", projectId);
       try {
-        console.log("TaskID", TaskID);
-        console.log("projectId", projectId);
         const response = await TaskService.getTaskByID(projectId, TaskID);
         setTask({
           ...response,
@@ -47,11 +44,10 @@ const TaskEdit = ({ isOpen, onClose, projectId, fetchTasks, TaskID }) => {
     };
 
     if (TaskID) {
-      console.log("TaskID", TaskID);
       fetchTask();
       fetchDevelopers();
     }
-  }, [TaskID,projectId]);
+  }, [TaskID, projectId]);
 
   const handleDeveloperSelection = (devId) => {
     setTask((prev) => ({
@@ -67,10 +63,6 @@ const TaskEdit = ({ isOpen, onClose, projectId, fetchTasks, TaskID }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (!TaskID) {
-      console.error("Task ID is undefined");
-      return;
-    }
     try {
       await TaskService.updateTask(projectId, TaskID, task);
       fetchTasks();
@@ -80,17 +72,17 @@ const TaskEdit = ({ isOpen, onClose, projectId, fetchTasks, TaskID }) => {
     }
   };
 
-  if (isLoading) return <p>Loading...</p>;
+  if (!isOpen) return null; // Ensure modal is only displayed when isOpen is true
 
   return (
-    <div className="container">
-      <div>
+    <div className={`project-modal ${isOpen ? "open" : ""}`} style={{ display: isOpen ? "flex" : "none" }}>
+      {" "}
+      {/* Use project-modal classes for styling */}
+      <div className="modal-content">
         <h2>Edit Task</h2>
         <form onSubmit={handleSubmit}>
           <div>
-            <label className="title" htmlFor="title">
-              Title
-            </label>
+            <label htmlFor="title">Title</label>
             <input id="title" type="text" name="title" value={task.title} onChange={handleChange} required />
           </div>
           <div>
@@ -108,21 +100,29 @@ const TaskEdit = ({ isOpen, onClose, projectId, fetchTasks, TaskID }) => {
           </div>
           <div>
             <label htmlFor="dueDate">Due Date</label>
-            <input id="dueDate" name="dueDate" type="date" value={task.dueDate} onChange={handleChange} />
+            <input id="dueDate" type="date" name="dueDate" value={task.dueDate} onChange={handleChange} />
           </div>
           <div>
             <label>Assigned Developers</label>
-            {allDevelopers.map((dev) => (
-              <label key={dev._id}>
-                <input type="checkbox" checked={task.assignedTo.includes(dev._id)} onChange={() => handleDeveloperSelection(dev._id)} />
-                {dev.Fname} {dev.Lname}
-              </label>
-            ))}
+            <div className="ad">
+              {allDevelopers.map((dev) => (
+                <label key={dev._id}>
+                  <input type="checkbox" checked={task.assignedTo.includes(dev._id)} onChange={() => handleDeveloperSelection(dev._id)} />
+                  {dev.Fname} {dev.Lname}
+                </label>
+              ))}
+            </div>
           </div>
-          <button type="submit">Save Task</button>
-          <button type="button" onClick={onClose}>
-            Cancel
-          </button>
+          <div className="button-group">
+            {" "}
+            {/* Ensure buttons are styled consistently */}
+            <button type="button" onClick={onClose} className="cancel-button">
+              Cancel
+            </button>
+            <button type="submit" className="create-button">
+              Save Task
+            </button>
+          </div>
         </form>
       </div>
     </div>

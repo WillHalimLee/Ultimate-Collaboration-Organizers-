@@ -3,6 +3,8 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import { useParams, useNavigate } from 'react-router-dom';
 import * as TaskService from "../services/TaskService";
+import './css/CalendarView.css';
+
 
 const CalendarView = () => {
     const { projectId } = useParams();

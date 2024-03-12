@@ -1,0 +1,81 @@
+/* CalendarView.css */
+
+.fc { /* This class targets the FullCalendar root */
+    max-width: 900px; /* Adjust based on your layout */
+    margin: 40px auto; /* Centers the calendar with top and bottom margin */
+    padding: 20px;
+    border: 1px solid #ddd; /* Light border around the calendar */
+    background-color: white; /* Calendar background */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    border-radius: 8px; /* Rounded corners */
+}
+
+.fc-toolbar-title { /* Calendar's title styling */
+    color: #333; /* Dark text for contrast */
+    font-size: 1.75rem; /* Larger title font */
+}
+
+.fc-button { /* FullCalendar's default buttons */
+    background-color: #6f4f86; /* Purple background */
+    color: white; /* White text */
+    padding: 8px 16px; /* Spacing within the button */
+    border: none; /* No border */
+    border-radius: 4px; /* Rounded corners */
+    font-size: 1rem; /* Default font size */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+.fc-button:hover { /* Hover state for buttons */
+    background-color: #7f76a8; /* Lighter purple background on hover */
+}
+
+.fc-event { /* Event styling */
+    border: none; /* No border */
+    font-size: 0.85rem; /* Smaller text within events */
+    border-radius: 4px; /* Rounded corners */
+    padding: 4px 8px; /* Spacing inside events */
+}
+
+.fc-event-title { /* Event title styling */
+    white-space: nowrap; /* Prevents text wrapping */
+    overflow: hidden; /* Hides overflow */
+    text-overflow: ellipsis; /* Adds an ellipsis to overflowing text */
+}
+
+/* Button styling */
+button[type="button"] {
+    background-color: #6f4f86; /* Purple background */
+    color: white; /* White text */
+    padding: 10px 20px; /* Spacing within the button */
+    border: none; /* No border */
+    border-radius: 4px; /* Rounded corners */
+    font-size: 1rem; /* Default font size */
+    cursor: pointer; /* Pointer cursor on hover */
+    display: block; /* Block display to fit content width */
+    margin: 20px auto; /* Centering button */
+    text-align: center; /* Center text */
+    transition: background-color 0.3s; /* Smooth background color transition */
+}
+
+button[type="button"]:hover {
+    background-color: #7f76a8; /* Lighter purple background on hover */
+}
+
+button[type="button"] h2 {
+    margin: 0; /* Removes default margin from h2 */
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 768px) {
+    .fc {
+        width: 95%; /* Full width on smaller screens */
+    }
+
+    .fc-toolbar-title {
+        font-size: 1.5rem; /* Smaller font size on smaller screens */
+    }
+
+    button[type="button"] {
+        padding: 8px 16px; /* Smaller padding on smaller screens */
+    }
+}

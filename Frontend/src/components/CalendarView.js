@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import { useParams } from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import * as TaskService from "../services/TaskService";
+
 
 const CalendarView = () => {
     const { projectId } = useParams(); // Ensure this matches the route param name
     const [tasks, setTasks] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchTasks = async () => {
@@ -29,11 +31,23 @@ const CalendarView = () => {
     }, [projectId]); // Dependency array to refetch if projectId changes
 
     return (
+        <>
+
         <FullCalendar
             plugins={[dayGridPlugin]}
             initialView="dayGridMonth"
             events={tasks}
         />
+        <button
+            type="button"
+            onClick={() => {
+                navigate(`/projects/${projectId}/tasks`);
+            }}
+
+            >
+        <h2>back to tasks</h2>
+        </button>
+        </>
     );
 };
 

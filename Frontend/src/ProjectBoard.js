@@ -12,6 +12,7 @@ import * as TaskService from "./services/TaskService";
 import logoutIcon from './logout.png';
 import createProjectIcon from './add.png';
 import userInformationIcon from './user.png';
+import statsIcon from './stats.png'
 import {getTasksReportByProjectId} from "./services/TaskService";
 
 
@@ -150,7 +151,7 @@ const ProjectBoard = () => {
                           <img src={createProjectIcon} alt="Create Project" className="icon"/>
                         </button>
                         <button className="menu-item" onClick={() => window.location.href = "/developers-stats"}>
-                          <p> developer stats</p>
+                        <img src={statsIcon} alt="stats" className="icon"/>
                         </button>
                       </>
                   )}
@@ -178,7 +179,7 @@ const ProjectBoard = () => {
 
               return (
                   <div key={managerId} className="manager-column">
-                    <h2>Projects Created By: {managerName}</h2>
+                    <h2 className ="project-created"> Projects Created By: {managerName}</h2>
                     <ProjectList
                         projects={managerProjects} // Pass the array of projects for this manager
                         onDelete={handleDeleteProject}

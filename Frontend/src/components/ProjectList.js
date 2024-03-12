@@ -33,7 +33,10 @@ class ProjectList extends React.Component {
               <Link key={project._id} to={`/projects/${project._id}/tasks`} className="project-item-link">
                 <div className="project-item blackboard-background">
                   <h3>{project.title}</h3>
-                  <p>{project.description}</p>
+                  <p>{project.description}
+
+
+                  </p>
                   {project.managerDetails && (
                       <p>Created by: {project.managerDetails.Fname + ' ' + project.managerDetails.Lname}</p>
                   )}

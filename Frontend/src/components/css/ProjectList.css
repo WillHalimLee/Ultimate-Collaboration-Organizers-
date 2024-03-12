@@ -1,7 +1,7 @@
 .project-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
+  gap: 30px;
 }
 
 .project-item-link {
@@ -10,36 +10,47 @@
 
 .project-item {
   position: relative;
-  min-height: 220px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 40px;
   box-sizing: border-box;
-  position: relative;
+  font-family: 'Madimi One', sans-serif;
 }
 
 .project-item.blackboard-background {
   background-image: url('blackboard.png');
-  background-size: cover;
+  background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
   color: white;
-  padding: 40px;
+  height: 290px; /* Set a fixed height for the blackboard image */
+  padding: 50px; /* Adjust padding as needed */
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  overflow: hidden; /* Prevent text overflow */
 }
 
-.project-item h3, .project-item p, .project-item ul {
+.project-item h3,
+.project-item p,
+.project-item ul {
   margin: 0;
   overflow: hidden;
-  text-overflow: ellipsis;
+  text-overflow: ellipsis; /* Add ellipsis for overflow */
   white-space: nowrap;
+    font-size: 14px; /* Adjust font size as needed */
+}
+
+
+.task-status-counts {
+  flex-grow: 0; /* Prevent task status counts from affecting the layout */
 }
 
 .button-container {
   position: absolute;
-  top: 15%;
+  top: 20%;
   right: 11%;
   display: flex;
   flex-direction: column;

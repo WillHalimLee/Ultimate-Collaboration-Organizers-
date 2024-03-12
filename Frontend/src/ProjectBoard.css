@@ -1,8 +1,18 @@
 .app-header {
   position: relative;
-  background-color: #dcdcdc;
+  background-color: #6f4f86;
   padding: 17px;
   border-radius: 10px;
+}
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+.app-container {
+  background-color: #d3cfd3;
+  min-height: 100vh;
+  position: relative;
 }
 
 .website-name {
@@ -25,6 +35,17 @@
   box-sizing: border-box;
 }
 
+.website-name::after {
+  content: 'UCO';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white; /* Set the text color to white or any color that contrasts with the circular background */
+  font-size: 1em; /* Adjust the font size as needed */
+  color: #b7a57a; /* Set the text color to white or any color that contrasts with the circular background */
+}
+
 .menu-icon {
   cursor: pointer;
   position: absolute;
@@ -35,6 +56,7 @@
   outline: 2px solid #000;
   padding: 5px;
   border-left: 2px solid #000;
+  background-color: #b7a57a;
 }
 
 .dropdown-menu {
@@ -50,8 +72,8 @@
 }
 
 .menu-item {
-  margin-right: 10px; /* Adjust the spacing between menu items */
-  background-color: #f0f0f0;
+  margin-right: 15px; /* Adjust the spacing between menu items */
+  background-color: #5;
   border: none;
   cursor: pointer;
 }
@@ -60,4 +82,15 @@
   width: 24px;
   height: 24px;
   background-color: #f0f0f0;
+}
+
+.project-created {
+  font-family: 'Madimi One', sans-serif;
+  font-size: 30px;
+  color: #b7a57a;
+  background-color: #6f4f86; /* Choose your desired background color */
+  padding: 5px; /* Adjust padding as needed */
+  border-radius: 20px; /* Optional: Add border-radius for rounded corners */
+  display: inline-block; /* Adjust width based on title length */
+  margin-bottom: 15px; /* Optional: Add margin to separate it from the ProjectList */
 }

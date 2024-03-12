@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-
+import "./css/developerStatics.css";
 import * as userService from "../services/userService";
 import { Link } from "react-router-dom";
 
@@ -26,22 +26,37 @@ const DevelopersStatsPage = () => {
     }, []);
 
     return (
+        <div className="DevelopersStatsWholePage">
         <div className="DevelopersStatsPage">
-            <h2>Developers Statistics</h2>
+            <h1 className="login-title">UCO</h1>
+            <h2 className="page-title">Developers Statistics</h2>
             {developers.length > 0 ? (
-                <ul>
+                <ul className="developers-list">
                     {developers.map((dev) => (
-                        <li key={dev._id}>
-                            {dev.Fname} {dev.Lname}: {dev.stats ? JSON.stringify(dev.stats) : "No stats available"}
+                        <li key={dev._id} className="developer-item">
+                            <p className="developer-name">{dev.Fname} {dev.Lname}</p>
+                            <p className="developer-id">Developer ID: {dev._id}</p>
+                            <p className="developer-stats-title">Stats</p>
+                            {dev.stats ? (
+                                <ul className="developer-stats-list">
+                                    <li className="stats-item">Pending: {dev.stats.stats.pending || 0}</li>
+                                    <li className="stats-item">In Progress: {dev.stats.stats.inProgress || 0}</li>
+                                    <li className="stats-item">Emergency: {dev.stats.stats.emergency || 0}</li>
+                                    <li className="stats-item">Done: {dev.stats.stats.done || 0}</li>
+                                </ul>
+                            ) : (
+                                <p className="no-stats-message">No stats available</p>
+                            )}
                         </li>
                     ))}
                 </ul>
             ) : (
-                <p>No developers found.</p>
+                <p className="no-developers-message">No developers found.</p>
             )}
-            <Link to="/app" className="back-to-dashboard" style={{ textDecoration: "none" }}> {/* Update this link to match your routes */}
-                Back to Dashboard
-            </Link>
+          <Link to="/app" className="back-to-dashboard" style={{ textDecoration: "none" }}>
+              &nbsp;
+          </Link>
+        </div>
         </div>
     );
 };

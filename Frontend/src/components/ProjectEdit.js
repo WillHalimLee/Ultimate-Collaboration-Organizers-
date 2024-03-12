@@ -98,12 +98,14 @@ const ProjectEdit = ({ projectId, onClose, refreshProjects }) => {
           </div>
           <div>
             <label>Developers</label>
-            {allDevelopers.map((dev) => (
-              <label key={dev._id}>
-                <input type="checkbox" checked={project.developers.includes(dev._id)} onChange={() => handleDeveloperSelection(dev._id)} />
-                {dev.Fname} {/* Replace with appropriate property names */}
-              </label>
-            ))}
+            <div className="ad">
+              {allDevelopers.map((dev) => (
+                <label key={dev._id}>
+                  <input type="checkbox" checked={project.developers.includes(dev._id)} onChange={() => handleDeveloperSelection(dev._id)} />
+                  {dev.Fname} {/* Replace with appropriate property names */}
+                </label>
+              ))}
+            </div>
           </div>
           <div className="button-group">
             <button type="button" onClick={onClose} className="cancel-button">

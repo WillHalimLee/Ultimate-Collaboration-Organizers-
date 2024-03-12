@@ -1,0 +1,98 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #d3cfd3;
+}
+
+
+.DevelopersStatsPage {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: white;
+}
+
+.page-title {
+    font-family: 'Madimi One', sans-serif;
+    font-size: 4em;
+    margin-bottom: 20px;
+}
+
+.developers-list {
+    font-family: 'Madimi One', sans-serif;
+    list-style: none;
+    padding: 0;
+}
+
+.developer-item {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin: 10px 0;
+    padding: 15px;
+}
+
+.developer-name {
+    font-size: 30px;
+    font-weight: bold;
+    margin: 0;
+    display: inline-block;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #6f4f86;
+    color: #b7a57a;
+}
+
+.developer-id {
+    font-size: 14px;
+    color: #666;
+    margin: 5px 0;
+}
+
+.developer-stats-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 10px 0 5px;
+    display: inline-block;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: #6f4f86;
+    color: #b7a57a;
+}
+
+.developer-stats-list {
+    list-style: none;
+    padding: 0;
+}
+
+.stats-item {
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+.no-stats-message,
+.no-developers-message {
+    font-size: 16px;
+    font-style: italic;
+    color: #888;
+}
+
+.back-to-dashboard {
+    display: block;
+    font-size: 60px;
+    color: #3498db;
+    background-image: url('dashboard.png'); /* Replace with your image path */
+    background-repeat: no-repeat;
+    background-size: 80px; /* Adjust the size as needed */
+    padding-left: 100px; /* Adjust padding for spacing */
+}
+
+.back-to-dashboard:hover {
+    text-decoration: underline;
+}
+
+
